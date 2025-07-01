@@ -9,7 +9,8 @@ export interface PostMetadata {
 }
 
 interface PostModule {
-  default: string;
+  default: any;
+  frontmatter?: Record<string, any>;
 }
 
 // Import all MDX files from the posts directory
@@ -18,7 +19,13 @@ const posts = import.meta.glob<PostModule>('../posts/*.mdx', { eager: true });
 export function getAllPosts(): PostMetadata[] {
   const allPostsData = Object.entries(posts).map(([filepath, module]) => {
     const slug = filepath.replace('../posts/', '').replace('.mdx', '');
-    const { data } = matter(module.default);
+    
+    // Try to get frontmatter from both module.frontmatter and matter parsing
+    let data = module.frontmatter;
+    if (!data) {
+      const parsed = matter(module.default);
+      data = parsed.data;
+    }
 
     return {
       slug,
@@ -37,7 +44,15 @@ export function getPostBySlug(slug: string) {
     throw new Error(`Post not found: ${slug}`);
   }
 
-  const { data, content } = matter(post.default);
+  // Try to get frontmatter from both module.frontmatter and matter parsing
+  let data = post.frontmatter;
+  let content = post.default;
+  
+  if (!data) {
+    const parsed = matter(post.default);
+    data = parsed.data;
+    content = parsed.content;
+  }
 
   return {
     frontmatter: data,
