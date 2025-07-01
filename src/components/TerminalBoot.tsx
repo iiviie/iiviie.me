@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 
 const TerminalBoot = ({ onBootComplete }: { onBootComplete: () => void }) => {
@@ -38,7 +37,7 @@ const TerminalBoot = ({ onBootComplete }: { onBootComplete: () => void }) => {
   if (!isBooting) return null;
 
   return (
-    <div className="fixed inset-0 bg-background flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-zinc-900 flex items-center justify-center z-50">
       <div className="terminal-main w-full max-w-2xl p-8 crt-scanlines relative">
         <div className="terminal-header px-4 py-2 flex items-center gap-2">
           <div className="w-3 h-3 rounded-full bg-red-400"></div>
