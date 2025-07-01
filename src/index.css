@@ -6,17 +6,17 @@
 @layer base {
   :root {
     /* Dark & Purple Terminal Color Palette */
-    --background: 20 20 23; /* Very dark gray */
+    --background: 24 24 27; /* Zinc 900 */
     --foreground: 144 104 247; /* #9068F7 */
     
     --card: 31 31 36;
     --card-foreground: 144 104 247;
     
-    --popover: 20 20 23;
+    --popover: 24 24 27;
     --popover-foreground: 144 104 247;
     
     --primary: 144 104 247; /* #9068F7 */
-    --primary-foreground: 20 20 23;
+    --primary-foreground: 24 24 27;
     
     --secondary: 39 39 42;
     --secondary-foreground: 144 104 247;
@@ -25,7 +25,7 @@
     --muted-foreground: 156 163 175;
     
     --accent: 144 104 247;
-    --accent-foreground: 20 20 23;
+    --accent-foreground: 24 24 27;
     
     --destructive: 239 68 68;
     --destructive-foreground: 229 231 235;
@@ -36,7 +36,7 @@
     
     --terminal-purple: 144 104 247; /* #9068F7 */
     --terminal-bright-purple: 164 124 255; /* Slightly brighter version */
-    --terminal-dark: 20 20 23;
+    --terminal-dark: 24 24 27;
     --crt-glow: 144 104 247;
     
     --radius: 0.25rem;
@@ -53,12 +53,12 @@
   }
   
   body {
-    @apply bg-background text-foreground font-mono min-h-screen;
+    @apply bg-zinc-900 text-foreground font-mono min-h-screen;
     font-family: 'JetBrains Mono', 'IBM Plex Mono', monospace;
     background: 
-      radial-gradient(circle at 25% 25%, rgba(160, 32, 240, 0.03) 0%, transparent 50%),
-      radial-gradient(circle at 75% 75%, rgba(177, 70, 255, 0.03) 0%, transparent 50%),
-      linear-gradient(135deg, rgb(20, 20, 23) 0%, rgb(31, 31, 36) 100%);
+      radial-gradient(circle at 25% 25%, rgba(144, 104, 247, 0.03) 0%, transparent 50%),
+      radial-gradient(circle at 75% 75%, rgba(144, 104, 247, 0.03) 0%, transparent 50%),
+      linear-gradient(135deg, rgb(18, 18, 21) 0%, rgb(24, 24, 27) 100%);
   }
   
   #root {
@@ -102,7 +102,7 @@
   .terminal-window {
     background: linear-gradient(145deg, 
       rgba(31, 31, 36, 0.95), 
-      rgba(20, 20, 23, 0.98));
+      rgba(24, 24, 27, 0.98));
     border: 1px solid rgba(63, 63, 70, 0.8);
     border-radius: var(--radius);
     box-shadow: 
@@ -129,7 +129,7 @@
   /* Terminal Window Styling */
   .terminal-main {
     background: linear-gradient(145deg, 
-      rgba(20, 20, 23, 0.98), 
+      rgba(24, 24, 27, 0.98), 
       rgba(31, 31, 36, 0.95));
     border: 2px solid rgba(63, 63, 70, 0.6);
     border-radius: var(--radius);
@@ -279,7 +279,7 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(20, 20, 23, 0.8);
+  background: rgba(24, 24, 27, 0.8);
 }
 
 ::-webkit-scrollbar-thumb {
