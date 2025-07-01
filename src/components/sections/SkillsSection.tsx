@@ -1,117 +1,107 @@
+import React from 'react';
 
 interface SkillsSectionProps {
-  onCommand?: (command: string) => void;
+  onClose: () => void;
 }
 
-const SkillsSection = ({ onCommand }: SkillsSectionProps) => {
-  const skillCategories = [
-    {
-      category: 'backend_frameworks',
-      skills: [
-        { name: 'Django', level: 95, experience: '4 years' },
-        { name: 'FastAPI', level: 90, experience: '3 years' },
-        { name: 'Flask', level: 85, experience: '3 years' },
-        { name: 'Django REST Framework', level: 92, experience: '4 years' },
-        { name: 'SQLAlchemy', level: 80, experience: '2 years' }
-      ]
-    },
-    {
-      category: 'databases',
-      skills: [
-        { name: 'PostgreSQL', level: 90, experience: '4 years' },
-        { name: 'MongoDB', level: 85, experience: '3 years' },
-        { name: 'Redis', level: 80, experience: '2 years' },
-        { name: 'MySQL', level: 75, experience: '2 years' },
-        { name: 'SQLite', level: 88, experience: '3 years' }
-      ]
-    },
-    {
-      category: 'languages_tools',
-      skills: [
-        { name: 'Python', level: 95, experience: '5 years' },
-        { name: 'SQL', level: 90, experience: '4 years' },
-        { name: 'Docker', level: 85, experience: '3 years' },
-        { name: 'Git', level: 92, experience: '5 years' },
-        { name: 'Linux', level: 88, experience: '4 years' }
-      ]
-    },
-    {
-      category: 'cloud_devops',
-      skills: [
-        { name: 'AWS', level: 80, experience: '2 years' },
-        { name: 'Nginx', level: 75, experience: '2 years' },
-        { name: 'Celery', level: 85, experience: '3 years' },
-        { name: 'GitHub Actions', level: 70, experience: '1 year' },
-        { name: 'Gunicorn', level: 80, experience: '3 years' }
-      ]
-    }
-  ];
-
-  const renderProgressBar = (level: number) => {
-    const filled = Math.floor(level / 5);
-    const empty = 20 - filled;
-    
-    return (
-      <span className="font-mono text-xs">
-        [
-        <span className="progress-bar-filled">{'█'.repeat(filled)}</span>
-        <span className="progress-bar-empty">{'-'.repeat(empty)}</span>
-        ] {level}%
-      </span>
-    );
-  };
-
+const SkillsSection: React.FC<SkillsSectionProps> = ({ onClose }) => {
   return (
-    <div className="p-6 font-mono text-sm space-y-6">
-      <div className="space-y-2">
-        <div className="command-prompt">$ ./skills --list --backend-focus</div>
-        <div className="ml-4 text-muted-foreground text-xs">
-          Analyzing backend capabilities...
+    <div className="fixed inset-10 bg-background border border-border rounded-lg shadow-lg overflow-hidden flex flex-col">
+      {/* Window Header */}
+      <div className="terminal-header px-4 py-2 flex items-center justify-between flex-shrink-0 border-b border-border">
+        <div className="flex items-center gap-2">
+          <div className="w-3 h-3 rounded-full bg-red-400 cursor-pointer" onClick={onClose}></div>
+          <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
+          <div className="w-3 h-3 rounded-full bg-green-400"></div>
+          <span className="ml-4 text-sm text-muted-foreground">~/skills</span>
         </div>
       </div>
-      
-      <div className="ml-4 space-y-6">
-        {skillCategories.map((category) => (
-          <div key={category.category} className="space-y-3">
-            <div className="text-terminal-lavender text-base crt-glow">
-              == {category.category.toUpperCase().replace('_', ' & ')} ==
-            </div>
-            
-            <div className="ml-4 space-y-3">
-              {category.skills.map((skill) => (
-                <div key={skill.name} className="space-y-1">
-                  <div className="flex justify-between items-center">
-                    <span className="text-foreground font-medium">{skill.name}</span>
-                    <span className="text-muted-foreground text-xs">
-                      {skill.experience}
-                    </span>
-                  </div>
-                  
-                  <div className="pl-2">
-                    {renderProgressBar(skill.level)}
-                  </div>
+
+      {/* Window Content */}
+      <div className="flex-1 overflow-auto p-6 font-mono text-sm">
+        <h2 className="text-lg font-semibold mb-6 text-foreground">Technical Skills</h2>
+        
+        <div className="space-y-8">
+          {/* Frameworks */}
+          <div className="skill-section">
+            <h3 className="text-md font-semibold text-foreground mb-4">Frameworks & Libraries</h3>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              <div className="skill-card">
+                <span className="text-terminal-purple">Django</span>
+                <div className="mt-1 text-xs text-muted-foreground">Advanced</div>
+                <div className="mt-2 w-full bg-muted rounded-full h-2">
+                  <div className="bg-terminal-purple h-full rounded-full" style={{ width: '95%' }}></div>
                 </div>
-              ))}
+              </div>
+              <div className="skill-card">
+                <span className="text-terminal-blue">FastAPI</span>
+                <div className="mt-1 text-xs text-muted-foreground">Expert</div>
+                <div className="mt-2 w-full bg-muted rounded-full h-2">
+                  <div className="bg-terminal-blue h-full rounded-full" style={{ width: '90%' }}></div>
+                </div>
+              </div>
+              <div className="skill-card">
+                <span className="text-terminal-green">Flask</span>
+                <div className="mt-1 text-xs text-muted-foreground">Intermediate</div>
+                <div className="mt-2 w-full bg-muted rounded-full h-2">
+                  <div className="bg-terminal-green h-full rounded-full" style={{ width: '75%' }}></div>
+                </div>
+              </div>
             </div>
           </div>
-        ))}
-        
-        <div className="pt-4 border-t border-border">
-          <div className="space-y-2">
-            <div className="command-prompt">$ python --version && django --version</div>
-            <div className="ml-4 text-sm space-y-1">
-              <div className="text-foreground">
-                Backend technologies mastered: {skillCategories.reduce((acc, cat) => acc + cat.skills.length, 0)}
+
+          {/* Databases */}
+          <div className="skill-section">
+            <h3 className="text-md font-semibold text-foreground mb-4">Databases</h3>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              <div className="skill-card">
+                <span className="text-terminal-amber">PostgreSQL</span>
+                <div className="mt-1 text-xs text-muted-foreground">Expert</div>
+                <div className="mt-2 w-full bg-muted rounded-full h-2">
+                  <div className="bg-terminal-amber h-full rounded-full" style={{ width: '90%' }}></div>
+                </div>
               </div>
-              <div className="text-foreground">
-                Average expertise level: {Math.round(
-                  skillCategories.reduce((acc, cat) => 
-                    acc + cat.skills.reduce((sum, skill) => sum + skill.level, 0), 0
-                  ) / skillCategories.reduce((acc, cat) => acc + cat.skills.length, 0)
-                )}%
+              <div className="skill-card">
+                <span className="text-terminal-pink">MongoDB</span>
+                <div className="mt-1 text-xs text-muted-foreground">Advanced</div>
+                <div className="mt-2 w-full bg-muted rounded-full h-2">
+                  <div className="bg-terminal-pink h-full rounded-full" style={{ width: '85%' }}></div>
+                </div>
               </div>
-              <div className="text-terminal-orange">
-                Specialization: Django + FastAPI + PostgreSQL
+              <div className="skill-card">
+                <span className="text-terminal-red">Redis</span>
+                <div className="mt-1 text-xs text-muted-foreground">Advanced</div>
+                <div className="mt-2 w-full bg-muted rounded-full h-2">
+                  <div className="bg-terminal-red h-full rounded-full" style={{ width: '80%' }}></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Tools & Technologies */}
+          <div className="skill-section">
+            <h3 className="text-md font-semibold text-foreground mb-4">Tools & Technologies</h3>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              <div className="skill-card">
+                <span className="text-terminal-cyan">Docker</span>
+                <div className="mt-1 text-xs text-muted-foreground">Advanced</div>
+                <div className="mt-2 w-full bg-muted rounded-full h-2">
+                  <div className="bg-terminal-cyan h-full rounded-full" style={{ width: '85%' }}></div>
+                </div>
+              </div>
+              <div className="skill-card">
+                <span className="text-terminal-orange">Git</span>
+                <div className="mt-1 text-xs text-muted-foreground">Expert</div>
+                <div className="mt-2 w-full bg-muted rounded-full h-2">
+                  <div className="bg-terminal-orange h-full rounded-full" style={{ width: '90%' }}></div>
+                </div>
+              </div>
+              <div className="skill-card">
+                <span className="text-terminal-lavender">AWS</span>
+                <div className="mt-1 text-xs text-muted-foreground">Advanced</div>
+                <div className="mt-2 w-full bg-muted rounded-full h-2">
+                  <div className="bg-terminal-lavender h-full rounded-full" style={{ width: '80%' }}></div>
+                </div>
               </div>
             </div>
           </div>

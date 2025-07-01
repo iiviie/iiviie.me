@@ -1,173 +1,80 @@
-
-import { useState } from 'react';
+import React from 'react';
 
 interface ProjectsSectionProps {
-  onCommand?: (command: string) => void;
+  onClose: () => void;
 }
 
-const ProjectsSection = ({ onCommand }: ProjectsSectionProps) => {
-  const [selectedProject, setSelectedProject] = useState<string | null>(null);
-
-  const projects = [
-    {
-      id: 'ecommerce-api',
-      name: 'ecommerce-api/',
-      type: 'dir',
-      size: '2.4MB',
-      modified: '2024-01-15',
-      description: 'RESTful e-commerce API with Django REST Framework and PostgreSQL',
-      tech: ['Django', 'PostgreSQL', 'Redis', 'Celery', 'Docker'],
-      status: 'production'
-    },
-    {
-      id: 'fastapi-microservice',
-      name: 'fastapi-microservice/',
-      type: 'dir',
-      size: '892KB',
-      modified: '2024-01-20',
-      description: 'High-performance async microservice with FastAPI and MongoDB',
-      tech: ['FastAPI', 'MongoDB', 'Pydantic', 'Docker', 'Pytest'],
-      status: 'active'
-    },
-    {
-      id: 'django-blog-api',
-      name: 'django-blog-api/',
-      type: 'dir',
-      size: '1.1MB',
-      modified: '2023-12-28',
-      description: 'Blog API with JWT authentication and content management',
-      tech: ['Django', 'JWT', 'PostgreSQL', 'Swagger'],
-      status: 'stable'
-    },
-    {
-      id: 'api-monitoring',
-      name: 'api-monitoring/',
-      type: 'dir',
-      size: '756KB',
-      modified: '2024-01-10',
-      description: 'Real-time API monitoring dashboard with alerts',
-      tech: ['Flask', 'InfluxDB', 'Grafana', 'WebSockets'],
-      status: 'maintenance'
-    }
-  ];
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'production': return 'status-success';
-      case 'active': return 'status-active';
-      case 'stable': return 'status-info';
-      case 'maintenance': return 'status-muted';
-      default: return 'text-muted-foreground';
-    }
-  };
-
-  if (selectedProject) {
-    const project = projects.find(p => p.id === selectedProject);
-    if (!project) return null;
-    
-    return (
-      <div className="p-6 font-mono text-sm space-y-6">
-        <div className="space-y-2">
-          <div className="command-prompt">$ cat ~/projects/{project.name}README.md</div>
-          <div className="flex items-center gap-4">
-            <button 
-              onClick={() => setSelectedProject(null)}
-              className="text-terminal-amber hover:text-terminal-lavender text-xs"
-            >
-              ← back to projects/
-            </button>
-          </div>
-        </div>
-        
-        <div className="ml-4 space-y-4">
-          <div>
-            <div className="text-terminal-lavender text-lg mb-2"># {project.name.replace('/', '')}</div>
-            <div className="text-foreground">{project.description}</div>
-          </div>
-          
-          <div>
-            <div className="text-terminal-orange text-base mb-2">## Tech Stack</div>
-            <div className="flex flex-wrap gap-2">
-              {project.tech.map((tech, index) => (
-                <span 
-                  key={tech}
-                  className={`px-2 py-1 text-xs rounded border ${
-                    index % 4 === 0 ? 'bg-terminal-pink/20 text-terminal-pink border-terminal-pink/30' :
-                    index % 4 === 1 ? 'bg-terminal-amber/20 text-terminal-amber border-terminal-amber/30' :
-                    index % 4 === 2 ? 'bg-terminal-lavender/20 text-terminal-lavender border-terminal-lavender/30' :
-                    'bg-terminal-purple/20 text-terminal-purple border-terminal-purple/30'
-                  }`}
-                >
-                  {tech}
-                </span>
-              ))}
-            </div>
-          </div>
-          
-          <div>
-            <div className="text-terminal-orange text-base mb-2">## Project Info</div>
-            <div className="space-y-1 text-xs">
-              <div className="text-foreground">Size: {project.size}</div>
-              <div className="text-foreground">Last modified: {project.modified}</div>
-              <div className="flex items-center gap-2">
-                <span className="text-foreground">Status:</span>
-                <span className={getStatusColor(project.status)}>● {project.status}</span>
-              </div>
-            </div>
-          </div>
-          
-          <div>
-            <div className="text-terminal-orange text-base mb-2">## Commands</div>
-            <div className="space-y-2 text-xs bg-background/50 p-3 rounded border border-border">
-              <div className="text-muted-foreground"># Clone repository</div>
-              <div className="command-prompt">git clone https://github.com/divyansh/{project.id}</div>
-              <div className="text-muted-foreground"># Setup environment</div>
-              <div className="command-prompt">pip install -r requirements.txt</div>
-              <div className="text-muted-foreground"># Run development server</div>
-              <div className="command-prompt">python manage.py runserver</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
+const ProjectsSection: React.FC<ProjectsSectionProps> = ({ onClose }) => {
   return (
-    <div className="p-6 font-mono text-sm space-y-6">
-      <div className="space-y-2">
-        <div className="command-prompt">$ ls -la ~/projects/</div>
-        <div className="ml-4 text-muted-foreground text-xs">
-          total {projects.length}
+    <div className="fixed inset-10 bg-background border border-border rounded-lg shadow-lg overflow-hidden flex flex-col">
+      {/* Window Header */}
+      <div className="terminal-header px-4 py-2 flex items-center justify-between flex-shrink-0 border-b border-border">
+        <div className="flex items-center gap-2">
+          <div className="w-3 h-3 rounded-full bg-red-400 cursor-pointer" onClick={onClose}></div>
+          <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
+          <div className="w-3 h-3 rounded-full bg-green-400"></div>
+          <span className="ml-4 text-sm text-muted-foreground">~/projects</span>
         </div>
       </div>
-      
-      <div className="ml-4">
-        <div className="text-muted-foreground grid grid-cols-12 gap-2 pb-2 border-b border-border text-xs">
-          <span className="col-span-4">Name</span>
-          <span className="col-span-2">Size</span>
-          <span className="col-span-2">Modified</span>
-          <span className="col-span-2">Status</span>
-          <span className="col-span-2">Action</span>
-        </div>
+
+      {/* Window Content */}
+      <div className="flex-1 overflow-auto p-6 font-mono text-sm">
+        <h2 className="text-lg font-semibold mb-6 text-foreground">Featured Projects</h2>
         
-        <div className="space-y-1 mt-2">
-          {projects.map((project) => (
-            <div 
-              key={project.id}
-              className="grid grid-cols-12 gap-2 py-1 hover:bg-muted/10 rounded cursor-pointer transition-colors text-xs"
-              onClick={() => setSelectedProject(project.id)}
-            >
-              <span className="col-span-4 text-terminal-amber">📁 {project.name}</span>
-              <span className="col-span-2 text-muted-foreground">{project.size}</span>
-              <span className="col-span-2 text-muted-foreground">{project.modified}</span>
-              <span className={`col-span-2 ${getStatusColor(project.status)}`}>
-                ● {project.status}
-              </span>
-              <span className="col-span-2 terminal-link hover:text-terminal-lavender transition-colors">
-                [view]
-              </span>
+        <div className="space-y-8">
+          {/* Project 1 */}
+          <div className="project-card">
+            <h3 className="text-md font-semibold text-foreground">API Gateway</h3>
+            <p className="text-muted-foreground mt-2">
+              High-performance API routing and management system built with FastAPI and Redis.
+            </p>
+            <div className="mt-4 flex flex-wrap gap-2">
+              <span className="px-2 py-1 bg-muted text-xs rounded">FastAPI</span>
+              <span className="px-2 py-1 bg-muted text-xs rounded">Redis</span>
+              <span className="px-2 py-1 bg-muted text-xs rounded">Docker</span>
             </div>
-          ))}
+            <div className="mt-4 text-xs text-muted-foreground">
+              <a href="https://github.com/yourusername/api-gateway" className="hover:text-foreground">
+                View on GitHub →
+              </a>
+            </div>
+          </div>
+
+          {/* Project 2 */}
+          <div className="project-card">
+            <h3 className="text-md font-semibold text-foreground">Database Optimizer</h3>
+            <p className="text-muted-foreground mt-2">
+              Advanced query optimization tool for PostgreSQL with machine learning capabilities.
+            </p>
+            <div className="mt-4 flex flex-wrap gap-2">
+              <span className="px-2 py-1 bg-muted text-xs rounded">Python</span>
+              <span className="px-2 py-1 bg-muted text-xs rounded">PostgreSQL</span>
+              <span className="px-2 py-1 bg-muted text-xs rounded">TensorFlow</span>
+            </div>
+            <div className="mt-4 text-xs text-muted-foreground">
+              <a href="https://github.com/yourusername/db-optimizer" className="hover:text-foreground">
+                View on GitHub →
+              </a>
+            </div>
+          </div>
+
+          {/* Project 3 */}
+          <div className="project-card">
+            <h3 className="text-md font-semibold text-foreground">Auth Service</h3>
+            <p className="text-muted-foreground mt-2">
+              Secure authentication service with OAuth2 implementation and JWT token management.
+            </p>
+            <div className="mt-4 flex flex-wrap gap-2">
+              <span className="px-2 py-1 bg-muted text-xs rounded">Django</span>
+              <span className="px-2 py-1 bg-muted text-xs rounded">OAuth2</span>
+              <span className="px-2 py-1 bg-muted text-xs rounded">JWT</span>
+            </div>
+            <div className="mt-4 text-xs text-muted-foreground">
+              <a href="https://github.com/yourusername/auth-service" className="hover:text-foreground">
+                View on GitHub →
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </div>

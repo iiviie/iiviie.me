@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useRef } from 'react';
 import HomeSection from './sections/HomeSection';
 import AboutSection from './sections/AboutSection';
@@ -6,109 +5,92 @@ import ProjectsSection from './sections/ProjectsSection';
 import SkillsSection from './sections/SkillsSection';
 import ContactSection from './sections/ContactSection';
 
+interface CommandOutput {
+  type: 'command' | 'output' | 'ascii-art';
+  content: string | JSX.Element;
+}
+
+const initialCommands: CommandOutput[] = [
+  { type: 'ascii-art', content: (
+    <pre className="text-xs crt-glow" style={{ color: '#9068F7' }}>
+{`
+ ██████╗ ██╗██╗   ██╗██╗   ██╗ █████╗ ███╗   ██╗███████╗██╗  ██╗
+ ██╔══██╗██║██║   ██║╚██╗ ██╔╝██╔══██╗████╗  ██║██╔════╝██║  ██║
+ ██║  ██║██║██║   ██║ ╚████╔╝ ███████║██╔██╗ ██║███████╗███████║
+ ██║  ██║██║╚██╗ ██╔╝  ╚██╔╝  ██╔══██║██║╚██╗██║╚════██║██╔══██║
+ ██████╔╝██║ ╚████╔╝    ██║   ██║  ██║██║ ╚████║███████║██║  ██║
+ ╚═════╝ ╚═╝  ╚═══╝     ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝
+
+Backend Developer & API Architect
+`}
+    </pre>
+  )},
+  { type: 'command', content: '$ whoami' },
+  { type: 'output', content: 'Divyansh Verma - Backend Developer specializing in Python ecosystem' },
+  { type: 'command', content: '$ echo $ABOUT' },
+  { type: 'output', content: 'Building robust, scalable backend systems with Django and FastAPI.\nPassionate about clean code, efficient APIs, and server-side architecture.' },
+  { type: 'command', content: '$ cat ~/work_experience.txt' },
+  { type: 'output', content: '🚀 Senior Backend Developer @ TechCorp\n   - Led development of high-scale microservices\n   - Optimized database performance\n   - Mentored junior developers\n\n💼 API Architect @ StartupX\n   - Designed RESTful API architecture\n   - Implemented authentication systems\n   - Reduced response times by 60%' },
+  { type: 'command', content: '$ ls ~/projects/' },
+  { type: 'output', content: '📁 API Gateway - High-performance API routing and management\n📁 Database Optimizer - Advanced query optimization tool\n📁 Auth Service - OAuth2 implementation with JWT\n\nType "projects" to view detailed project information' },
+];
+
 const TerminalInterface = () => {
-  const [currentSection, setCurrentSection] = useState('home');
+  const [commandHistory, setCommandHistory] = useState<CommandOutput[]>([]);
   const [commandInput, setCommandInput] = useState('');
-  const [commandHistory, setCommandHistory] = useState<string[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [showProjects, setShowProjects] = useState(false);
+  const [showSkills, setShowSkills] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
-
-  const sections = {
-    'home': '~',
-    'about': '~/about',
-    'projects': '~/projects',
-    'skills': '~/skills',
-    'contact': '~/contact'
-  };
-
-  const commands = {
-    'about': 'about',
-    'whoami': 'about',
-    'projects': 'projects',
-    'ls': 'projects',
-    'skills': 'skills',
-    'contact': 'contact',
-    'mail': 'contact',
-    'home': 'home',
-    'cd ~': 'home',
-    'clear': 'clear',
-    'help': 'help'
-  };
+  const historyEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Focus input on mount and keep it focused
-    inputRef.current?.focus();
-    
-    const handleClick = () => {
-      inputRef.current?.focus();
-    };
-    
-    const handleKeyDown = (e: KeyboardEvent) => {
-      // Always focus input when typing
-      if (e.key.length === 1 || e.key === 'Backspace') {
-        inputRef.current?.focus();
-      }
-    };
-    
-    document.addEventListener('click', handleClick);
-    document.addEventListener('keydown', handleKeyDown);
-    
-    return () => {
-      document.removeEventListener('click', handleClick);
-      document.removeEventListener('keydown', handleKeyDown);
-    };
+    setCommandHistory(initialCommands);
   }, []);
+
+  useEffect(() => {
+    inputRef.current?.focus();
+    const handleClick = () => inputRef.current?.focus();
+    document.addEventListener('click', handleClick);
+    return () => document.removeEventListener('click', handleClick);
+  }, []);
+
+  useEffect(() => {
+    historyEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [commandHistory]);
+
+  const commands: Record<string, () => void> = {
+    'projects': () => setShowProjects(true),
+    'skills': () => setShowSkills(true),
+    'clear': () => setCommandHistory([]),
+    'help': () => {
+      setCommandHistory(prev => [...prev,
+        { type: 'output', content: `Available commands:
+  projects          - View detailed projects
+  skills            - Show technical skills
+  clear             - Clear terminal
+  help              - Show this help` }
+      ]);
+    }
+  };
 
   const handleCommand = async (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && commandInput.trim()) {
       const command = commandInput.trim().toLowerCase();
-      setCommandHistory(prev => [...prev, `$ ${commandInput}`]);
+      setCommandHistory(prev => [...prev, { type: 'command', content: `$ ${commandInput}` }]);
       setIsProcessing(true);
+      setCommandInput('');
       
-      // Simulate processing delay
       await new Promise(resolve => setTimeout(resolve, 300));
       
-      if (command === 'clear') {
-        setCommandHistory([]);
-      } else if (command === 'help') {
-        setCommandHistory(prev => [...prev, 
-          'Available commands:',
-          '  about, whoami     - View profile information',
-          '  projects, ls      - List projects',
-          '  skills            - Show technical skills',
-          '  contact, mail     - Contact form',
-          '  home, cd ~        - Return to home',
-          '  clear             - Clear terminal',
-          '  help              - Show this help'
-        ]);
-      } else if (commands[command]) {
-        if (commands[command] !== currentSection) {
-          setCurrentSection(commands[command]);
-          setCommandHistory(prev => [...prev, `Loading ${sections[commands[command] as keyof typeof sections]}...`]);
-        }
+      const commandFn = commands[command];
+      if (commandFn) {
+        commandFn();
       } else {
-        setCommandHistory(prev => [...prev, `bash: ${command}: command not found`]);
+        setCommandHistory(prev => [...prev, { type: 'output', content: `bash: ${command}: command not found` }]);
       }
       
-      setCommandInput('');
       setIsProcessing(false);
-    }
-  };
-
-  const renderSection = () => {
-    const sectionProps = { onCommand: (cmd: string) => setCommandInput(cmd) };
-    
-    switch (currentSection) {
-      case 'about':
-        return <AboutSection {...sectionProps} />;
-      case 'projects':
-        return <ProjectsSection {...sectionProps} />;
-      case 'skills':
-        return <SkillsSection {...sectionProps} />;
-      case 'contact':
-        return <ContactSection {...sectionProps} />;
-      default:
-        return <HomeSection {...sectionProps} />;
     }
   };
 
@@ -119,68 +101,59 @@ const TerminalInterface = () => {
         <div className="w-3 h-3 rounded-full bg-red-400"></div>
         <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
         <div className="w-3 h-3 rounded-full bg-green-400"></div>
-        <span className="ml-4 text-sm text-muted-foreground">divyansh@backend-dev: {sections[currentSection as keyof typeof sections]}</span>
+        <span className="ml-4 text-sm text-muted-foreground">divyansh@backend-dev: ~</span>
       </div>
       
       {/* Terminal Content */}
-      <div className="flex-1 flex flex-col min-h-0">
-        {/* Command History */}
-        {commandHistory.length > 0 && (
-          <div className="px-6 py-2 text-sm font-mono space-y-1 flex-shrink-0">
-            {commandHistory.map((line, index) => (
-              <div key={index} className={line.startsWith('$') ? 'command-prompt' : 'text-muted-foreground'}>
-                {line}
-              </div>
-            ))}
+      <div className="flex-1 overflow-auto p-6 font-mono text-sm">
+        {commandHistory.map((item, index) => (
+          <div key={index} className="mb-4">
+            {item.type === 'command' ? (
+              <div className="command-prompt">{item.content}</div>
+            ) : item.type === 'ascii-art' ? (
+              <div className="text-center mb-6">{item.content}</div>
+            ) : (
+              <div className="ml-4 text-foreground whitespace-pre-line">{item.content}</div>
+            )}
           </div>
-        )}
-        
-        {/* Current Section */}
-        <div className="flex-1 overflow-auto scroll-in">
-          {renderSection()}
-        </div>
-        
-        {/* Command Input - Fixed positioning */}
-        <div className="px-6 py-3 border-t border-border flex-shrink-0">
-          <div className="flex items-center gap-2 command-line">
-            <span className="command-prompt font-mono text-sm">
-              divyansh@backend-dev:{sections[currentSection as keyof typeof sections]}$
-            </span>
-            <div className="flex-1 relative">
-              <input
-                ref={inputRef}
-                type="text"
-                value={commandInput}
-                onChange={(e) => setCommandInput(e.target.value)}
-                onKeyDown={handleCommand}
-                className="command-input w-full font-mono text-sm bg-transparent border-none outline-none"
-                placeholder={isProcessing ? "Processing..." : ""}
-                disabled={isProcessing}
-                style={{ caretColor: 'hsl(var(--terminal-purple))' }}
-              />
-              {!isProcessing && (
-                <span 
-                  className="cursor w-2 h-4 absolute top-0"
-                  style={{ 
-                    left: `${commandInput.length * 0.6}em`,
-                    backgroundColor: 'hsl(var(--terminal-purple))'
-                  }}
-                />
-              )}
-            </div>
-          </div>
-        </div>
+        ))}
+        <div ref={historyEndRef} />
       </div>
       
+      {/* Command Input */}
+      <div className="px-6 py-3 border-t border-border">
+        <div className="flex items-center gap-2">
+          <span className="command-prompt font-mono text-sm">
+            divyansh@backend-dev:~$
+          </span>
+          <input
+            ref={inputRef}
+            type="text"
+            value={commandInput}
+            onChange={(e) => setCommandInput(e.target.value)}
+            onKeyDown={handleCommand}
+            className="flex-1 font-mono text-sm bg-transparent border-none outline-none"
+            placeholder={isProcessing ? "Processing..." : ""}
+            disabled={isProcessing}
+            style={{ caretColor: 'hsl(var(--terminal-purple))' }}
+          />
+        </div>
+      </div>
+
+      {/* Floating Windows */}
+      {showProjects && (
+        <ProjectsSection onClose={() => setShowProjects(false)} />
+      )}
+      {showSkills && (
+        <SkillsSection onClose={() => setShowSkills(false)} />
+      )}
+      
       {/* Status Bar */}
-      <div className="px-4 py-2 border-t border-border flex items-center justify-between text-xs font-mono flex-shrink-0">
+      <div className="px-4 py-2 border-t border-border flex items-center justify-between text-xs font-mono">
         <div className="flex items-center gap-4">
           <span className="status-success">●</span>
           <span className="text-foreground">divyansh@backend-dev</span>
-          <span className="status-muted">|</span>
-          <span className="text-foreground">Section: {currentSection}</span>
         </div>
-        
         <div className="flex items-center gap-4 text-muted-foreground">
           <span>Django+FastAPI</span>
           <span>|</span>
