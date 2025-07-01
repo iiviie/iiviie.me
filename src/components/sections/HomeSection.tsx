@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 
 interface HomeSectionProps {
@@ -19,7 +18,7 @@ const HomeSection = ({ onCommand }: HomeSectionProps) => {
     <div className="p-6 font-mono text-sm space-y-6">
       {/* ASCII Art Header */}
       <div className="text-center mb-8">
-        <pre className="text-xs" style={{ color: 'hsl(var(--terminal-purple))' }}>
+        <pre className="text-xs crt-glow" style={{ color: '#9068F7' }}>
 {`
  ██████╗ ██╗██╗   ██╗██╗   ██╗ █████╗ ███╗   ██╗███████╗██╗  ██╗
  ██╔══██╗██║██║   ██║╚██╗ ██╔╝██╔══██╗████╗  ██║██╔════╝██║  ██║
@@ -29,7 +28,7 @@ const HomeSection = ({ onCommand }: HomeSectionProps) => {
  ╚═════╝ ╚═╝  ╚═══╝     ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝
 `}
         </pre>
-        <div className="mt-2 text-terminal-purple crt-glow">
+        <div className="mt-2 crt-glow" style={{ color: '#9068F7' }}>
           Backend Developer & API Architect
         </div>
       </div>
