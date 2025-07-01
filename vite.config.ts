@@ -4,7 +4,8 @@ import path from "path";
 import mdx from "@mdx-js/rollup";
 import remarkFrontmatter from 'remark-frontmatter';
 import remarkMdxFrontmatter from 'remark-mdx-frontmatter';
-import rehypeHighlight from 'rehype-highlight';
+import rehypeSlug from 'rehype-slug';
+import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -17,7 +18,8 @@ export default defineConfig({
           [remarkMdxFrontmatter, { name: 'frontmatter' }]
         ],
         rehypePlugins: [
-          rehypeHighlight
+          rehypeSlug,
+          [rehypeAutolinkHeadings, { behavior: 'wrap' }]
         ],
         providerImportSource: "@mdx-js/react"
       })
@@ -32,5 +34,12 @@ export default defineConfig({
   server: {
     port: 8080,
     host: true,
+    fs: {
+      strict: false,
+      allow: ['..']
+    }
+  },
+  optimizeDeps: {
+    include: ['@mdx-js/react'],
   },
 });

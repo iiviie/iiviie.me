@@ -1,4 +1,8 @@
+import fs from 'fs';
+import path from 'path';
 import matter from 'gray-matter';
+import { serialize } from 'next-mdx-remote/serialize';
+import * as shiki from 'shiki';
 
 export interface PostMetadata {
   title: string;
@@ -8,54 +12,30 @@ export interface PostMetadata {
   slug: string;
 }
 
-interface PostModule {
-  default: any;
-  frontmatter?: Record<string, any>;
+export interface PostData {
+  frontmatter: PostMetadata;
+  content: any;
 }
 
-// Import all MDX files from the posts directory
-const posts = import.meta.glob<PostModule>('../posts/*.mdx', { eager: true });
+const API_URL = 'http://localhost:3001/api';
 
-export function getAllPosts(): PostMetadata[] {
-  const allPostsData = Object.entries(posts).map(([filepath, module]) => {
-    const slug = filepath.replace('../posts/', '').replace('.mdx', '');
-    
-    // Try to get frontmatter from both module.frontmatter and matter parsing
-    let data = module.frontmatter;
-    if (!data) {
-      const parsed = matter(module.default);
-      data = parsed.data;
+export async function getAllPosts(): Promise<PostMetadata[]> {
+  try {
+    const response = await fetch(`${API_URL}/posts`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch posts');
     }
-
-    return {
-      slug,
-      ...(data as Omit<PostMetadata, 'slug'>),
-    };
-  });
-
-  return allPostsData.sort((a, b) => (a.date < b.date ? 1 : -1));
+    return await response.json();
+  } catch (error) {
+    console.error('Error in getAllPosts:', error);
+    return [];
+  }
 }
 
-export function getPostBySlug(slug: string) {
-  const filepath = `../posts/${slug}.mdx`;
-  const post = posts[filepath];
-
-  if (!post) {
+export async function getPostBySlug(slug: string): Promise<PostData> {
+  const response = await fetch(`${API_URL}/posts/${slug}`);
+  if (!response.ok) {
     throw new Error(`Post not found: ${slug}`);
   }
-
-  // Try to get frontmatter from both module.frontmatter and matter parsing
-  let data = post.frontmatter;
-  let content = post.default;
-  
-  if (!data) {
-    const parsed = matter(post.default);
-    data = parsed.data;
-    content = parsed.content;
-  }
-
-  return {
-    frontmatter: data,
-    content,
-  };
+  return await response.json();
 } 

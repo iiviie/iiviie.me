@@ -1,34 +1,53 @@
 ---
-title: 'Hello, World!'
-date: '2024-02-20'
-description: 'This is my first blog post using MDX'
-tags: ['nextjs', 'mdx', 'blog']
+title: "wee woo wee woo wee woo wee woo wee woo wee woo wee woo wee woo wee woo wee woo"
+description: "taking my obsidian note andn turning it into and test file to see how it renders as mdx"
+date: "July 5, 2024"
 ---
 
-import MdxLayout from '../components/blog/MdxLayout';
+# Wellfound Role Tracker
 
-# Hello, World!
+A dynamic web scraper that extracts detailed job postings from Wellfound based on a specified role, and prepares structured data for further outreach on LinkedIn.
 
-Welcome to my first blog post! This post is written in MDX, which means I can use **Markdown** and **React components** together.
+## Project Overview
 
-## What is MDX?
+This tool automates the search for specific roles (e.g., "Backend Intern") on Wellfound (formerly AngelList Talent), extracts detailed job-related information, and exports the data in a structured format for further research.
 
-MDX is a format that lets you seamlessly write JSX in your Markdown documents. You can import components, such as interactive charts or alerts, and embed them within your content.
+## Features
 
-## Code Example
+- Automatically search for job roles on Wellfound
+- Click and parse each job listing
+- Extract:
+  - Company Name
+  - Job Title
+  - Stipend/Salary
+  - Tech Stack (from job description)
+  - Direct Job Link
+- Export results to CSV or JSON
+- Generate LinkedIn search URLs for each company
 
-```python
-def hello_world():
-    print("Hello, World!")
-```
+## Tech Stack
 
-## Using React Components
+- Python 3.10+
+- Playwright (browser automation)
+- pandas (data export)
+- re (regex-based tech stack extraction)
 
-You can even use React components directly in your MDX files!
+## Functional Requirements
 
-export default ({ children }) => <MdxLayout frontMatter={{
-  title: 'Hello, World!',
-  date: '2024-02-20',
-  description: 'This is my first blog post using MDX',
-  tags: ['nextjs', 'mdx', 'blog']
-}}>{children}</MdxLayout> 
+1. Accept a job title input (e.g., "Backend Intern")
+2. Navigate to Wellfound and search for the given role
+3. Scroll or paginate through job results
+4. For each job:
+   - Click to open the detailed job description
+   - Wait for content to load
+   - Extract the required details
+5. Save the data in a structured CSV or JSON format
+6. Generate LinkedIn company search URLs:
+   `https://www.linkedin.com/search/results/companies/?keywords=<company_name>`
+
+## Example Output
+
+| Company     | Title          | Stipend       | Tech Stack             | Job Link | LinkedIn URL |
+|-------------|----------------|----------------|------------------------|----------|--------------|
+| TechNova    | Backend Intern | ₹25,000/month | Python, Django, AWS    | ...      | ...          |
+| DataCrux    | AI Intern      | $500/month     | Python, TensorFlow     | ...      | ...          |

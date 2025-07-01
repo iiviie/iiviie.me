@@ -1,80 +1,112 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
-import { getPostBySlug } from '../../lib/mdx';
-import { MDXProvider } from '@mdx-js/react';
-import * as runtime from 'react/jsx-runtime';
-import { evaluate } from '@mdx-js/mdx';
+import { useParams, useNavigate } from 'react-router-dom';
+import { getPostBySlug, type PostData } from '../../lib/mdx';
+import { MDXRemote } from 'next-mdx-remote';
 import MdxLayout from '../../components/blog/MdxLayout';
+import { Table } from '../../components/mdx/Table';
 
 const components = {
-  h1: (props: any) => <h1 className="text-4xl font-bold text-purple-400 mb-4" {...props} />,
-  h2: (props: any) => <h2 className="text-3xl font-bold text-purple-300 mb-3" {...props} />,
-  h3: (props: any) => <h3 className="text-2xl font-bold text-purple-200 mb-2" {...props} />,
-  p: (props: any) => <p className="text-zinc-300 mb-4" {...props} />,
+  h1: (props: any) => <h1 className="text-4xl font-bold text-purple-400 mb-4 font-mono" {...props} />,
+  h2: (props: any) => <h2 className="text-3xl font-bold text-purple-300 mb-3 font-mono" {...props} />,
+  h3: (props: any) => <h3 className="text-2xl font-bold text-purple-200 mb-2 font-mono" {...props} />,
+  p: (props: any) => <p className="text-zinc-300 mb-4 font-mono" {...props} />,
   code: (props: any) => (
-    <code className="bg-purple-900/30 text-purple-200 px-1 py-0.5 rounded" {...props} />
+    <code className="bg-purple-900/30 text-purple-200 px-1 py-0.5 rounded font-mono" {...props} />
   ),
   pre: (props: any) => (
-    <pre className="bg-zinc-900 p-4 rounded-lg mb-4 overflow-x-auto" {...props} />
+    <pre className="bg-zinc-900 p-4 rounded-lg mb-4 overflow-x-auto font-mono" {...props} />
   ),
+  a: (props: any) => (
+    <a className="text-purple-400 hover:text-purple-300 underline font-mono" {...props} />
+  ),
+  ul: (props: any) => <ul className="list-disc list-inside mb-4 font-mono" {...props} />,
+  ol: (props: any) => <ol className="list-decimal list-inside mb-4 font-mono" {...props} />,
+  li: (props: any) => <li className="mb-2 font-mono" {...props} />,
+  blockquote: (props: any) => (
+    <blockquote className="border-l-4 border-purple-400 pl-4 italic mb-4 font-mono" {...props} />
+  ),
+  Table: Table,
 };
 
 const BlogPost = () => {
   const { slug } = useParams();
-  const [Content, setContent] = React.useState<React.ComponentType | null>(null);
-  const [error, setError] = React.useState('');
+  const navigate = useNavigate();
+  const [postData, setPostData] = React.useState<PostData | null>(null);
+  const [error, setError] = React.useState<string | null>(null);
+  const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
     const loadPost = async () => {
       try {
+        setLoading(true);
+        setError(null);
+        
         if (!slug) {
           throw new Error('No slug provided');
         }
-        const { content, frontmatter } = getPostBySlug(slug);
         
-        // Evaluate MDX content
-        const { default: MDXContent } = await evaluate(content, {
-          ...runtime,
-          baseUrl: import.meta.url
-        });
-
-        setContent(() => () => (
-          <MdxLayout frontmatter={frontmatter}>
-            <MDXContent />
-          </MdxLayout>
-        ));
+        console.log('Loading post with slug:', slug);
+        const data = await getPostBySlug(slug);
+        console.log('Post data loaded:', data);
+        setPostData(data);
       } catch (error) {
         console.error('Error loading post:', error);
-        setError('Failed to load post');
+        setError(error instanceof Error ? error.message : 'Failed to load post');
+        // Redirect to blog index after 3 seconds on error
+        setTimeout(() => navigate('/blog'), 3000);
+      } finally {
+        setLoading(false);
       }
     };
     loadPost();
-  }, [slug]);
+  }, [slug, navigate]);
 
-  if (error) {
+  if (loading) {
     return (
-      <div className="min-h-screen bg-zinc-900 text-zinc-300 p-6">
-        <div className="max-w-4xl mx-auto">
-          <h1 className="text-4xl font-bold text-red-400">{error}</h1>
+      <div className="min-h-screen bg-zinc-900 text-zinc-300 overflow-y-auto">
+        <div className="p-6">
+          <div className="max-w-4xl mx-auto">
+            <h1 className="text-4xl font-bold text-purple-400">Loading...</h1>
+          </div>
         </div>
       </div>
     );
   }
 
-  if (!Content) {
+  if (error) {
     return (
-      <div className="min-h-screen bg-zinc-900 text-zinc-300 p-6">
-        <div className="max-w-4xl mx-auto">
-          <h1 className="text-4xl font-bold">Loading...</h1>
+      <div className="min-h-screen bg-zinc-900 text-zinc-300 overflow-y-auto">
+        <div className="p-6">
+          <div className="max-w-4xl mx-auto">
+            <h1 className="text-4xl font-bold text-red-400">{error}</h1>
+            <p className="mt-4 text-zinc-400">Redirecting to blog index...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!postData) {
+    return (
+      <div className="min-h-screen bg-zinc-900 text-zinc-300 overflow-y-auto">
+        <div className="p-6">
+          <div className="max-w-4xl mx-auto">
+            <h1 className="text-4xl font-bold text-red-400">Post not found</h1>
+            <p className="mt-4 text-zinc-400">Redirecting to blog index...</p>
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <MDXProvider components={components}>
-      <Content />
-    </MDXProvider>
+    <MdxLayout frontmatter={postData.frontmatter}>
+      <div className="prose prose-invert prose-purple max-w-none">
+        <div className="font-mono [&_pre]:bg-zinc-800/50 [&_pre]:border [&_pre]:border-purple-800/30 [&_code]:text-purple-300 [&_h1]:text-purple-400 [&_h2]:text-purple-300 [&_h3]:text-purple-200 [&_a]:text-purple-400 [&_a:hover]:text-purple-300 [&_blockquote]:border-l-purple-400">
+          <MDXRemote {...postData.content} components={components} />
+        </div>
+      </div>
+    </MdxLayout>
   );
 };
 

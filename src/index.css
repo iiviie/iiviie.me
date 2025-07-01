@@ -48,15 +48,21 @@
     @apply border-border;
   }
   
+  html {
+    @apply h-full;
+  }
+  
   body {
-    @apply bg-background text-foreground font-mono;
+    @apply bg-background text-foreground font-mono min-h-screen;
     font-family: 'JetBrains Mono', 'IBM Plex Mono', monospace;
     background: 
       radial-gradient(circle at 25% 25%, rgba(160, 32, 240, 0.03) 0%, transparent 50%),
       radial-gradient(circle at 75% 75%, rgba(177, 70, 255, 0.03) 0%, transparent 50%),
       linear-gradient(135deg, rgb(20, 20, 23) 0%, rgb(31, 31, 36) 100%);
-    min-height: 100vh;
-    overflow: hidden;
+  }
+  
+  #root {
+    @apply min-h-screen;
   }
   
   /* Enhanced CRT Monitor Effects */
