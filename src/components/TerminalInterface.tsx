@@ -95,25 +95,25 @@ const TerminalInterface = () => {
   };
 
   return (
-    <div className="h-screen flex flex-col terminal-main crt-scanlines relative m-2">
+    <div className="h-screen flex flex-col terminal-main crt-scanlines relative m-2 bg-zinc-900">
       {/* Terminal Header */}
-      <div className="terminal-header px-4 py-2 flex items-center gap-2 flex-shrink-0">
+      <div className="bg-zinc-900 px-4 py-2 flex items-center gap-2 flex-shrink-0 border-b border-zinc-800">
         <div className="w-3 h-3 rounded-full bg-red-400"></div>
         <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
         <div className="w-3 h-3 rounded-full bg-green-400"></div>
-        <span className="ml-4 text-sm text-muted-foreground">divyansh@backend-dev: ~</span>
+        <span className="ml-4 text-sm text-zinc-500">divyansh@backend-dev: ~</span>
       </div>
       
       {/* Terminal Content */}
-      <div className="flex-1 overflow-auto p-6 font-mono text-sm">
+      <div className="flex-1 overflow-auto p-6 font-mono text-sm bg-zinc-900 text-zinc-300">
         {commandHistory.map((item, index) => (
           <div key={index} className="mb-4">
             {item.type === 'command' ? (
-              <div className="command-prompt">{item.content}</div>
+              <div className="text-zinc-300">{item.content}</div>
             ) : item.type === 'ascii-art' ? (
               <div className="text-center mb-6">{item.content}</div>
             ) : (
-              <div className="ml-4 text-foreground whitespace-pre-line">{item.content}</div>
+              <div className="ml-4 text-zinc-300 whitespace-pre-line">{item.content}</div>
             )}
           </div>
         ))}
@@ -121,9 +121,9 @@ const TerminalInterface = () => {
       </div>
       
       {/* Command Input */}
-      <div className="px-6 py-3 border-t border-border">
+      <div className="px-6 py-3 border-t border-zinc-800 bg-zinc-900">
         <div className="flex items-center gap-2">
-          <span className="command-prompt font-mono text-sm">
+          <span className="text-zinc-300 font-mono text-sm">
             divyansh@backend-dev:~$
           </span>
           <input
@@ -132,7 +132,7 @@ const TerminalInterface = () => {
             value={commandInput}
             onChange={(e) => setCommandInput(e.target.value)}
             onKeyDown={handleCommand}
-            className="flex-1 font-mono text-sm bg-transparent border-none outline-none"
+            className="flex-1 font-mono text-sm bg-transparent border-none outline-none text-zinc-300"
             placeholder={isProcessing ? "Processing..." : ""}
             disabled={isProcessing}
             style={{ caretColor: 'hsl(var(--terminal-purple))' }}
@@ -149,17 +149,17 @@ const TerminalInterface = () => {
       )}
       
       {/* Status Bar */}
-      <div className="px-4 py-2 border-t border-border flex items-center justify-between text-xs font-mono">
+      <div className="px-4 py-2 border-t border-zinc-800 bg-zinc-900 flex items-center justify-between text-xs font-mono">
         <div className="flex items-center gap-4">
-          <span className="status-success">●</span>
-          <span className="text-foreground">divyansh@backend-dev</span>
+          <span className="text-green-400">●</span>
+          <span className="text-zinc-300">divyansh@backend-dev</span>
         </div>
-        <div className="flex items-center gap-4 text-muted-foreground">
+        <div className="flex items-center gap-4 text-zinc-500">
           <span>Django+FastAPI</span>
           <span>|</span>
-          <span className="status-active">Ready</span>
+          <span className="text-blue-400">Ready</span>
           <span>|</span>
-          <span className="status-info">{new Date().toLocaleTimeString()}</span>
+          <span className="text-zinc-300">{new Date().toLocaleTimeString()}</span>
         </div>
       </div>
     </div>
