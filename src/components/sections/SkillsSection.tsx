@@ -63,7 +63,7 @@ const SkillsSection: React.FC<SkillsSectionProps> = ({ onClose }) => {
   };
 
   return (
-    <div className="fixed inset-10 bg-zinc-900 border border-zinc-800 rounded-lg shadow-lg overflow-hidden flex flex-col">
+    <div className="fixed inset-10 z-50 bg-zinc-900 border border-zinc-800 rounded-lg shadow-lg overflow-hidden flex flex-col">
       {/* Window Header */}
       <div className="bg-zinc-900 px-4 py-2 flex items-center justify-between flex-shrink-0 border-b border-zinc-800">
         <div className="flex items-center gap-2">

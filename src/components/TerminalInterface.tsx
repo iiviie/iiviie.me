@@ -95,50 +95,72 @@ const TerminalInterface = () => {
   };
 
   return (
-    <div className="h-screen flex flex-col terminal-main crt-scanlines relative m-2 bg-zinc-900">
-      {/* Terminal Header */}
-      <div className="bg-zinc-900 px-4 py-2 flex items-center gap-2 flex-shrink-0 border-b border-zinc-800">
-        <div className="w-3 h-3 rounded-full bg-red-400"></div>
-        <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
-        <div className="w-3 h-3 rounded-full bg-green-400"></div>
-        <span className="ml-4 text-sm text-zinc-500">divyansh@backend-dev: ~</span>
-      </div>
-      
-      {/* Terminal Content */}
-      <div className="flex-1 overflow-auto p-6 font-mono text-sm bg-zinc-900 text-zinc-300">
-        {commandHistory.map((item, index) => (
-          <div key={index} className="mb-4">
-            {item.type === 'command' ? (
-              <div className="text-zinc-300">{item.content}</div>
-            ) : item.type === 'ascii-art' ? (
-              <div className="text-center mb-6">{item.content}</div>
-            ) : (
-              <div className="ml-4 text-zinc-300 whitespace-pre-line">{item.content}</div>
-            )}
+    <>
+      <div className={`h-screen flex flex-col terminal-main crt-scanlines relative m-2 bg-zinc-900`}>
+        {/* Terminal Header */}
+        <div className="bg-zinc-900 px-4 py-2 flex items-center gap-2 flex-shrink-0 border-b border-zinc-800">
+          <div className="w-3 h-3 rounded-full bg-red-400"></div>
+          <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
+          <div className="w-3 h-3 rounded-full bg-green-400"></div>
+          <span className="ml-4 text-sm text-zinc-500">divyansh@backend-dev: ~</span>
+        </div>
+        
+        {/* Terminal Content */}
+        <div className="flex-1 overflow-auto p-6 font-mono text-sm bg-zinc-900 text-zinc-300">
+          {commandHistory.map((item, index) => (
+            <div key={index} className="mb-4">
+              {item.type === 'command' ? (
+                <div className="text-zinc-300">{item.content}</div>
+              ) : item.type === 'ascii-art' ? (
+                <div className="text-center mb-6">{item.content}</div>
+              ) : (
+                <div className="ml-4 text-zinc-300 whitespace-pre-line">{item.content}</div>
+              )}
+            </div>
+          ))}
+          <div ref={historyEndRef} />
+        </div>
+        
+        {/* Command Input */}
+        <div className="px-6 py-3 border-t border-zinc-800 bg-zinc-900">
+          <div className="flex items-center gap-2">
+            <span className="text-zinc-300 font-mono text-sm">
+              divyansh@backend-dev:~$
+            </span>
+            <input
+              ref={inputRef}
+              type="text"
+              value={commandInput}
+              onChange={(e) => setCommandInput(e.target.value)}
+              onKeyDown={handleCommand}
+              className="flex-1 font-mono text-sm bg-transparent border-none outline-none text-zinc-300"
+              placeholder={isProcessing ? "Processing..." : ""}
+              disabled={isProcessing || showProjects || showSkills}
+              style={{ caretColor: 'hsl(var(--terminal-purple))' }}
+            />
           </div>
-        ))}
-        <div ref={historyEndRef} />
-      </div>
-      
-      {/* Command Input */}
-      <div className="px-6 py-3 border-t border-zinc-800 bg-zinc-900">
-        <div className="flex items-center gap-2">
-          <span className="text-zinc-300 font-mono text-sm">
-            divyansh@backend-dev:~$
-          </span>
-          <input
-            ref={inputRef}
-            type="text"
-            value={commandInput}
-            onChange={(e) => setCommandInput(e.target.value)}
-            onKeyDown={handleCommand}
-            className="flex-1 font-mono text-sm bg-transparent border-none outline-none text-zinc-300"
-            placeholder={isProcessing ? "Processing..." : ""}
-            disabled={isProcessing}
-            style={{ caretColor: 'hsl(var(--terminal-purple))' }}
-          />
+        </div>
+        
+        {/* Status Bar */}
+        <div className="px-4 py-2 border-t border-zinc-800 bg-zinc-900 flex items-center justify-between text-xs font-mono">
+          <div className="flex items-center gap-4">
+            <span className="text-green-400">●</span>
+            <span className="text-zinc-300">divyansh@backend-dev</span>
+          </div>
+          <div className="flex items-center gap-4 text-zinc-500">
+            <span>Django+FastAPI</span>
+            <span>|</span>
+            <span className="text-blue-400">Ready</span>
+            <span>|</span>
+            <span className="text-zinc-300">{new Date().toLocaleTimeString()}</span>
+          </div>
         </div>
       </div>
+
+      {/* Blur Backdrop */}
+      {(showProjects || showSkills) && (
+        <div className="fixed inset-0 backdrop-blur-sm bg-zinc-900/10 z-40" />
+      )}
 
       {/* Floating Windows */}
       {showProjects && (
@@ -147,22 +169,7 @@ const TerminalInterface = () => {
       {showSkills && (
         <SkillsSection onClose={() => setShowSkills(false)} />
       )}
-      
-      {/* Status Bar */}
-      <div className="px-4 py-2 border-t border-zinc-800 bg-zinc-900 flex items-center justify-between text-xs font-mono">
-        <div className="flex items-center gap-4">
-          <span className="text-green-400">●</span>
-          <span className="text-zinc-300">divyansh@backend-dev</span>
-        </div>
-        <div className="flex items-center gap-4 text-zinc-500">
-          <span>Django+FastAPI</span>
-          <span>|</span>
-          <span className="text-blue-400">Ready</span>
-          <span>|</span>
-          <span className="text-zinc-300">{new Date().toLocaleTimeString()}</span>
-        </div>
-      </div>
-    </div>
+    </>
   );
 };
 

@@ -76,7 +76,7 @@ const ProjectsSection: React.FC<ProjectsSectionProps> = ({ onClose }) => {
     if (!project) return null;
 
     return (
-      <div className="fixed inset-10 bg-zinc-900 border border-zinc-800 rounded-lg shadow-lg overflow-hidden flex flex-col">
+      <div className="fixed inset-10 z-50 bg-zinc-900 border border-zinc-800 rounded-lg shadow-lg overflow-hidden flex flex-col">
         <div className="bg-zinc-900 px-4 py-2 flex items-center justify-between flex-shrink-0 border-b border-zinc-800">
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 rounded-full bg-red-400 cursor-pointer" onClick={onClose}></div>
@@ -153,7 +153,7 @@ const ProjectsSection: React.FC<ProjectsSectionProps> = ({ onClose }) => {
   }
 
   return (
-    <div className="fixed inset-10 bg-zinc-900 border border-zinc-800 rounded-lg shadow-lg overflow-hidden flex flex-col">
+    <div className="fixed inset-10 z-50 bg-zinc-900 border border-zinc-800 rounded-lg shadow-lg overflow-hidden flex flex-col">
       <div className="bg-zinc-900 px-4 py-2 flex items-center justify-between flex-shrink-0 border-b border-zinc-800">
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 rounded-full bg-red-400 cursor-pointer" onClick={onClose}></div>
