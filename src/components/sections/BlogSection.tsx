@@ -1,48 +1,101 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
-import { getAllPosts, type PostMetadata } from '../../lib/mdx';
+import { getAllPosts, getPostBySlug, type PostMetadata, type PostData } from '../../lib/mdx';
+import { MDXRemote } from 'next-mdx-remote';
+import { Table } from '../../components/mdx/Table';
+
+const components = {
+  h1: (props: any) => <h1 className="text-4xl font-bold text-purple-400 mb-4 font-mono" {...props} />,
+  h2: (props: any) => <h2 className="text-3xl font-bold text-purple-300 mb-3 font-mono" {...props} />,
+  h3: (props: any) => <h3 className="text-2xl font-bold text-purple-200 mb-2 font-mono" {...props} />,
+  p: (props: any) => <p className="text-zinc-300 mb-4 font-mono" {...props} />,
+  code: (props: any) => (
+    <code className="bg-purple-900/30 text-purple-200 px-1 py-0.5 rounded font-mono" {...props} />
+  ),
+  pre: (props: any) => (
+    <pre className="bg-zinc-900 p-4 rounded-lg mb-4 overflow-x-auto font-mono" {...props} />
+  ),
+  a: (props: any) => (
+    <a className="text-purple-400 hover:text-purple-300 underline font-mono" {...props} />
+  ),
+  ul: (props: any) => <ul className="list-disc list-inside mb-4 font-mono" {...props} />,
+  ol: (props: any) => <ol className="list-decimal list-inside mb-4 font-mono" {...props} />,
+  li: (props: any) => <li className="mb-2 font-mono" {...props} />,
+  blockquote: (props: any) => (
+    <blockquote className="border-l-4 border-purple-400 pl-4 italic mb-4 font-mono" {...props} />
+  ),
+  Table: Table,
+};
 
 interface BlogSectionProps {
   onClose: () => void;
 }
 
 const BlogSection: React.FC<BlogSectionProps> = ({ onClose }) => {
+  const params = useParams();
+  const navigate = useNavigate();
   const [posts, setPosts] = React.useState<PostMetadata[]>([]);
+  const [currentPost, setCurrentPost] = React.useState<PostData | null>(null);
   const [error, setError] = React.useState<string | null>(null);
   const [loading, setLoading] = React.useState(true);
 
+  // Load posts and current post if slug exists
   React.useEffect(() => {
-    const loadPosts = async () => {
+    const loadContent = async () => {
       try {
         setLoading(true);
         setError(null);
+
+        // Always load all posts
         const allPosts = await getAllPosts();
         setPosts(allPosts);
+
+        // If we have a slug, load that specific post
+        if (params.slug) {
+          console.log('Loading post with slug:', params.slug);
+          const postData = await getPostBySlug(params.slug);
+          setCurrentPost(postData);
+        } else {
+          setCurrentPost(null);
+        }
       } catch (error) {
-        console.error('Error loading posts:', error);
-        setError(error instanceof Error ? error.message : 'Failed to load blog posts');
+        console.error('Error loading content:', error);
+        setError(error instanceof Error ? error.message : 'Failed to load content');
       } finally {
         setLoading(false);
       }
     };
-    loadPosts();
-  }, []);
+
+    loadContent();
+  }, [params.slug]); // Re-run when slug changes
+
+  const handlePostClick = (postSlug: string) => {
+    navigate(`/blog/${postSlug}`);
+  };
+
+  const handleBack = () => {
+    if (params.slug) {
+      navigate('/blog');
+    } else {
+      onClose();
+    }
+  };
 
   if (loading) {
     return (
       <div className="fixed inset-10 z-50 bg-zinc-900 border border-zinc-800 rounded-lg shadow-lg overflow-hidden flex flex-col">
         <div className="bg-zinc-900 px-4 py-2 flex items-center justify-between flex-shrink-0 border-b border-zinc-800">
           <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full bg-red-400 cursor-pointer" onClick={onClose}></div>
+            <div className="w-3 h-3 rounded-full bg-red-400 cursor-pointer" onClick={handleBack}></div>
             <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
             <div className="w-3 h-3 rounded-full bg-green-400"></div>
-            <span className="ml-4 text-sm text-zinc-500">~/blog</span>
+            <span className="ml-4 text-sm text-zinc-500">~/blog{params.slug ? `/${params.slug}` : ''}</span>
           </div>
         </div>
         <div className="flex-1 overflow-auto p-6 font-mono text-sm bg-zinc-900">
           <div className="text-center">
-            <div className="text-purple-400 animate-pulse">Loading blog posts...</div>
+            <div className="text-purple-400 animate-pulse">Loading...</div>
           </div>
         </div>
       </div>
@@ -54,10 +107,10 @@ const BlogSection: React.FC<BlogSectionProps> = ({ onClose }) => {
       <div className="fixed inset-10 z-50 bg-zinc-900 border border-zinc-800 rounded-lg shadow-lg overflow-hidden flex flex-col">
         <div className="bg-zinc-900 px-4 py-2 flex items-center justify-between flex-shrink-0 border-b border-zinc-800">
           <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full bg-red-400 cursor-pointer" onClick={onClose}></div>
+            <div className="w-3 h-3 rounded-full bg-red-400 cursor-pointer" onClick={handleBack}></div>
             <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
             <div className="w-3 h-3 rounded-full bg-green-400"></div>
-            <span className="ml-4 text-sm text-zinc-500">~/blog</span>
+            <span className="ml-4 text-sm text-zinc-500">~/blog{params.slug ? `/${params.slug}` : ''}</span>
           </div>
         </div>
         <div className="flex-1 overflow-auto p-6 font-mono text-sm bg-zinc-900">
@@ -72,17 +125,50 @@ const BlogSection: React.FC<BlogSectionProps> = ({ onClose }) => {
       {/* Window Header */}
       <div className="bg-zinc-900 px-4 py-2 flex items-center justify-between flex-shrink-0 border-b border-zinc-800">
         <div className="flex items-center gap-2">
-          <div className="w-3 h-3 rounded-full bg-red-400 cursor-pointer" onClick={onClose}></div>
+          <div className="w-3 h-3 rounded-full bg-red-400 cursor-pointer" onClick={handleBack}></div>
           <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
           <div className="w-3 h-3 rounded-full bg-green-400"></div>
-          <span className="ml-4 text-sm text-zinc-500">~/blog</span>
+          <span className="ml-4 text-sm text-zinc-500">~/blog{params.slug ? `/${params.slug}` : ''}</span>
         </div>
       </div>
 
       {/* Window Content */}
       <div className="flex-1 overflow-auto p-6 font-mono text-sm bg-zinc-900">
-        <div className="text-center mb-8">
-          <pre className="text-purple-400 animate-pulse [text-shadow:0_0_10px_#a855f7] transition-all font-mono whitespace-pre inline-block">
+        {currentPost ? (
+          // Single Post View
+          <article className="max-w-4xl mx-auto prose prose-invert prose-purple">
+            <header className="mb-12">
+              <h1 className="text-4xl font-mono font-bold mb-4 text-purple-400 [text-shadow:0_0_10px_#a855f7]">
+                {currentPost.frontmatter.title}
+              </h1>
+              <div className="text-purple-400/70 mb-4 font-mono">
+                {format(new Date(currentPost.frontmatter.date), 'MMMM dd, yyyy')}
+              </div>
+              <p className="text-zinc-400 font-mono">{currentPost.frontmatter.description}</p>
+              {currentPost.frontmatter.tags && (
+                <div className="flex flex-wrap gap-2 mt-4">
+                  {currentPost.frontmatter.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="px-2 py-1 bg-purple-900/30 text-purple-300 border border-purple-700/50 rounded-md text-sm font-mono"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </header>
+            <div className="prose prose-invert prose-purple max-w-none">
+              <div className="font-mono [&_pre]:bg-zinc-800/50 [&_pre]:border [&_pre]:border-purple-800/30 [&_code]:text-purple-300 [&_h1]:text-purple-400 [&_h2]:text-purple-300 [&_h3]:text-purple-200 [&_a]:text-purple-400 [&_a:hover]:text-purple-300 [&_blockquote]:border-l-purple-400">
+                <MDXRemote {...currentPost.content} components={components} />
+              </div>
+            </div>
+          </article>
+        ) : (
+          // Blog Index View
+          <>
+            <div className="text-center mb-8">
+              <pre className="text-purple-400 animate-pulse [text-shadow:0_0_10px_#a855f7] transition-all font-mono whitespace-pre inline-block">
 {`
 ██████╗ ██╗      ██████╗  ██████╗ ███████╗
 ██╔══██╗██║     ██╔═══██╗██╔════╝ ██╔════╝
@@ -91,38 +177,38 @@ const BlogSection: React.FC<BlogSectionProps> = ({ onClose }) => {
 ██████╔╝███████╗╚██████╔╝╚██████╔╝███████║
 ╚═════╝ ╚══════╝ ╚═════╝  ╚═════╝ ╚══════╝
 `}
-          </pre>
-        </div>
+              </pre>
+            </div>
 
-        <div className="space-y-6">
-          <div className="command-prompt text-zinc-300">$ ls -la ~/blog/posts/</div>
-          <div className="space-y-4">
-            {posts.map((post) => (
-              <div
-                key={post.slug}
-                className="terminal-section border border-zinc-800 rounded p-4 hover:border-purple-800/30 transition-colors"
-              >
-                <Link
-                  to={`/blog/${post.slug}`}
-                  className="block space-y-2"
-                >
-                  <h2 className="text-purple-400 font-bold hover:text-purple-300 transition-colors">
-                    {post.title}
-                  </h2>
-                  <div className="text-zinc-400 text-xs">
-                    {format(new Date(post.date), 'MMMM dd, yyyy')}
+            <div className="space-y-6">
+              <div className="command-prompt text-zinc-300">$ ls -la ~/blog/posts/</div>
+              <div className="space-y-4">
+                {posts.map((post) => (
+                  <div
+                    key={post.slug}
+                    className="terminal-section border border-zinc-800 rounded p-4 hover:border-purple-800/30 transition-colors cursor-pointer"
+                    onClick={() => handlePostClick(post.slug)}
+                  >
+                    <div className="block space-y-2">
+                      <h2 className="text-purple-400 font-bold hover:text-purple-300 transition-colors">
+                        {post.title}
+                      </h2>
+                      <div className="text-zinc-400 text-xs">
+                        {format(new Date(post.date), 'MMMM dd, yyyy')}
+                      </div>
+                      <p className="text-zinc-300 text-sm">
+                        {post.description}
+                      </p>
+                      <div className="text-xs text-purple-400/70">
+                        Click to read more...
+                      </div>
+                    </div>
                   </div>
-                  <p className="text-zinc-300 text-sm">
-                    {post.description}
-                  </p>
-                  <div className="text-xs text-purple-400/70">
-                    Click to read more...
-                  </div>
-                </Link>
+                ))}
               </div>
-            ))}
-          </div>
-        </div>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

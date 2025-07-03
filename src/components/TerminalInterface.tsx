@@ -54,7 +54,7 @@ const TerminalInterface = () => {
     const path = location.pathname;
     setShowProjects(path === '/projects');
     setShowSkills(path === '/skills');
-    setShowBlog(path === '/blog');
+    setShowBlog(path.startsWith('/blog'));
   }, [location]);
 
   useEffect(() => {

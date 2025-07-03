@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import TerminalInterface from '@/components/TerminalInterface';
 import TerminalBoot from '@/components/TerminalBoot';
 
@@ -21,7 +22,12 @@ export default function Index() {
       )}
 
       {/* Terminal Interface */}
-      {isBooted && <TerminalInterface />}
+      {isBooted && (
+        <Routes>
+          <Route path="/blog/:slug" element={<TerminalInterface />} />
+          <Route path="*" element={<TerminalInterface />} />
+        </Routes>
+      )}
     </div>
   );
 }
