@@ -6,7 +6,7 @@ const Index = () => {
   const [isBooted, setIsBooted] = useState(false);
 
   return (
-    <div className="min-h-screen bg-zinc-900 relative overflow-hidden">
+    <div className="h-full bg-zinc-900 relative overflow-hidden">
       {/* Boot Sequence */}
       {!isBooted && (
         <TerminalBoot onBootComplete={() => setIsBooted(true)} />
