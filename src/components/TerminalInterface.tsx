@@ -4,6 +4,7 @@ import AboutSection from './sections/AboutSection';
 import ProjectsSection from './sections/ProjectsSection';
 import SkillsSection from './sections/SkillsSection';
 import ContactSection from './sections/ContactSection';
+import BlogSection from './sections/BlogSection';
 
 interface CommandOutput {
   type: 'command' | 'output' | 'ascii-art';
@@ -41,6 +42,7 @@ const TerminalInterface = () => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [showProjects, setShowProjects] = useState(false);
   const [showSkills, setShowSkills] = useState(false);
+  const [showBlog, setShowBlog] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const historyEndRef = useRef<HTMLDivElement>(null);
 
@@ -62,12 +64,14 @@ const TerminalInterface = () => {
   const commands: Record<string, () => void> = {
     'projects': () => setShowProjects(true),
     'skills': () => setShowSkills(true),
+    'blog': () => setShowBlog(true),
     'clear': () => setCommandHistory([]),
     'help': () => {
       setCommandHistory(prev => [...prev,
         { type: 'output', content: `Available commands:
   projects          - View detailed projects
   skills            - Show technical skills
+  blog              - Read my blog posts
   clear             - Clear terminal
   help              - Show this help` }
       ]);
@@ -135,7 +139,7 @@ const TerminalInterface = () => {
               onKeyDown={handleCommand}
               className="flex-1 font-mono text-sm bg-transparent border-none outline-none text-zinc-300"
               placeholder={isProcessing ? "Processing..." : ""}
-              disabled={isProcessing || showProjects || showSkills}
+              disabled={isProcessing || showProjects || showSkills || showBlog}
               style={{ caretColor: 'hsl(var(--terminal-purple))' }}
             />
           </div>
@@ -158,7 +162,7 @@ const TerminalInterface = () => {
       </div>
 
       {/* Blur Backdrop */}
-      {(showProjects || showSkills) && (
+      {(showProjects || showSkills || showBlog) && (
         <div className="fixed inset-0 backdrop-blur-sm bg-zinc-900/10 z-40" />
       )}
 
@@ -168,6 +172,9 @@ const TerminalInterface = () => {
       )}
       {showSkills && (
         <SkillsSection onClose={() => setShowSkills(false)} />
+      )}
+      {showBlog && (
+        <BlogSection onClose={() => setShowBlog(false)} />
       )}
     </>
   );

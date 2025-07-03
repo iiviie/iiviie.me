@@ -1,5 +1,6 @@
 import React from 'react';
 import { format } from 'date-fns';
+import { useNavigate } from 'react-router-dom';
 
 interface MdxLayoutProps {
   children: React.ReactNode;
@@ -12,9 +13,22 @@ interface MdxLayoutProps {
 }
 
 const MdxLayout: React.FC<MdxLayoutProps> = ({ children, frontmatter }) => {
+  const navigate = useNavigate();
+
   return (
-    <div className="min-h-screen bg-zinc-900 text-zinc-300 overflow-y-auto">
-      <div className="p-6">
+    <div className="fixed inset-10 z-50 bg-zinc-900 border border-zinc-800 rounded-lg shadow-lg overflow-hidden flex flex-col">
+      {/* Window Header */}
+      <div className="bg-zinc-900 px-4 py-2 flex items-center justify-between flex-shrink-0 border-b border-zinc-800">
+        <div className="flex items-center gap-2">
+          <div className="w-3 h-3 rounded-full bg-red-400 cursor-pointer" onClick={() => navigate('/blog')}></div>
+          <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
+          <div className="w-3 h-3 rounded-full bg-green-400"></div>
+          <span className="ml-4 text-sm text-zinc-500">~/blog/post</span>
+        </div>
+      </div>
+
+      {/* Window Content */}
+      <div className="flex-1 overflow-auto p-6 font-mono text-sm bg-zinc-900">
         <article className="max-w-4xl mx-auto prose prose-invert prose-purple">
           <header className="mb-12">
             <h1 className="text-4xl font-mono font-bold mb-4 text-purple-400 [text-shadow:0_0_10px_#a855f7]">
