@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import HomeSection from './sections/HomeSection';
 import AboutSection from './sections/AboutSection';
 import ProjectsSection from './sections/ProjectsSection';
@@ -37,6 +38,8 @@ Backend Developer & API Architect
 ];
 
 const TerminalInterface = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [commandHistory, setCommandHistory] = useState<CommandOutput[]>([]);
   const [commandInput, setCommandInput] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
@@ -45,6 +48,14 @@ const TerminalInterface = () => {
   const [showBlog, setShowBlog] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const historyEndRef = useRef<HTMLDivElement>(null);
+
+  // Initialize state based on current route
+  useEffect(() => {
+    const path = location.pathname;
+    setShowProjects(path === '/projects');
+    setShowSkills(path === '/skills');
+    setShowBlog(path === '/blog');
+  }, [location]);
 
   useEffect(() => {
     setCommandHistory(initialCommands);
@@ -61,10 +72,26 @@ const TerminalInterface = () => {
     historyEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [commandHistory]);
 
+  const handleSectionClose = () => {
+    setShowProjects(false);
+    setShowSkills(false);
+    setShowBlog(false);
+    navigate('/');
+  };
+
   const commands: Record<string, () => void> = {
-    'projects': () => setShowProjects(true),
-    'skills': () => setShowSkills(true),
-    'blog': () => setShowBlog(true),
+    'projects': () => {
+      setShowProjects(true);
+      navigate('/projects');
+    },
+    'skills': () => {
+      setShowSkills(true);
+      navigate('/skills');
+    },
+    'blog': () => {
+      setShowBlog(true);
+      navigate('/blog');
+    },
     'clear': () => setCommandHistory([]),
     'help': () => {
       setCommandHistory(prev => [...prev,
@@ -168,13 +195,13 @@ const TerminalInterface = () => {
 
       {/* Floating Windows */}
       {showProjects && (
-        <ProjectsSection onClose={() => setShowProjects(false)} />
+        <ProjectsSection onClose={handleSectionClose} />
       )}
       {showSkills && (
-        <SkillsSection onClose={() => setShowSkills(false)} />
+        <SkillsSection onClose={handleSectionClose} />
       )}
       {showBlog && (
-        <BlogSection onClose={() => setShowBlog(false)} />
+        <BlogSection onClose={handleSectionClose} />
       )}
     </>
   );

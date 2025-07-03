@@ -1,23 +1,27 @@
 import { useState, useEffect } from 'react';
-import TerminalBoot from '../components/TerminalBoot';
-import TerminalInterface from '../components/TerminalInterface';
+import TerminalInterface from '@/components/TerminalInterface';
+import TerminalBoot from '@/components/TerminalBoot';
 
-const Index = () => {
-  const [isBooted, setIsBooted] = useState(false);
+export default function Index() {
+  const [isBooted, setIsBooted] = useState(() => {
+    // Check if we've already booted in this session
+    return sessionStorage.getItem('terminalBooted') === 'true';
+  });
+
+  const handleBootComplete = () => {
+    setIsBooted(true);
+    sessionStorage.setItem('terminalBooted', 'true');
+  };
 
   return (
     <div className="h-full bg-zinc-900 relative overflow-hidden pt-5">
       {/* Boot Sequence */}
       {!isBooted && (
-        <TerminalBoot onBootComplete={() => setIsBooted(true)} />
+        <TerminalBoot onBootComplete={handleBootComplete} />
       )}
-      
-      {/* Main Terminal Interface */}
-      {isBooted && (
-        <TerminalInterface />
-      )}
+
+      {/* Terminal Interface */}
+      {isBooted && <TerminalInterface />}
     </div>
   );
-};
-
-export default Index;
+}
