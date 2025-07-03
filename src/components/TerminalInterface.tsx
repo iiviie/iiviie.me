@@ -100,9 +100,9 @@ const TerminalInterface = () => {
 
   return (
     <>
-      <div className="h-full flex flex-col terminal-main crt-scanlines relative m-2 bg-zinc-900">
+      <div className="h-full flex flex-col terminal-main crt-scanlines relative mx-4 mt-12 mb-2 bg-zinc-900 border border-zinc-700/50 rounded-lg shadow-lg">
         {/* Terminal Header */}
-        <div className="bg-zinc-900 px-4 py-2 flex items-center gap-2 flex-shrink-0 border-b border-zinc-800">
+        <div className="bg-zinc-900/50 px-4 py-2 flex items-center gap-2 flex-shrink-0 border-b border-zinc-800 rounded-t-lg backdrop-blur-sm">
           <div className="w-3 h-3 rounded-full bg-red-400"></div>
           <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
           <div className="w-3 h-3 rounded-full bg-green-400"></div>
@@ -110,7 +110,7 @@ const TerminalInterface = () => {
         </div>
         
         {/* Terminal Content */}
-        <div className="flex-1 overflow-y-auto p-6 font-mono text-sm bg-zinc-900 text-zinc-300">
+        <div className="flex-1 overflow-y-auto p-6 font-mono text-sm bg-zinc-900/95 text-zinc-300">
           {commandHistory.map((item, index) => (
             <div key={index} className="mb-4">
               {item.type === 'command' ? (
@@ -126,7 +126,7 @@ const TerminalInterface = () => {
         </div>
         
         {/* Command Input */}
-        <div className="px-6 py-3 border-t border-zinc-800 bg-zinc-900 flex-shrink-0">
+        <div className="px-6 py-3 border-t border-zinc-800 bg-zinc-900/90 flex-shrink-0 backdrop-blur-sm">
           <div className="flex items-center gap-2">
             <span className="text-zinc-300 font-mono text-sm">
               divyansh@backend-dev:~$
@@ -146,7 +146,7 @@ const TerminalInterface = () => {
         </div>
         
         {/* Status Bar */}
-        <div className="px-4 py-2 border-t border-zinc-800 bg-zinc-900 flex items-center justify-between text-xs font-mono flex-shrink-0">
+        <div className="px-4 py-2 border-t border-zinc-800 bg-zinc-900/80 flex items-center justify-between text-xs font-mono flex-shrink-0 rounded-b-lg backdrop-blur-sm">
           <div className="flex items-center gap-4">
             <span className="text-green-400">●</span>
             <span className="text-zinc-300">divyansh@backend-dev</span>
