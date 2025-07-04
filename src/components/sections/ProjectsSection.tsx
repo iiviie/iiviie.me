@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import TerminalBackButton from '@/components/ui/terminal-back-button';
 
 interface ProjectsSectionProps {
   onClose: () => void;
@@ -82,21 +83,18 @@ const ProjectsSection: React.FC<ProjectsSectionProps> = ({ onClose }) => {
             <div className="w-3 h-3 rounded-full bg-red-400 cursor-pointer" onClick={onClose}></div>
             <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
             <div className="w-3 h-3 rounded-full bg-green-400"></div>
+            {selectedProject && (
+              <TerminalBackButton
+                onClick={() => setSelectedProject(null)}
+                variant="purple"
+              />
+            )}
             <span className="ml-4 text-sm text-zinc-500">~/projects/{project.name}</span>
           </div>
         </div>
 
         <div className="flex-1 overflow-auto p-6 font-mono text-sm bg-zinc-900">
           <div className="space-y-6">
-            <div className="flex items-center gap-4">
-              <button 
-                onClick={() => setSelectedProject(null)}
-                className="text-terminal-amber hover:text-terminal-purple text-xs"
-              >
-                ← back to projects/
-              </button>
-            </div>
-
             <div className="space-y-6 ml-4">
               <div>
                 <div className="text-terminal-purple text-lg mb-2"># {project.name.replace('/', '')}</div>

@@ -4,6 +4,7 @@ import { format } from 'date-fns';
 import { getAllPosts, getPostBySlug, type PostMetadata, type PostData } from '../../lib/mdx';
 import { MDXRemote } from 'next-mdx-remote';
 import { Table } from '../../components/mdx/Table';
+import TerminalBackButton from '@/components/ui/terminal-back-button';
 
 const components = {
   h1: (props: any) => <h1 className="text-4xl font-bold text-purple-400 mb-4 font-mono" {...props} />,
@@ -75,11 +76,7 @@ const BlogSection: React.FC<BlogSectionProps> = ({ onClose }) => {
   };
 
   const handleBack = () => {
-    if (params.slug) {
-      navigate('/blog');
-    } else {
-      onClose();
-    }
+    onClose();
   };
 
   if (loading) {
@@ -90,6 +87,12 @@ const BlogSection: React.FC<BlogSectionProps> = ({ onClose }) => {
             <div className="w-3 h-3 rounded-full bg-red-400 cursor-pointer" onClick={handleBack}></div>
             <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
             <div className="w-3 h-3 rounded-full bg-green-400"></div>
+            {params.slug && (
+              <TerminalBackButton
+                onClick={() => navigate('/blog')}
+                variant="purple"
+              />
+            )}
             <span className="ml-4 text-sm text-zinc-500">~/blog{params.slug ? `/${params.slug}` : ''}</span>
           </div>
         </div>
@@ -110,6 +113,12 @@ const BlogSection: React.FC<BlogSectionProps> = ({ onClose }) => {
             <div className="w-3 h-3 rounded-full bg-red-400 cursor-pointer" onClick={handleBack}></div>
             <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
             <div className="w-3 h-3 rounded-full bg-green-400"></div>
+            {params.slug && (
+              <TerminalBackButton
+                onClick={() => navigate('/blog')}
+                variant="purple"
+              />
+            )}
             <span className="ml-4 text-sm text-zinc-500">~/blog{params.slug ? `/${params.slug}` : ''}</span>
           </div>
         </div>
@@ -128,6 +137,12 @@ const BlogSection: React.FC<BlogSectionProps> = ({ onClose }) => {
           <div className="w-3 h-3 rounded-full bg-red-400 cursor-pointer" onClick={handleBack}></div>
           <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
           <div className="w-3 h-3 rounded-full bg-green-400"></div>
+          {params.slug && (
+            <TerminalBackButton
+              onClick={() => navigate('/blog')}
+              variant="purple"
+            />
+          )}
           <span className="ml-4 text-sm text-zinc-500">~/blog{params.slug ? `/${params.slug}` : ''}</span>
         </div>
       </div>
