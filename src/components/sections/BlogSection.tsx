@@ -30,7 +30,7 @@ const components = {
 };
 
 interface BlogSectionProps {
-  onClose: () => void;
+  onClose: (section?: string) => void;
 }
 
 const BlogSection: React.FC<BlogSectionProps> = ({ onClose }) => {
@@ -84,7 +84,7 @@ const BlogSection: React.FC<BlogSectionProps> = ({ onClose }) => {
       <div className="fixed inset-10 z-50 bg-zinc-900 border border-zinc-800 rounded-lg shadow-lg overflow-hidden flex flex-col">
         <div className="bg-zinc-900 px-4 py-2 flex items-center justify-between flex-shrink-0 border-b border-zinc-800">
           <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full bg-red-400 cursor-pointer" onClick={handleBack}></div>
+            <div className="w-3 h-3 rounded-full bg-red-400 cursor-pointer" onClick={() => onClose('home')}></div>
             <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
             <div className="w-3 h-3 rounded-full bg-green-400"></div>
             {params.slug && (
@@ -110,7 +110,7 @@ const BlogSection: React.FC<BlogSectionProps> = ({ onClose }) => {
       <div className="fixed inset-10 z-50 bg-zinc-900 border border-zinc-800 rounded-lg shadow-lg overflow-hidden flex flex-col">
         <div className="bg-zinc-900 px-4 py-2 flex items-center justify-between flex-shrink-0 border-b border-zinc-800">
           <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full bg-red-400 cursor-pointer" onClick={handleBack}></div>
+            <div className="w-3 h-3 rounded-full bg-red-400 cursor-pointer" onClick={() => onClose('home')}></div>
             <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
             <div className="w-3 h-3 rounded-full bg-green-400"></div>
             {params.slug && (
@@ -134,7 +134,7 @@ const BlogSection: React.FC<BlogSectionProps> = ({ onClose }) => {
       {/* Window Header */}
       <div className="bg-zinc-900 px-4 py-2 flex items-center justify-between flex-shrink-0 border-b border-zinc-800">
         <div className="flex items-center gap-2">
-          <div className="w-3 h-3 rounded-full bg-red-400 cursor-pointer" onClick={handleBack}></div>
+          <div className="w-3 h-3 rounded-full bg-red-400 cursor-pointer" onClick={() => onClose('home')}></div>
           <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
           <div className="w-3 h-3 rounded-full bg-green-400"></div>
           {params.slug && (

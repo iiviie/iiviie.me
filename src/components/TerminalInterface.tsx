@@ -6,6 +6,7 @@ import ProjectsSection from './sections/ProjectsSection';
 import SkillsSection from './sections/SkillsSection';
 import ContactSection from './sections/ContactSection';
 import BlogSection from './sections/BlogSection';
+import TerminalNav from './TerminalNav';
 
 interface CommandOutput {
   type: 'command' | 'output' | 'ascii-art';
@@ -46,6 +47,7 @@ const TerminalInterface = () => {
   const [showProjects, setShowProjects] = useState(false);
   const [showSkills, setShowSkills] = useState(false);
   const [showBlog, setShowBlog] = useState(false);
+  const [currentSection, setCurrentSection] = useState('home');
   const inputRef = useRef<HTMLInputElement>(null);
   const historyEndRef = useRef<HTMLDivElement>(null);
 
@@ -72,11 +74,34 @@ const TerminalInterface = () => {
     historyEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [commandHistory]);
 
-  const handleSectionClose = () => {
-    setShowProjects(false);
-    setShowSkills(false);
-    setShowBlog(false);
-    navigate('/');
+  const handleSectionChange = (section: string) => {
+    setCurrentSection(section);
+    switch (section) {
+      case 'projects':
+        setShowProjects(true);
+        setShowSkills(false);
+        setShowBlog(false);
+        navigate('/projects');
+        break;
+      case 'skills':
+        setShowProjects(false);
+        setShowSkills(true);
+        setShowBlog(false);
+        navigate('/skills');
+        break;
+      case 'blog':
+        setShowProjects(false);
+        setShowSkills(false);
+        setShowBlog(true);
+        navigate('/blog');
+        break;
+      default:
+        setShowProjects(false);
+        setShowSkills(false);
+        setShowBlog(false);
+        navigate('/');
+        break;
+    }
   };
 
   const commands: Record<string, () => void> = {
@@ -126,8 +151,9 @@ const TerminalInterface = () => {
   };
 
   return (
-    <>
-      <div className="h-full flex flex-col terminal-main crt-scanlines relative mx-4 mt-12 mb-2 bg-zinc-900 border border-zinc-700/50 rounded-lg shadow-lg">
+    <div className="flex flex-col h-full">
+      {/* Main Terminal Window */}
+      <div className="flex-1 flex flex-col terminal-main crt-scanlines relative mx-4 mt-4 mb-2 bg-zinc-900 border border-zinc-700/50 rounded-lg shadow-lg">
         {/* Terminal Header */}
         <div className="bg-zinc-900/50 px-4 py-2 flex items-center gap-2 flex-shrink-0 border-b border-zinc-800 rounded-t-lg backdrop-blur-sm">
           <div className="w-3 h-3 rounded-full bg-red-400"></div>
@@ -135,6 +161,12 @@ const TerminalInterface = () => {
           <div className="w-3 h-3 rounded-full bg-green-400"></div>
           <span className="ml-4 text-sm text-zinc-500">divyansh@backend-dev: ~</span>
         </div>
+
+        {/* Navigation Bar */}
+        <TerminalNav
+          currentSection={currentSection}
+          onSectionChange={handleSectionChange}
+        />
         
         {/* Terminal Content */}
         <div className="flex-1 overflow-y-auto p-6 font-mono text-sm bg-zinc-900/95 text-zinc-300">
@@ -195,15 +227,15 @@ const TerminalInterface = () => {
 
       {/* Floating Windows */}
       {showProjects && (
-        <ProjectsSection onClose={handleSectionClose} />
+        <ProjectsSection onClose={handleSectionChange} />
       )}
       {showSkills && (
-        <SkillsSection onClose={handleSectionClose} />
+        <SkillsSection onClose={handleSectionChange} />
       )}
       {showBlog && (
-        <BlogSection onClose={handleSectionClose} />
+        <BlogSection onClose={handleSectionChange} />
       )}
-    </>
+    </div>
   );
 };
 

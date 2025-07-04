@@ -15,18 +15,20 @@ export default function Index() {
   };
 
   return (
-    <div className="h-full bg-zinc-900 relative overflow-hidden pt-5">
+    <div className="h-full bg-zinc-900 relative overflow-hidden">
       {/* Boot Sequence */}
       {!isBooted && (
         <TerminalBoot onBootComplete={handleBootComplete} />
       )}
-
+      
       {/* Terminal Interface */}
       {isBooted && (
-        <Routes>
-          <Route path="/blog/:slug" element={<TerminalInterface />} />
-          <Route path="*" element={<TerminalInterface />} />
-        </Routes>
+        <div className="h-full pt-4">
+          <Routes>
+            <Route path="/blog/:slug" element={<TerminalInterface />} />
+            <Route path="*" element={<TerminalInterface />} />
+          </Routes>
+        </div>
       )}
     </div>
   );
