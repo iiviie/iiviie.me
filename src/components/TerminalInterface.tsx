@@ -16,7 +16,7 @@ interface CommandOutput {
 const initialCommands: CommandOutput[] = [
   { type: 'ascii-art', content: (
     <div className="overflow-x-auto">
-      <pre className="text-[0.4rem] xs:text-[0.5rem] sm:text-xs crt-glow whitespace-pre scale-75 sm:scale-100 transform-gpu" style={{ color: '#9068F7' }}>
+      <pre className="text-[0.35rem] xs:text-[0.45rem] sm:text-xs md:text-sm crt-glow whitespace-pre scale-50 xs:scale-75 sm:scale-90 md:scale-100 transform-gpu origin-center" style={{ color: '#9068F7' }}>
 {`
 ██████╗ ██╗██╗   ██╗██╗   ██╗ █████╗ ███╗   ██╗███████╗██╗  ██╗
 ██╔══██╗██║██║   ██║╚██╗ ██╔╝██╔══██╗████╗  ██║██╔════╝██║  ██║
@@ -26,7 +26,7 @@ const initialCommands: CommandOutput[] = [
 ╚═════╝ ╚═╝  ╚═══╝     ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝
 `}
       </pre>
-      <div className="mt-2 text-[0.6rem] sm:text-sm crt-glow" style={{ color: '#9068F7' }}>
+      <div className="mt-1 sm:mt-2 text-[0.5rem] xs:text-[0.6rem] sm:text-sm md:text-base crt-glow" style={{ color: '#9068F7' }}>
         Backend Developer & API Architect
       </div>
     </div>
@@ -74,7 +74,17 @@ const TerminalInterface = () => {
   }, []);
 
   useEffect(() => {
-    historyEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    // Only auto-scroll if terminal content area is scrolled near the bottom
+    const terminalContent = historyEndRef.current?.parentElement;
+    if (terminalContent) {
+      const { scrollTop, scrollHeight, clientHeight } = terminalContent;
+      const isNearBottom = scrollHeight - scrollTop <= clientHeight + 100;
+      
+      // Only auto-scroll if user is already near the bottom
+      if (isNearBottom) {
+        historyEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
   }, [commandHistory]);
 
   const handleSectionChange = (section: string) => {
@@ -156,13 +166,13 @@ const TerminalInterface = () => {
   return (
     <div className="flex flex-col h-full">
       {/* Main Terminal Window */}
-      <div className="flex-1 flex flex-col terminal-main crt-scanlines relative mx-2 sm:mx-4 mt-2 sm:mt-4 mb-2 bg-zinc-900 border border-zinc-700/50 rounded-lg shadow-lg">
+      <div className="flex flex-col terminal-main crt-scanlines relative mx-2 sm:mx-4 lg:mx-8 mt-2 sm:mt-4 mb-2 bg-zinc-900 border border-zinc-700/50 rounded-lg shadow-lg" style={{ height: 'calc(100vh - 2rem)' }}>
         {/* Terminal Header */}
-        <div className="bg-zinc-900/50 px-2 sm:px-4 py-2 flex items-center gap-2 flex-shrink-0 border-b border-zinc-800 rounded-t-lg backdrop-blur-sm">
-          <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-red-400"></div>
-          <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-yellow-400"></div>
-          <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-green-400"></div>
-          <span className="ml-2 sm:ml-4 text-xs sm:text-sm text-zinc-500 truncate">divyansh@backend-dev: ~</span>
+        <div className="bg-zinc-900/50 px-3 sm:px-4 py-2 sm:py-3 flex items-center gap-2 flex-shrink-0 border-b border-zinc-800 rounded-t-lg backdrop-blur-sm">
+          <div className="w-3 h-3 sm:w-3 sm:h-3 md:w-4 md:h-4 rounded-full bg-red-400"></div>
+          <div className="w-3 h-3 sm:w-3 sm:h-3 md:w-4 md:h-4 rounded-full bg-yellow-400"></div>
+          <div className="w-3 h-3 sm:w-3 sm:h-3 md:w-4 md:h-4 rounded-full bg-green-400"></div>
+          <span className="ml-2 sm:ml-4 text-xs sm:text-sm md:text-base text-zinc-500 truncate">divyansh@backend-dev: ~</span>
         </div>
 
         {/* Navigation Bar */}
@@ -172,13 +182,13 @@ const TerminalInterface = () => {
         />
         
         {/* Terminal Content */}
-        <div className="flex-1 overflow-y-auto overflow-x-hidden p-3 sm:p-6 font-mono text-xs sm:text-sm bg-zinc-900/95 text-zinc-300">
+        <div className="flex-1 overflow-y-auto overflow-x-hidden p-3 sm:p-4 md:p-6 font-mono text-xs sm:text-sm md:text-base bg-zinc-900/95 text-zinc-300 scrollbar-thin scrollbar-track-zinc-800 scrollbar-thumb-zinc-600">
           {commandHistory.map((item, index) => (
-            <div key={index} className="mb-4">
+            <div key={index} className="mb-3 sm:mb-4">
               {item.type === 'command' ? (
                 <div className="text-zinc-300 break-all">{item.content}</div>
               ) : item.type === 'ascii-art' ? (
-                <div className="text-center mb-6">{item.content}</div>
+                <div className="text-center mb-4 sm:mb-6">{item.content}</div>
               ) : (
                 <div className="ml-2 sm:ml-4 text-zinc-300 whitespace-pre-line break-words">{item.content}</div>
               )}
@@ -188,9 +198,9 @@ const TerminalInterface = () => {
         </div>
         
         {/* Command Input */}
-        <div className="px-3 sm:px-6 py-2 sm:py-3 border-t border-zinc-800 bg-zinc-900/90 flex-shrink-0 backdrop-blur-sm">
+        <div className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 border-t border-zinc-800 bg-zinc-900/90 flex-shrink-0 backdrop-blur-sm">
           <div className="flex items-center gap-2 overflow-hidden">
-            <span className="text-zinc-300 font-mono text-xs sm:text-sm whitespace-nowrap">
+            <span className="text-zinc-300 font-mono text-xs sm:text-sm md:text-base whitespace-nowrap">
               $
             </span>
             <input
@@ -199,7 +209,7 @@ const TerminalInterface = () => {
               value={commandInput}
               onChange={(e) => setCommandInput(e.target.value)}
               onKeyDown={handleCommand}
-              className="flex-1 min-w-0 font-mono text-xs sm:text-sm bg-transparent border-none outline-none text-zinc-300"
+              className="flex-1 min-w-0 font-mono text-xs sm:text-sm md:text-base bg-transparent border-none outline-none text-zinc-300"
               placeholder={isProcessing ? "Processing..." : ""}
               disabled={isProcessing || showProjects || showSkills || showBlog}
               style={{ caretColor: 'hsl(var(--terminal-purple))' }}
@@ -208,15 +218,16 @@ const TerminalInterface = () => {
         </div>
         
         {/* Status Bar */}
-        <div className="px-2 sm:px-4 py-1 sm:py-2 border-t border-zinc-800 bg-zinc-900/80 flex items-center justify-between text-[10px] sm:text-xs font-mono flex-shrink-0 rounded-b-lg backdrop-blur-sm">
+        <div className="px-3 sm:px-4 py-1 sm:py-2 border-t border-zinc-800 bg-zinc-900/80 flex items-center justify-between text-[10px] sm:text-xs md:text-sm font-mono flex-shrink-0 rounded-b-lg backdrop-blur-sm">
           <div className="flex items-center gap-2 sm:gap-4">
             <span className="text-green-400">●</span>
             <span className="text-zinc-300 hidden sm:inline">divyansh@backend-dev</span>
             <span className="text-zinc-300 sm:hidden">dev</span>
           </div>
-          <div className="flex items-center gap-2 sm:gap-4 text-zinc-500">
-            <span className="hidden sm:inline">Django+FastAPI</span>
-            <span className="sm:hidden">Django</span>
+          <div className="flex items-center gap-1 sm:gap-2 md:gap-4 text-zinc-500 text-[9px] sm:text-xs md:text-sm">
+            <span className="hidden md:inline">Django+FastAPI</span>
+            <span className="hidden sm:inline md:hidden">Django</span>
+            <span className="sm:hidden">DJ</span>
             <span>|</span>
             <span className="text-blue-400">Ready</span>
             <span>|</span>
