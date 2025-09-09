@@ -246,7 +246,7 @@ const TerminalInterface = () => {
           {commandHistory.map((item, index) => (
             <div key={index} className="mb-2 sm:mb-3">
               {item.type === 'command' ? (
-                <div className="text-purple-400 break-all">{item.content}</div>
+                <div className="text-purple-600 break-all">{item.content}</div>
               ) : item.type === 'ascii-art' ? (
                 <div className="text-center mb-3 sm:mb-4">{item.content}</div>
               ) : (
