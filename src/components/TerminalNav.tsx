@@ -7,10 +7,10 @@ interface TerminalNavProps {
 
 const TerminalNav = ({ currentSection, onSectionChange }: TerminalNavProps) => {
   const sections = [
-    { id: 'projects', label: 'Projects' },
-    { id: 'skills', label: 'Skills' },
-    { id: 'blog', label: 'Blog' },
-    { id: 'contact', label: 'Contact' },
+    { id: 'projects', label: 'Projects', shortcut: 'P' },
+    { id: 'skills', label: 'Skills', shortcut: 'S' },
+    { id: 'blog', label: 'Blog', shortcut: 'B' },
+    { id: 'contact', label: 'Contact', shortcut: 'C' },
   ];
 
   return (
@@ -25,7 +25,7 @@ const TerminalNav = ({ currentSection, onSectionChange }: TerminalNavProps) => {
               : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800'
           }`}
         >
-          {section.label}
+          <span>[{section.shortcut}]{section.label}</span>
         </button>
       ))}
     </div>

@@ -50,6 +50,7 @@ const TerminalInterface = () => {
   const [showProjects, setShowProjects] = useState(false);
   const [showSkills, setShowSkills] = useState(false);
   const [showBlog, setShowBlog] = useState(false);
+  const [showContact, setShowContact] = useState(false);
   const [currentSection, setCurrentSection] = useState('home');
   const [isInputFocused, setIsInputFocused] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -61,6 +62,7 @@ const TerminalInterface = () => {
     setShowProjects(path === '/projects');
     setShowSkills(path === '/skills');
     setShowBlog(path.startsWith('/blog'));
+    setShowContact(path === '/contact');
   }, [location]);
 
   useEffect(() => {
@@ -101,6 +103,10 @@ const TerminalInterface = () => {
         case 'b':
           event.preventDefault();
           handleSectionChange('blog');
+          break;
+        case 'c':
+          event.preventDefault();
+          handleSectionChange('contact');
           break;
         case 'escape':
           event.preventDefault();
@@ -146,13 +152,22 @@ const TerminalInterface = () => {
         setShowProjects(false);
         setShowSkills(false);
         setShowBlog(true);
+        setShowContact(false);
         navigate('/blog');
+        break;
+      case 'contact':
+        setShowProjects(false);
+        setShowSkills(false);
+        setShowBlog(false);
+        setShowContact(true);
+        navigate('/contact');
         break;
       case 'home':
       default:
         setShowProjects(false);
         setShowSkills(false);
         setShowBlog(false);
+        setShowContact(false);
         navigate('/');
         break;
     }
@@ -170,6 +185,10 @@ const TerminalInterface = () => {
     'blog': () => {
       setShowBlog(true);
       navigate('/blog');
+    },
+    'contact': () => {
+      setShowContact(true);
+      navigate('/contact');
     },
     'clear': () => setCommandHistory([]),
     'help': () => {
@@ -247,7 +266,7 @@ const TerminalInterface = () => {
           <div 
             className="flex items-center gap-1.5 overflow-hidden cursor-text"
             onClick={() => {
-              if (!isProcessing && !showProjects && !showSkills && !showBlog) {
+              if (!isProcessing && !showProjects && !showSkills && !showBlog && !showContact) {
                 inputRef.current?.focus();
                 setIsInputFocused(true);
               }
@@ -266,7 +285,7 @@ const TerminalInterface = () => {
               onBlur={() => setIsInputFocused(false)}
               className="flex-1 min-w-0 font-mono text-[10px] sm:text-xs bg-transparent border-none outline-none text-zinc-300"
               placeholder={isProcessing ? "Processing..." : ""}
-              disabled={isProcessing || showProjects || showSkills || showBlog}
+              disabled={isProcessing || showProjects || showSkills || showBlog || showContact}
               style={{ caretColor: 'hsl(var(--terminal-purple))' }}
             />
           </div>
@@ -297,7 +316,7 @@ const TerminalInterface = () => {
       </div>
 
       {/* Blur Backdrop */}
-      {(showProjects || showSkills || showBlog) && (
+      {(showProjects || showSkills || showBlog || showContact) && (
         <div className="fixed inset-0 backdrop-blur-sm bg-zinc-900/10 z-40" />
       )}
 
@@ -310,6 +329,9 @@ const TerminalInterface = () => {
       )}
       {showBlog && (
         <BlogSection onClose={handleSectionChange} />
+      )}
+      {showContact && (
+        <ContactSection onClose={handleSectionChange} />
       )}
     </div>
   );
