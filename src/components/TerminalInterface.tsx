@@ -246,7 +246,7 @@ const TerminalInterface = () => {
           {commandHistory.map((item, index) => (
             <div key={index} className="mb-2 sm:mb-3">
               {item.type === 'command' ? (
-                <div className="text-zinc-300 break-all">{item.content}</div>
+                <div className="text-purple-400 break-all">{item.content}</div>
               ) : item.type === 'ascii-art' ? (
                 <div className="text-center mb-3 sm:mb-4">{item.content}</div>
               ) : (
@@ -299,8 +299,8 @@ const TerminalInterface = () => {
             <span className="text-zinc-300 sm:hidden">dev</span>
           </div>
           <div className="flex items-center gap-1 sm:gap-2 text-zinc-500">
-            <span className="hidden sm:inline">Django</span>
-            <span className="sm:hidden">DJ</span>
+            <span className="hidden sm:inline">ARCH</span>
+            <span className="sm:hidden">AR</span>
             <span>|</span>
             <span className="text-blue-400">Ready</span>
             <span>|</span>
