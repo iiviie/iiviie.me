@@ -81,17 +81,35 @@ const TerminalInterface = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Global keyboard shortcuts (only when input is not focused)
+  // Global keyboard shortcuts
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      // Don't trigger shortcuts if input is focused or if user is typing in any input/textarea
+      // Handle ESC key when input is focused (exit INSERT mode)
+      if (event.key === 'Escape' && isInputFocused && !showProjects && !showSkills && !showBlog && !showContact) {
+        event.preventDefault();
+        inputRef.current?.blur();
+        setIsInputFocused(false);
+        return;
+      }
+
+      // Don't trigger other shortcuts if input is focused or if user is typing in any input/textarea
       if (isInputFocused || 
           event.target instanceof HTMLInputElement || 
           event.target instanceof HTMLTextAreaElement) {
         return;
       }
 
+      // Only allow I key and ESC when on home page (no sections open)
+      const isOnHomePage = !showProjects && !showSkills && !showBlog && !showContact;
+
       switch (event.key.toLowerCase()) {
+        case 'i':
+          if (isOnHomePage) {
+            event.preventDefault();
+            inputRef.current?.focus();
+            setIsInputFocused(true);
+          }
+          break;
         case 'p':
           event.preventDefault();
           handleSectionChange('projects');
@@ -117,7 +135,7 @@ const TerminalInterface = () => {
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isInputFocused]);
+  }, [isInputFocused, showProjects, showSkills, showBlog, showContact]);
 
   useEffect(() => {
     // Only auto-scroll if terminal content area is scrolled near the bottom
