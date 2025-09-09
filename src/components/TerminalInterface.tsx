@@ -59,7 +59,7 @@ const TerminalInterface = () => {
   // Initialize state based on current route
   useEffect(() => {
     const path = location.pathname;
-    setShowProjects(path === '/projects');
+    setShowProjects(path.startsWith('/projects'));
     setShowSkills(path === '/skills');
     setShowBlog(path.startsWith('/blog'));
     setShowContact(path === '/contact');
@@ -140,12 +140,14 @@ const TerminalInterface = () => {
         setShowProjects(true);
         setShowSkills(false);
         setShowBlog(false);
+        setShowContact(false);
         navigate('/projects');
         break;
       case 'skills':
         setShowProjects(false);
         setShowSkills(true);
         setShowBlog(false);
+        setShowContact(false);
         navigate('/skills');
         break;
       case 'blog':

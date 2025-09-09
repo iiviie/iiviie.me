@@ -26,6 +26,7 @@ export default function Index() {
         <div className="h-full pt-4">
           <Routes>
             <Route path="/blog/:slug" element={<TerminalInterface />} />
+            <Route path="/projects/:slug" element={<TerminalInterface />} />
             <Route path="*" element={<TerminalInterface />} />
           </Routes>
         </div>

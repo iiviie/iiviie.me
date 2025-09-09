@@ -1,0 +1,114 @@
+---
+title: "E-Commerce API"
+description: "RESTful e-commerce API with Django REST Framework and PostgreSQL"
+tech: ["Django", "PostgreSQL", "Redis", "Celery", "Docker"]
+status: "production"
+date: "2024-01-15"
+size: "2.4MB"
+---
+
+# E-Commerce API
+
+A robust, scalable RESTful API built with Django REST Framework for managing e-commerce operations.
+
+## Features
+
+- **User Management**: Registration, authentication, and profile management
+- **Product Management**: CRUD operations for products with categories and inventory tracking
+- **Shopping Cart**: Session-based and persistent cart functionality
+- **Order Processing**: Complete order lifecycle with payment integration
+- **Admin Dashboard**: Comprehensive admin interface for store management
+
+## Tech Stack
+
+- **Backend**: Django REST Framework
+- **Database**: PostgreSQL with Redis for caching
+- **Task Queue**: Celery with Redis broker
+- **Containerization**: Docker and Docker Compose
+- **Testing**: PyTest with comprehensive test coverage
+
+## Key Architecture Decisions
+
+### Database Design
+```python
+# models/product.py
+class Product(models.Model):
+    name = models.CharField(max_length=200)
+    description = models.TextField()
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    inventory_count = models.PositiveIntegerField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+```
+
+### API Performance
+- Implemented Redis caching for frequently accessed product data
+- Database query optimization with select_related and prefetch_related
+- Pagination for large datasets
+- Background task processing with Celery
+
+## API Endpoints
+
+### Authentication
+```bash
+POST /api/auth/register/     # User registration
+POST /api/auth/login/        # User login
+POST /api/auth/logout/       # User logout
+GET  /api/auth/profile/      # Get user profile
+```
+
+### Products
+```bash
+GET    /api/products/        # List products with filtering
+POST   /api/products/        # Create product (admin only)
+GET    /api/products/{id}/   # Get product details
+PUT    /api/products/{id}/   # Update product (admin only)
+DELETE /api/products/{id}/   # Delete product (admin only)
+```
+
+### Orders
+```bash
+GET  /api/orders/           # List user orders
+POST /api/orders/           # Create new order
+GET  /api/orders/{id}/      # Get order details
+```
+
+## Deployment
+
+### Docker Setup
+```dockerfile
+FROM python:3.11-slim
+
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+
+COPY . .
+EXPOSE 8000
+
+CMD ["gunicorn", "ecommerce.wsgi:application", "--bind", "0.0.0.0:8000"]
+```
+
+### Environment Configuration
+```bash
+# Production setup
+docker-compose up -d
+python manage.py migrate
+python manage.py collectstatic
+python manage.py createsuperuser
+```
+
+## Performance Metrics
+
+- **Response Time**: < 100ms for cached endpoints
+- **Throughput**: 1000+ requests/minute
+- **Database Queries**: Optimized to < 5 queries per request
+- **Cache Hit Rate**: 85%+ for product listings
+
+## Future Enhancements
+
+- [ ] GraphQL API implementation
+- [ ] Elasticsearch integration for advanced search
+- [ ] Microservices architecture migration
+- [ ] Real-time inventory updates with WebSockets
