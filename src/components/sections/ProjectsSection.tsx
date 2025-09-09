@@ -77,32 +77,32 @@ const ProjectsSection: React.FC<ProjectsSectionProps> = ({ onClose }) => {
     if (!project) return null;
 
     return (
-      <div className="fixed inset-10 z-50 bg-zinc-900 border border-zinc-800 rounded-lg shadow-lg overflow-hidden flex flex-col">
-        <div className="bg-zinc-900 px-4 py-2 flex items-center justify-between flex-shrink-0 border-b border-zinc-800">
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full bg-red-400 cursor-pointer" onClick={() => onClose('home')}></div>
-            <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
-            <div className="w-3 h-3 rounded-full bg-green-400"></div>
+      <div className="fixed inset-4 sm:inset-8 md:inset-12 z-50 bg-zinc-900 border border-zinc-700/50 rounded-lg shadow-lg overflow-hidden flex flex-col">
+        <div className="bg-zinc-900/50 px-2 sm:px-3 py-1.5 sm:py-2 flex items-center gap-1.5 flex-shrink-0 border-b border-zinc-800 rounded-t-lg backdrop-blur-sm">
+          <div className="flex items-center gap-1.5">
+            <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-red-400 cursor-pointer" onClick={() => onClose('home')}></div>
+            <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-yellow-400"></div>
+            <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-green-400"></div>
             {selectedProject && (
               <TerminalBackButton
                 onClick={() => setSelectedProject(null)}
                 variant="purple"
               />
             )}
-            <span className="ml-4 text-sm text-zinc-500">~/projects/{project.name}</span>
+            <span className="ml-2 sm:ml-3 text-[10px] sm:text-xs text-zinc-500 truncate">~/projects/{project.name}</span>
           </div>
         </div>
 
-        <div className="flex-1 overflow-auto p-6 font-mono text-sm bg-zinc-900">
+        <div className="flex-1 overflow-y-auto overflow-x-hidden p-2 sm:p-4 md:p-6 font-mono text-[10px] sm:text-xs bg-zinc-900/95 scrollbar-thin scrollbar-track-zinc-800 scrollbar-thumb-zinc-600">
           <div className="space-y-6">
-            <div className="space-y-6 ml-4">
+            <div className="space-y-4 ml-2 sm:ml-3">
               <div>
-                <div className="text-terminal-purple text-lg mb-2"># {project.name.replace('/', '')}</div>
+                <div className="text-terminal-purple text-sm sm:text-base mb-1 sm:mb-2"># {project.name.replace('/', '')}</div>
                 <div className="text-zinc-300">{project.description}</div>
               </div>
 
               <div>
-                <div className="text-terminal-amber text-base mb-2">## Tech Stack</div>
+                <div className="text-terminal-amber text-xs sm:text-sm mb-1 sm:mb-2">## Tech Stack</div>
                 <div className="flex flex-wrap gap-2">
                   {project.tech.map((tech, index) => (
                     <span 
@@ -121,7 +121,7 @@ const ProjectsSection: React.FC<ProjectsSectionProps> = ({ onClose }) => {
               </div>
 
               <div>
-                <div className="text-terminal-amber text-base mb-2">## Project Info</div>
+                <div className="text-terminal-amber text-xs sm:text-sm mb-1 sm:mb-2">## Project Info</div>
                 <div className="space-y-1 text-xs">
                   <div className="text-zinc-300">Size: {project.size}</div>
                   <div className="text-zinc-300">Last modified: {project.modified}</div>
@@ -133,8 +133,8 @@ const ProjectsSection: React.FC<ProjectsSectionProps> = ({ onClose }) => {
               </div>
 
               <div>
-                <div className="text-terminal-amber text-base mb-2">## Commands</div>
-                <div className="space-y-2 text-xs bg-zinc-900/50 p-3 rounded border border-zinc-800">
+                <div className="text-terminal-amber text-xs sm:text-sm mb-1 sm:mb-2">## Commands</div>
+                <div className="space-y-1 text-[9px] sm:text-[10px] bg-zinc-900/50 p-2 sm:p-3 rounded border border-zinc-800">
                   <div className="text-zinc-500"># Clone repository</div>
                   <div className="text-zinc-300">git clone https://github.com/divyansh/{project.id}</div>
                   <div className="text-zinc-500"># Setup environment</div>
@@ -151,17 +151,17 @@ const ProjectsSection: React.FC<ProjectsSectionProps> = ({ onClose }) => {
   }
 
   return (
-    <div className="fixed inset-10 z-50 bg-zinc-900 border border-zinc-800 rounded-lg shadow-lg overflow-hidden flex flex-col">
-      <div className="bg-zinc-900 px-4 py-2 flex items-center justify-between flex-shrink-0 border-b border-zinc-800">
-        <div className="flex items-center gap-2">
-          <div className="w-3 h-3 rounded-full bg-red-400 cursor-pointer" onClick={() => onClose('home')}></div>
-          <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
-          <div className="w-3 h-3 rounded-full bg-green-400"></div>
-          <span className="ml-4 text-sm text-zinc-500">~/projects</span>
+    <div className="fixed inset-4 sm:inset-8 md:inset-12 z-50 bg-zinc-900 border border-zinc-700/50 rounded-lg shadow-lg overflow-hidden flex flex-col">
+      <div className="bg-zinc-900/50 px-2 sm:px-3 py-1.5 sm:py-2 flex items-center gap-1.5 flex-shrink-0 border-b border-zinc-800 rounded-t-lg backdrop-blur-sm">
+        <div className="flex items-center gap-1.5">
+          <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-red-400 cursor-pointer" onClick={() => onClose('home')}></div>
+          <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-yellow-400"></div>
+          <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-green-400"></div>
+          <span className="ml-2 sm:ml-3 text-[10px] sm:text-xs text-zinc-500 truncate">~/projects</span>
         </div>
       </div>
 
-      <div className="flex-1 overflow-auto p-6 font-mono text-sm bg-zinc-900">
+      <div className="flex-1 overflow-y-auto overflow-x-hidden p-2 sm:p-4 md:p-6 font-mono text-[10px] sm:text-xs bg-zinc-900/95 scrollbar-thin scrollbar-track-zinc-800 scrollbar-thumb-zinc-600">
         <div className="space-y-2">
           <div className="text-zinc-300">$ ls -la ~/projects/</div>
           <div className="text-zinc-500 text-xs ml-4">
@@ -170,7 +170,7 @@ const ProjectsSection: React.FC<ProjectsSectionProps> = ({ onClose }) => {
         </div>
 
         <div className="mt-4 ml-4">
-          <div className="text-zinc-500 grid grid-cols-12 gap-2 pb-2 border-b border-zinc-800 text-xs">
+          <div className="text-zinc-500 grid grid-cols-12 gap-1 sm:gap-2 pb-1 sm:pb-2 border-b border-zinc-800 text-[9px] sm:text-[10px]">
             <span className="col-span-4">Name</span>
             <span className="col-span-2">Size</span>
             <span className="col-span-2">Modified</span>
@@ -182,7 +182,7 @@ const ProjectsSection: React.FC<ProjectsSectionProps> = ({ onClose }) => {
             {projects.map((project) => (
               <div 
                 key={project.id}
-                className="grid grid-cols-12 gap-2 py-1 hover:bg-zinc-800/30 rounded cursor-pointer transition-colors text-xs"
+                className="grid grid-cols-12 gap-1 sm:gap-2 py-0.5 sm:py-1 hover:bg-zinc-800/30 rounded cursor-pointer transition-colors text-[9px] sm:text-[10px]"
                 onClick={() => setSelectedProject(project.id)}
               >
                 <span className="col-span-4 text-terminal-amber">📁 {project.name}</span>

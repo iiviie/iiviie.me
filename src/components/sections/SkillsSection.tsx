@@ -63,33 +63,33 @@ const SkillsSection: React.FC<SkillsSectionProps> = ({ onClose }) => {
   };
 
   return (
-    <div className="fixed inset-10 z-50 bg-zinc-900 border border-zinc-800 rounded-lg shadow-lg overflow-hidden flex flex-col">
+    <div className="fixed inset-4 sm:inset-8 md:inset-12 z-50 bg-zinc-900 border border-zinc-700/50 rounded-lg shadow-lg overflow-hidden flex flex-col">
       {/* Window Header */}
-      <div className="bg-zinc-900 px-4 py-2 flex items-center justify-between flex-shrink-0 border-b border-zinc-800">
-        <div className="flex items-center gap-2">
-          <div className="w-3 h-3 rounded-full bg-red-400 cursor-pointer" onClick={() => onClose('home')}></div>
-          <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
-          <div className="w-3 h-3 rounded-full bg-green-400"></div>
-          <span className="ml-4 text-sm text-zinc-500">~/skills</span>
+      <div className="bg-zinc-900/50 px-2 sm:px-3 py-1.5 sm:py-2 flex items-center gap-1.5 flex-shrink-0 border-b border-zinc-800 rounded-t-lg backdrop-blur-sm">
+        <div className="flex items-center gap-1.5">
+          <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-red-400 cursor-pointer" onClick={() => onClose('home')}></div>
+          <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-yellow-400"></div>
+          <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-green-400"></div>
+          <span className="ml-2 sm:ml-3 text-[10px] sm:text-xs text-zinc-500 truncate">~/skills</span>
         </div>
       </div>
 
       {/* Window Content */}
-      <div className="flex-1 overflow-auto p-6 font-mono text-sm bg-zinc-900">
-        <div className="space-y-8">
+      <div className="flex-1 overflow-y-auto overflow-x-hidden p-2 sm:p-4 md:p-6 font-mono text-[10px] sm:text-xs bg-zinc-900/95 scrollbar-thin scrollbar-track-zinc-800 scrollbar-thumb-zinc-600">
+        <div className="space-y-4 sm:space-y-6">
           {skillCategories.map((category, index) => (
             <div key={index} className="skill-category">
-              <div className="text-terminal-purple mb-4 crt-glow">
+              <div className="text-terminal-purple mb-2 sm:mb-3 crt-glow text-xs sm:text-sm">
                 == {category.title} ==
               </div>
-              <div className="space-y-3 ml-4">
+              <div className="space-y-2 sm:space-y-3 ml-2 sm:ml-3">
                 {category.skills.map((skill, skillIndex) => (
                   <div key={skillIndex} className="skill-item">
                     <div className="flex justify-between items-center text-zinc-300">
                       <span>{skill.name}</span>
-                      <span className="text-xs text-zinc-500">{skill.experience}</span>
+                      <span className="text-[9px] sm:text-[10px] text-zinc-500">{skill.experience}</span>
                     </div>
-                    <div className="text-xs ml-2">
+                    <div className="text-[9px] sm:text-[10px] ml-1 sm:ml-2">
                       {renderProgressBar(skill.level)}
                     </div>
                   </div>

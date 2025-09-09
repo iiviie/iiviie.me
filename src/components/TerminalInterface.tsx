@@ -16,7 +16,7 @@ interface CommandOutput {
 const initialCommands: CommandOutput[] = [
   { type: 'ascii-art', content: (
     <div className="overflow-x-auto">
-      <pre className="text-[0.35rem] xs:text-[0.45rem] sm:text-xs md:text-sm crt-glow whitespace-pre scale-50 xs:scale-75 sm:scale-90 md:scale-100 transform-gpu origin-center" style={{ color: '#9068F7' }}>
+      <pre className="text-[0.3rem] xs:text-[0.35rem] sm:text-[0.45rem] crt-glow whitespace-pre scale-40 xs:scale-50 sm:scale-75 transform-gpu origin-center" style={{ color: '#9068F7' }}>
 {`
 ██████╗ ██╗██╗   ██╗██╗   ██╗ █████╗ ███╗   ██╗███████╗██╗  ██╗
 ██╔══██╗██║██║   ██║╚██╗ ██╔╝██╔══██╗████╗  ██║██╔════╝██║  ██║
@@ -26,7 +26,7 @@ const initialCommands: CommandOutput[] = [
 ╚═════╝ ╚═╝  ╚═══╝     ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝
 `}
       </pre>
-      <div className="mt-1 sm:mt-2 text-[0.5rem] xs:text-[0.6rem] sm:text-sm md:text-base crt-glow" style={{ color: '#9068F7' }}>
+      <div className="mt-1 text-[0.45rem] xs:text-[0.5rem] sm:text-xs crt-glow" style={{ color: '#9068F7' }}>
         Backend Developer & API Architect
       </div>
     </div>
@@ -51,6 +51,7 @@ const TerminalInterface = () => {
   const [showSkills, setShowSkills] = useState(false);
   const [showBlog, setShowBlog] = useState(false);
   const [currentSection, setCurrentSection] = useState('home');
+  const [isInputFocused, setIsInputFocused] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const historyEndRef = useRef<HTMLDivElement>(null);
 
@@ -67,10 +68,15 @@ const TerminalInterface = () => {
   }, []);
 
   useEffect(() => {
-    inputRef.current?.focus();
-    const handleClick = () => inputRef.current?.focus();
-    document.addEventListener('click', handleClick);
-    return () => document.removeEventListener('click', handleClick);
+    const handleClickOutside = (event: MouseEvent) => {
+      if (inputRef.current && !inputRef.current.contains(event.target as Node)) {
+        inputRef.current.blur();
+        setIsInputFocused(false);
+      }
+    };
+    
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   useEffect(() => {
@@ -166,13 +172,13 @@ const TerminalInterface = () => {
   return (
     <div className="flex flex-col h-full">
       {/* Main Terminal Window */}
-      <div className="flex flex-col terminal-main crt-scanlines relative mx-2 sm:mx-4 lg:mx-8 mt-2 sm:mt-4 mb-2 bg-zinc-900 border border-zinc-700/50 rounded-lg shadow-lg" style={{ height: 'calc(100vh - 2rem)' }}>
+      <div className="flex flex-col terminal-main crt-scanlines relative mx-1 sm:mx-2 md:mx-3 mt-1 sm:mt-2 mb-1 sm:mb-2 bg-zinc-900 border border-zinc-700/50 rounded-lg shadow-lg" style={{ height: 'calc(100vh - 1rem)' }}>
         {/* Terminal Header */}
-        <div className="bg-zinc-900/50 px-3 sm:px-4 py-2 sm:py-3 flex items-center gap-2 flex-shrink-0 border-b border-zinc-800 rounded-t-lg backdrop-blur-sm">
-          <div className="w-3 h-3 sm:w-3 sm:h-3 md:w-4 md:h-4 rounded-full bg-red-400"></div>
-          <div className="w-3 h-3 sm:w-3 sm:h-3 md:w-4 md:h-4 rounded-full bg-yellow-400"></div>
-          <div className="w-3 h-3 sm:w-3 sm:h-3 md:w-4 md:h-4 rounded-full bg-green-400"></div>
-          <span className="ml-2 sm:ml-4 text-xs sm:text-sm md:text-base text-zinc-500 truncate">divyansh@backend-dev: ~</span>
+        <div className="bg-zinc-900/50 px-2 sm:px-3 py-1.5 sm:py-2 flex items-center gap-1.5 flex-shrink-0 border-b border-zinc-800 rounded-t-lg backdrop-blur-sm">
+          <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-red-400"></div>
+          <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-yellow-400"></div>
+          <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-green-400"></div>
+          <span className="ml-2 sm:ml-3 text-[10px] sm:text-xs text-zinc-500 truncate">divyansh@backend-dev: ~</span>
         </div>
 
         {/* Navigation Bar */}
@@ -182,15 +188,15 @@ const TerminalInterface = () => {
         />
         
         {/* Terminal Content */}
-        <div className="flex-1 overflow-y-auto overflow-x-hidden p-3 sm:p-4 md:p-6 font-mono text-xs sm:text-sm md:text-base bg-zinc-900/95 text-zinc-300 scrollbar-thin scrollbar-track-zinc-800 scrollbar-thumb-zinc-600">
+        <div className="flex-1 overflow-y-auto overflow-x-hidden p-2 sm:p-3 font-mono text-[10px] sm:text-xs bg-zinc-900/95 text-zinc-300 scrollbar-thin scrollbar-track-zinc-800 scrollbar-thumb-zinc-600">
           {commandHistory.map((item, index) => (
-            <div key={index} className="mb-3 sm:mb-4">
+            <div key={index} className="mb-2 sm:mb-3">
               {item.type === 'command' ? (
                 <div className="text-zinc-300 break-all">{item.content}</div>
               ) : item.type === 'ascii-art' ? (
-                <div className="text-center mb-4 sm:mb-6">{item.content}</div>
+                <div className="text-center mb-3 sm:mb-4">{item.content}</div>
               ) : (
-                <div className="ml-2 sm:ml-4 text-zinc-300 whitespace-pre-line break-words">{item.content}</div>
+                <div className="ml-1.5 sm:ml-2 text-zinc-300 whitespace-pre-line break-words">{item.content}</div>
               )}
             </div>
           ))}
@@ -198,9 +204,21 @@ const TerminalInterface = () => {
         </div>
         
         {/* Command Input */}
-        <div className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 border-t border-zinc-800 bg-zinc-900/90 flex-shrink-0 backdrop-blur-sm">
-          <div className="flex items-center gap-2 overflow-hidden">
-            <span className="text-zinc-300 font-mono text-xs sm:text-sm md:text-base whitespace-nowrap">
+        <div className={`px-2 sm:px-3 py-1.5 sm:py-2 border-t border-zinc-800 flex-shrink-0 backdrop-blur-sm transition-all duration-200 ${
+          isInputFocused 
+            ? 'bg-zinc-800/90 border-purple-500/30 shadow-lg shadow-purple-500/10' 
+            : 'bg-zinc-900/90'
+        }`}>
+          <div 
+            className="flex items-center gap-1.5 overflow-hidden cursor-text"
+            onClick={() => {
+              if (!isProcessing && !showProjects && !showSkills && !showBlog) {
+                inputRef.current?.focus();
+                setIsInputFocused(true);
+              }
+            }}
+          >
+            <span className="text-zinc-300 font-mono text-[10px] sm:text-xs whitespace-nowrap">
               $
             </span>
             <input
@@ -209,7 +227,9 @@ const TerminalInterface = () => {
               value={commandInput}
               onChange={(e) => setCommandInput(e.target.value)}
               onKeyDown={handleCommand}
-              className="flex-1 min-w-0 font-mono text-xs sm:text-sm md:text-base bg-transparent border-none outline-none text-zinc-300"
+              onFocus={() => setIsInputFocused(true)}
+              onBlur={() => setIsInputFocused(false)}
+              className="flex-1 min-w-0 font-mono text-[10px] sm:text-xs bg-transparent border-none outline-none text-zinc-300"
               placeholder={isProcessing ? "Processing..." : ""}
               disabled={isProcessing || showProjects || showSkills || showBlog}
               style={{ caretColor: 'hsl(var(--terminal-purple))' }}
@@ -218,18 +238,23 @@ const TerminalInterface = () => {
         </div>
         
         {/* Status Bar */}
-        <div className="px-3 sm:px-4 py-1 sm:py-2 border-t border-zinc-800 bg-zinc-900/80 flex items-center justify-between text-[10px] sm:text-xs md:text-sm font-mono flex-shrink-0 rounded-b-lg backdrop-blur-sm">
-          <div className="flex items-center gap-2 sm:gap-4">
+        <div className="px-2 sm:px-3 py-1 border-t border-zinc-800 bg-zinc-900/80 flex items-center justify-between text-[8px] sm:text-[10px] font-mono flex-shrink-0 rounded-b-lg backdrop-blur-sm">
+          <div className="flex items-center gap-1.5 sm:gap-2">
             <span className="text-green-400">●</span>
             <span className="text-zinc-300 hidden sm:inline">divyansh@backend-dev</span>
             <span className="text-zinc-300 sm:hidden">dev</span>
           </div>
-          <div className="flex items-center gap-1 sm:gap-2 md:gap-4 text-zinc-500 text-[9px] sm:text-xs md:text-sm">
-            <span className="hidden md:inline">Django+FastAPI</span>
-            <span className="hidden sm:inline md:hidden">Django</span>
+          <div className="flex items-center gap-1 sm:gap-2 text-zinc-500">
+            <span className="hidden sm:inline">Django</span>
             <span className="sm:hidden">DJ</span>
             <span>|</span>
             <span className="text-blue-400">Ready</span>
+            <span>|</span>
+            <span className={`font-semibold ${
+              isInputFocused ? 'text-yellow-400' : 'text-zinc-400'
+            }`}>
+              {isInputFocused ? 'INSERT' : 'NORMAL'}
+            </span>
             <span>|</span>
             <span className="text-zinc-300">{new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
           </div>

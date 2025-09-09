@@ -81,22 +81,22 @@ const BlogSection: React.FC<BlogSectionProps> = ({ onClose }) => {
 
   if (loading) {
     return (
-      <div className="fixed inset-10 z-50 bg-zinc-900 border border-zinc-800 rounded-lg shadow-lg overflow-hidden flex flex-col">
-        <div className="bg-zinc-900 px-4 py-2 flex items-center justify-between flex-shrink-0 border-b border-zinc-800">
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full bg-red-400 cursor-pointer" onClick={() => onClose('home')}></div>
-            <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
-            <div className="w-3 h-3 rounded-full bg-green-400"></div>
+      <div className="fixed inset-4 sm:inset-8 md:inset-12 z-50 bg-zinc-900 border border-zinc-700/50 rounded-lg shadow-lg overflow-hidden flex flex-col">
+        <div className="bg-zinc-900/50 px-2 sm:px-3 py-1.5 sm:py-2 flex items-center gap-1.5 flex-shrink-0 border-b border-zinc-800 rounded-t-lg backdrop-blur-sm">
+          <div className="flex items-center gap-1.5">
+            <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-red-400 cursor-pointer" onClick={() => onClose('home')}></div>
+            <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-yellow-400"></div>
+            <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-green-400"></div>
             {params.slug && (
               <TerminalBackButton
                 onClick={() => navigate('/blog')}
                 variant="purple"
               />
             )}
-            <span className="ml-4 text-sm text-zinc-500">~/blog{params.slug ? `/${params.slug}` : ''}</span>
+            <span className="ml-2 sm:ml-3 text-[10px] sm:text-xs text-zinc-500 truncate">~/blog{params.slug ? `/${params.slug}` : ''}</span>
           </div>
         </div>
-        <div className="flex-1 overflow-auto p-6 font-mono text-sm bg-zinc-900">
+        <div className="flex-1 overflow-y-auto overflow-x-hidden p-2 sm:p-4 md:p-6 font-mono text-[10px] sm:text-xs bg-zinc-900/95 scrollbar-thin scrollbar-track-zinc-800 scrollbar-thumb-zinc-600">
           <div className="text-center">
             <div className="text-purple-400 animate-pulse">Loading...</div>
           </div>
@@ -107,22 +107,22 @@ const BlogSection: React.FC<BlogSectionProps> = ({ onClose }) => {
 
   if (error) {
     return (
-      <div className="fixed inset-10 z-50 bg-zinc-900 border border-zinc-800 rounded-lg shadow-lg overflow-hidden flex flex-col">
-        <div className="bg-zinc-900 px-4 py-2 flex items-center justify-between flex-shrink-0 border-b border-zinc-800">
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full bg-red-400 cursor-pointer" onClick={() => onClose('home')}></div>
-            <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
-            <div className="w-3 h-3 rounded-full bg-green-400"></div>
+      <div className="fixed inset-4 sm:inset-8 md:inset-12 z-50 bg-zinc-900 border border-zinc-700/50 rounded-lg shadow-lg overflow-hidden flex flex-col">
+        <div className="bg-zinc-900/50 px-2 sm:px-3 py-1.5 sm:py-2 flex items-center gap-1.5 flex-shrink-0 border-b border-zinc-800 rounded-t-lg backdrop-blur-sm">
+          <div className="flex items-center gap-1.5">
+            <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-red-400 cursor-pointer" onClick={() => onClose('home')}></div>
+            <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-yellow-400"></div>
+            <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-green-400"></div>
             {params.slug && (
               <TerminalBackButton
                 onClick={() => navigate('/blog')}
                 variant="purple"
               />
             )}
-            <span className="ml-4 text-sm text-zinc-500">~/blog{params.slug ? `/${params.slug}` : ''}</span>
+            <span className="ml-2 sm:ml-3 text-[10px] sm:text-xs text-zinc-500 truncate">~/blog{params.slug ? `/${params.slug}` : ''}</span>
           </div>
         </div>
-        <div className="flex-1 overflow-auto p-6 font-mono text-sm bg-zinc-900">
+        <div className="flex-1 overflow-y-auto overflow-x-hidden p-2 sm:p-4 md:p-6 font-mono text-[10px] sm:text-xs bg-zinc-900/95 scrollbar-thin scrollbar-track-zinc-800 scrollbar-thumb-zinc-600">
           <div className="text-red-400">{error}</div>
         </div>
       </div>
@@ -130,42 +130,42 @@ const BlogSection: React.FC<BlogSectionProps> = ({ onClose }) => {
   }
 
   return (
-    <div className="fixed inset-10 z-50 bg-zinc-900 border border-zinc-800 rounded-lg shadow-lg overflow-hidden flex flex-col">
+    <div className="fixed inset-4 sm:inset-8 md:inset-12 z-50 bg-zinc-900 border border-zinc-700/50 rounded-lg shadow-lg overflow-hidden flex flex-col">
       {/* Window Header */}
-      <div className="bg-zinc-900 px-4 py-2 flex items-center justify-between flex-shrink-0 border-b border-zinc-800">
-        <div className="flex items-center gap-2">
-          <div className="w-3 h-3 rounded-full bg-red-400 cursor-pointer" onClick={() => onClose('home')}></div>
-          <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
-          <div className="w-3 h-3 rounded-full bg-green-400"></div>
+      <div className="bg-zinc-900/50 px-2 sm:px-3 py-1.5 sm:py-2 flex items-center gap-1.5 flex-shrink-0 border-b border-zinc-800 rounded-t-lg backdrop-blur-sm">
+        <div className="flex items-center gap-1.5">
+          <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-red-400 cursor-pointer" onClick={() => onClose('home')}></div>
+          <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-yellow-400"></div>
+          <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-green-400"></div>
           {params.slug && (
             <TerminalBackButton
               onClick={() => navigate('/blog')}
               variant="purple"
             />
           )}
-          <span className="ml-4 text-sm text-zinc-500">~/blog{params.slug ? `/${params.slug}` : ''}</span>
+          <span className="ml-2 sm:ml-3 text-[10px] sm:text-xs text-zinc-500 truncate">~/blog{params.slug ? `/${params.slug}` : ''}</span>
         </div>
       </div>
 
       {/* Window Content */}
-      <div className="flex-1 overflow-auto p-6 font-mono text-sm bg-zinc-900">
+      <div className="flex-1 overflow-y-auto overflow-x-hidden p-2 sm:p-4 md:p-6 font-mono text-[10px] sm:text-xs bg-zinc-900/95 scrollbar-thin scrollbar-track-zinc-800 scrollbar-thumb-zinc-600">
         {currentPost ? (
           // Single Post View
           <article className="max-w-4xl mx-auto prose prose-invert prose-purple">
             <header className="mb-12">
-              <h1 className="text-4xl font-mono font-bold mb-4 text-purple-400 [text-shadow:0_0_10px_#a855f7]">
+              <h1 className="text-lg sm:text-xl md:text-2xl font-mono font-bold mb-2 sm:mb-4 text-purple-400 [text-shadow:0_0_10px_#a855f7]">
                 {currentPost.frontmatter.title}
               </h1>
-              <div className="text-purple-400/70 mb-4 font-mono">
+              <div className="text-purple-400/70 mb-2 sm:mb-4 font-mono text-xs sm:text-sm">
                 {format(new Date(currentPost.frontmatter.date), 'MMMM dd, yyyy')}
               </div>
-              <p className="text-zinc-400 font-mono">{currentPost.frontmatter.description}</p>
+              <p className="text-zinc-400 font-mono text-xs sm:text-sm">{currentPost.frontmatter.description}</p>
               {currentPost.frontmatter.tags && (
                 <div className="flex flex-wrap gap-2 mt-4">
                   {currentPost.frontmatter.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="px-2 py-1 bg-purple-900/30 text-purple-300 border border-purple-700/50 rounded-md text-sm font-mono"
+                      className="px-1 sm:px-2 py-0.5 sm:py-1 bg-purple-900/30 text-purple-300 border border-purple-700/50 rounded-md text-[10px] sm:text-xs font-mono"
                     >
                       {tag}
                     </span>
