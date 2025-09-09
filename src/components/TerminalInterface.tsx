@@ -79,6 +79,40 @@ const TerminalInterface = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  // Global keyboard shortcuts (only when input is not focused)
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      // Don't trigger shortcuts if input is focused or if user is typing in any input/textarea
+      if (isInputFocused || 
+          event.target instanceof HTMLInputElement || 
+          event.target instanceof HTMLTextAreaElement) {
+        return;
+      }
+
+      switch (event.key.toLowerCase()) {
+        case 'p':
+          event.preventDefault();
+          handleSectionChange('projects');
+          break;
+        case 's':
+          event.preventDefault();
+          handleSectionChange('skills');
+          break;
+        case 'b':
+          event.preventDefault();
+          handleSectionChange('blog');
+          break;
+        case 'escape':
+          event.preventDefault();
+          handleSectionChange('home');
+          break;
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [isInputFocused]);
+
   useEffect(() => {
     // Only auto-scroll if terminal content area is scrolled near the bottom
     const terminalContent = historyEndRef.current?.parentElement;
@@ -114,6 +148,7 @@ const TerminalInterface = () => {
         setShowBlog(true);
         navigate('/blog');
         break;
+      case 'home':
       default:
         setShowProjects(false);
         setShowSkills(false);
