@@ -19,7 +19,7 @@ const TerminalNav = ({ currentSection, onSectionChange }: TerminalNavProps) => {
         <button
           key={section.id}
           onClick={() => onSectionChange(section.id)}
-          className={`px-1.5 sm:px-2 py-0.5 text-xs sm:text-sm rounded transition-all whitespace-nowrap ${
+          className={`px-1.5 sm:px-2 py-0.5 text-[10px] sm:text-xs rounded transition-all whitespace-nowrap ${
             currentSection === section.id
               ? 'bg-purple-400/20 text-purple-400'
               : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800'
