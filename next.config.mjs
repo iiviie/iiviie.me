@@ -16,6 +16,12 @@ const nextConfig = {
     };
     return config;
   },
+  outputFileTracingIncludes: {
+    '/api/posts': ['./src/posts/**/*'],
+    '/api/posts/[slug]': ['./src/posts/**/*'],
+    '/api/projects': ['./src/projects/**/*'],
+    '/api/projects/[slug]': ['./src/projects/**/*'],
+  },
 };
 
 const withMDX = createMDX({
