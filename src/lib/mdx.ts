@@ -32,7 +32,7 @@ export interface ProjectData {
   content: any;
 }
 
-const API_URL = import.meta.env.DEV ? 'http://localhost:3001/api' : '/api';
+const API_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:3000/api' : '/api';
 
 export async function getAllPosts(): Promise<PostMetadata[]> {
   try {

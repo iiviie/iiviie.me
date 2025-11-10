@@ -1,5 +1,7 @@
+'use client';
+
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useRouter } from 'next/navigation';
 import { format } from 'date-fns';
 import { getAllProjects, getProjectBySlug, type ProjectMetadata, type ProjectData } from '../../lib/mdx';
 import { MDXRemote } from 'next-mdx-remote';
@@ -36,7 +38,7 @@ interface ProjectsSectionProps {
 
 const ProjectsSection: React.FC<ProjectsSectionProps> = ({ onClose }) => {
   const params = useParams();
-  const navigate = useNavigate();
+  const router = useRouter();
   const [projects, setProjects] = useState<ProjectMetadata[]>([]);
   const [currentProject, setCurrentProject] = useState<ProjectData | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -73,7 +75,7 @@ const ProjectsSection: React.FC<ProjectsSectionProps> = ({ onClose }) => {
   }, [params.slug]); // Re-run when slug changes
 
   const handleProjectClick = (projectSlug: string) => {
-    navigate(`/projects/${projectSlug}`);
+    router.push(`/projects/${projectSlug}`);
   };
 
   const getStatusColor = (status: ProjectMetadata['status']) => {
@@ -96,7 +98,7 @@ const ProjectsSection: React.FC<ProjectsSectionProps> = ({ onClose }) => {
             <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-green-400"></div>
             {params.slug && (
               <TerminalBackButton
-                onClick={() => navigate('/projects')}
+                onClick={() => router.push('/projects')}
                 variant="purple"
               />
             )}
@@ -122,7 +124,7 @@ const ProjectsSection: React.FC<ProjectsSectionProps> = ({ onClose }) => {
             <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-green-400"></div>
             {params.slug && (
               <TerminalBackButton
-                onClick={() => navigate('/projects')}
+                onClick={() => router.push('/projects')}
                 variant="purple"
               />
             )}

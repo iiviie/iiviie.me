@@ -1,5 +1,7 @@
+'use client';
+
 import React from 'react';
-import { Link, useParams, useNavigate } from 'react-router-dom';
+import { useParams, useRouter } from 'next/navigation';
 import { format } from 'date-fns';
 import { getAllPosts, getPostBySlug, type PostMetadata, type PostData } from '../../lib/mdx';
 import { MDXRemote } from 'next-mdx-remote';
@@ -35,7 +37,7 @@ interface BlogSectionProps {
 
 const BlogSection: React.FC<BlogSectionProps> = ({ onClose }) => {
   const params = useParams();
-  const navigate = useNavigate();
+  const router = useRouter();
   const [posts, setPosts] = React.useState<PostMetadata[]>([]);
   const [currentPost, setCurrentPost] = React.useState<PostData | null>(null);
   const [error, setError] = React.useState<string | null>(null);
@@ -72,7 +74,7 @@ const BlogSection: React.FC<BlogSectionProps> = ({ onClose }) => {
   }, [params.slug]); // Re-run when slug changes
 
   const handlePostClick = (postSlug: string) => {
-    navigate(`/blog/${postSlug}`);
+    router.push(`/blog/${postSlug}`);
   };
 
   const handleBack = () => {
@@ -89,7 +91,7 @@ const BlogSection: React.FC<BlogSectionProps> = ({ onClose }) => {
             <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-green-400"></div>
             {params.slug && (
               <TerminalBackButton
-                onClick={() => navigate('/blog')}
+                onClick={() => router.push('/blog')}
                 variant="purple"
               />
             )}
@@ -115,7 +117,7 @@ const BlogSection: React.FC<BlogSectionProps> = ({ onClose }) => {
             <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-green-400"></div>
             {params.slug && (
               <TerminalBackButton
-                onClick={() => navigate('/blog')}
+                onClick={() => router.push('/blog')}
                 variant="purple"
               />
             )}

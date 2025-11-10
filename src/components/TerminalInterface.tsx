@@ -1,5 +1,7 @@
+'use client';
+
 import { useState, useEffect, useRef } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useRouter, usePathname } from 'next/navigation';
 import HomeSection from './sections/HomeSection';
 import AboutSection from './sections/AboutSection';
 import ProjectsSection from './sections/ProjectsSection';
@@ -42,8 +44,8 @@ const initialCommands: CommandOutput[] = [
 ];
 
 const TerminalInterface = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
+  const router = useRouter();
+  const pathname = usePathname();
   const [commandHistory, setCommandHistory] = useState<CommandOutput[]>([]);
   const [commandInput, setCommandInput] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
@@ -53,20 +55,27 @@ const TerminalInterface = () => {
   const [showContact, setShowContact] = useState(false);
   const [currentSection, setCurrentSection] = useState('home');
   const [isInputFocused, setIsInputFocused] = useState(false);
+  const [currentTime, setCurrentTime] = useState('--:--');
   const inputRef = useRef<HTMLInputElement>(null);
   const historyEndRef = useRef<HTMLDivElement>(null);
 
   // Initialize state based on current route
   useEffect(() => {
-    const path = location.pathname;
-    setShowProjects(path.startsWith('/projects'));
-    setShowSkills(path === '/skills');
-    setShowBlog(path.startsWith('/blog'));
-    setShowContact(path === '/contact');
-  }, [location]);
+    setShowProjects(pathname.startsWith('/projects'));
+    setShowSkills(pathname === '/skills');
+    setShowBlog(pathname.startsWith('/blog'));
+    setShowContact(pathname === '/contact');
+  }, [pathname]);
 
   useEffect(() => {
     setCommandHistory(initialCommands);
+    // Initialize time on client
+    setCurrentTime(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+    // Update time every minute
+    const timer = setInterval(() => {
+      setCurrentTime(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+    }, 60000);
+    return () => clearInterval(timer);
   }, []);
 
   useEffect(() => {
@@ -159,28 +168,28 @@ const TerminalInterface = () => {
         setShowSkills(false);
         setShowBlog(false);
         setShowContact(false);
-        navigate('/projects');
+        router.push('/projects');
         break;
       case 'skills':
         setShowProjects(false);
         setShowSkills(true);
         setShowBlog(false);
         setShowContact(false);
-        navigate('/skills');
+        router.push('/skills');
         break;
       case 'blog':
         setShowProjects(false);
         setShowSkills(false);
         setShowBlog(true);
         setShowContact(false);
-        navigate('/blog');
+        router.push('/blog');
         break;
       case 'contact':
         setShowProjects(false);
         setShowSkills(false);
         setShowBlog(false);
         setShowContact(true);
-        navigate('/contact');
+        router.push('/contact');
         break;
       case 'home':
       default:
@@ -188,7 +197,7 @@ const TerminalInterface = () => {
         setShowSkills(false);
         setShowBlog(false);
         setShowContact(false);
-        navigate('/');
+        router.push('/');
         break;
     }
   };
@@ -196,19 +205,19 @@ const TerminalInterface = () => {
   const commands: Record<string, () => void> = {
     'projects': () => {
       setShowProjects(true);
-      navigate('/projects');
+      router.push('/projects');
     },
     'skills': () => {
       setShowSkills(true);
-      navigate('/skills');
+      router.push('/skills');
     },
     'blog': () => {
       setShowBlog(true);
-      navigate('/blog');
+      router.push('/blog');
     },
     'contact': () => {
       setShowContact(true);
-      navigate('/contact');
+      router.push('/contact');
     },
     'clear': () => setCommandHistory([]),
     'help': () => {
@@ -330,7 +339,7 @@ const TerminalInterface = () => {
               {isInputFocused ? 'INSERT' : 'NORMAL'}
             </span>
             <span>|</span>
-            <span className="text-zinc-300">{new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+            <span className="text-zinc-300">{currentTime}</span>
           </div>
         </div>
       </div>
