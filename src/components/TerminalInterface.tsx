@@ -56,9 +56,10 @@ const TerminalInterface = () => {
   const [currentSection, setCurrentSection] = useState('home');
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [currentTime, setCurrentTime] = useState('--:--');
+  const [hasInitialized, setHasInitialized] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const historyEndRef = useRef<HTMLDivElement>(null);
-  const isInitialMount = useRef(true);
+  const terminalContentRef = useRef<HTMLDivElement>(null);
 
   // Initialize state based on current route
   useEffect(() => {
@@ -70,6 +71,14 @@ const TerminalInterface = () => {
 
   useEffect(() => {
     setCommandHistory(initialCommands);
+
+    // Ensure terminal starts at top
+    if (terminalContentRef.current) {
+      terminalContentRef.current.scrollTop = 0;
+    }
+
+    setHasInitialized(true);
+
     // Initialize time on client
     setCurrentTime(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
     // Update time every minute
@@ -148,9 +157,8 @@ const TerminalInterface = () => {
   }, [isInputFocused, showProjects, showSkills, showBlog, showContact]);
 
   useEffect(() => {
-    // Skip auto-scroll on initial mount to prevent scrolling to bottom on page load
-    if (isInitialMount.current) {
-      isInitialMount.current = false;
+    // Skip auto-scroll until initial commands are loaded
+    if (!hasInitialized) {
       return;
     }
 
@@ -165,7 +173,7 @@ const TerminalInterface = () => {
         historyEndRef.current?.scrollIntoView({ behavior: 'smooth' });
       }
     }
-  }, [commandHistory]);
+  }, [commandHistory, hasInitialized]);
 
   const handleSectionChange = (section: string) => {
     setCurrentSection(section);
@@ -278,7 +286,7 @@ const TerminalInterface = () => {
         />
         
         {/* Terminal Content */}
-        <div className="flex-1 overflow-y-auto overflow-x-hidden p-2 sm:p-3 font-mono text-[10px] sm:text-xs bg-zinc-900/95 text-zinc-300 scrollbar-thin scrollbar-track-zinc-800 scrollbar-thumb-zinc-600">
+        <div ref={terminalContentRef} className="flex-1 overflow-y-auto overflow-x-hidden p-2 sm:p-3 font-mono text-[10px] sm:text-xs bg-zinc-900/95 text-zinc-300 scrollbar-thin scrollbar-track-zinc-800 scrollbar-thumb-zinc-600">
           {commandHistory.map((item, index) => (
             <div key={index} className="mb-2 sm:mb-3">
               {item.type === 'command' ? (
