@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import { serialize } from 'next-mdx-remote/serialize';
+import { type MDXRemoteSerializeResult } from 'next-mdx-remote';
 import * as shiki from 'shiki';
 
 export interface PostMetadata {
@@ -14,7 +15,7 @@ export interface PostMetadata {
 
 export interface PostData {
   frontmatter: PostMetadata;
-  content: any;
+  content: MDXRemoteSerializeResult;
 }
 
 export async function getAllPosts(): Promise<PostMetadata[]> {

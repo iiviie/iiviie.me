@@ -1,8 +1,4 @@
-import fs from 'fs';
-import path from 'path';
-import matter from 'gray-matter';
-import { serialize } from 'next-mdx-remote/serialize';
-import * as shiki from 'shiki';
+import { type MDXRemoteSerializeResult } from 'next-mdx-remote';
 
 export interface PostMetadata {
   title: string;
@@ -14,7 +10,7 @@ export interface PostMetadata {
 
 export interface PostData {
   frontmatter: PostMetadata;
-  content: any;
+  content: MDXRemoteSerializeResult;
 }
 
 export interface ProjectMetadata {
@@ -29,7 +25,7 @@ export interface ProjectMetadata {
 
 export interface ProjectData {
   frontmatter: ProjectMetadata;
-  content: any;
+  content: MDXRemoteSerializeResult;
 }
 
 const API_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:3000/api' : '/api';

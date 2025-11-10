@@ -7,17 +7,18 @@ import * as shiki from 'shiki';
 
 export async function GET(
   request: Request,
-  { params }: { params: { slug: string } }
+  { params }: { params: Promise<{ slug: string }> }
 ) {
   try {
+    const { slug } = await params;
     const projectsDirectory = path.join(process.cwd(), 'src', 'projects');
-    const filePath = path.join(projectsDirectory, `${params.slug}.mdx`);
+    const filePath = path.join(projectsDirectory, `${slug}.mdx`);
 
     console.log('Trying to read project file:', filePath);
 
     if (!fs.existsSync(filePath)) {
       console.error('Project file does not exist:', filePath);
-      return NextResponse.json({ error: `Project not found: ${params.slug}` }, { status: 404 });
+      return NextResponse.json({ error: `Project not found: ${slug}` }, { status: 404 });
     }
 
     const fileContents = fs.readFileSync(filePath, 'utf8');

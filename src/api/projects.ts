@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import { serialize } from 'next-mdx-remote/serialize';
+import { type MDXRemoteSerializeResult } from 'next-mdx-remote';
 import * as shiki from 'shiki';
 
 export interface ProjectMetadata {
@@ -16,7 +17,7 @@ export interface ProjectMetadata {
 
 export interface ProjectData {
   frontmatter: ProjectMetadata;
-  content: any;
+  content: MDXRemoteSerializeResult;
 }
 
 export async function getAllProjects(): Promise<ProjectMetadata[]> {

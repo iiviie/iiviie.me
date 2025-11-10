@@ -7,17 +7,18 @@ import * as shiki from 'shiki';
 
 export async function GET(
   request: Request,
-  { params }: { params: { slug: string } }
+  { params }: { params: Promise<{ slug: string }> }
 ) {
   try {
+    const { slug } = await params;
     const postsDirectory = path.join(process.cwd(), 'src', 'posts');
-    const filePath = path.join(postsDirectory, `${params.slug}.mdx`);
+    const filePath = path.join(postsDirectory, `${slug}.mdx`);
 
     console.log('Trying to read file:', filePath);
 
     if (!fs.existsSync(filePath)) {
       console.error('File does not exist:', filePath);
-      return NextResponse.json({ error: `Post not found: ${params.slug}` }, { status: 404 });
+      return NextResponse.json({ error: `Post not found: ${slug}` }, { status: 404 });
     }
 
     const fileContents = fs.readFileSync(filePath, 'utf8');

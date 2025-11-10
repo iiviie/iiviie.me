@@ -56,8 +56,9 @@ const BlogSection: React.FC<BlogSectionProps> = ({ onClose }) => {
 
         // If we have a slug, load that specific post
         if (params.slug) {
-          console.log('Loading post with slug:', params.slug);
-          const postData = await getPostBySlug(params.slug);
+          const slug = Array.isArray(params.slug) ? params.slug[0] : params.slug;
+          console.log('Loading post with slug:', slug);
+          const postData = await getPostBySlug(slug);
           setCurrentPost(postData);
         } else {
           setCurrentPost(null);

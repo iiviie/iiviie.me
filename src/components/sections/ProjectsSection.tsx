@@ -57,8 +57,9 @@ const ProjectsSection: React.FC<ProjectsSectionProps> = ({ onClose }) => {
 
         // If we have a slug, load that specific project
         if (params.slug) {
-          console.log('Loading project with slug:', params.slug);
-          const projectData = await getProjectBySlug(params.slug);
+          const slug = Array.isArray(params.slug) ? params.slug[0] : params.slug;
+          console.log('Loading project with slug:', slug);
+          const projectData = await getProjectBySlug(slug);
           setCurrentProject(projectData);
         } else {
           setCurrentProject(null);
