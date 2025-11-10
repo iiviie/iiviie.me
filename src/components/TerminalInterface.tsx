@@ -58,6 +58,7 @@ const TerminalInterface = () => {
   const [currentTime, setCurrentTime] = useState('--:--');
   const inputRef = useRef<HTMLInputElement>(null);
   const historyEndRef = useRef<HTMLDivElement>(null);
+  const isInitialMount = useRef(true);
 
   // Initialize state based on current route
   useEffect(() => {
@@ -147,12 +148,18 @@ const TerminalInterface = () => {
   }, [isInputFocused, showProjects, showSkills, showBlog, showContact]);
 
   useEffect(() => {
+    // Skip auto-scroll on initial mount to prevent scrolling to bottom on page load
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
+
     // Only auto-scroll if terminal content area is scrolled near the bottom
     const terminalContent = historyEndRef.current?.parentElement;
     if (terminalContent) {
       const { scrollTop, scrollHeight, clientHeight } = terminalContent;
       const isNearBottom = scrollHeight - scrollTop <= clientHeight + 100;
-      
+
       // Only auto-scroll if user is already near the bottom
       if (isNearBottom) {
         historyEndRef.current?.scrollIntoView({ behavior: 'smooth' });
