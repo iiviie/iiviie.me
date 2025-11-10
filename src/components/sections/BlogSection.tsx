@@ -9,23 +9,23 @@ import { Table } from '../../components/mdx/Table';
 import TerminalBackButton from '@/components/ui/terminal-back-button';
 
 const components = {
-  h1: (props: any) => <h1 className="text-4xl font-bold text-purple-400 mb-4 font-mono" {...props} />,
-  h2: (props: any) => <h2 className="text-3xl font-bold text-purple-300 mb-3 font-mono" {...props} />,
-  h3: (props: any) => <h3 className="text-2xl font-bold text-purple-200 mb-2 font-mono" {...props} />,
-  p: (props: any) => <p className="text-zinc-300 mb-4 font-mono" {...props} />,
-  code: (props: any) => (
+  h1: (props: React.HTMLAttributes<HTMLHeadingElement>) => <h1 className="text-4xl font-bold text-purple-400 mb-4 font-mono" {...props} />,
+  h2: (props: React.HTMLAttributes<HTMLHeadingElement>) => <h2 className="text-3xl font-bold text-purple-300 mb-3 font-mono" {...props} />,
+  h3: (props: React.HTMLAttributes<HTMLHeadingElement>) => <h3 className="text-2xl font-bold text-purple-200 mb-2 font-mono" {...props} />,
+  p: (props: React.HTMLAttributes<HTMLParagraphElement>) => <p className="text-zinc-300 mb-4 font-mono" {...props} />,
+  code: (props: React.HTMLAttributes<HTMLElement>) => (
     <code className="bg-purple-900/30 text-purple-200 px-1 py-0.5 rounded font-mono" {...props} />
   ),
-  pre: (props: any) => (
+  pre: (props: React.HTMLAttributes<HTMLPreElement>) => (
     <pre className="bg-zinc-900 p-4 rounded-lg mb-4 overflow-x-auto font-mono" {...props} />
   ),
-  a: (props: any) => (
+  a: (props: React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
     <a className="text-purple-400 hover:text-purple-300 underline font-mono" {...props} />
   ),
-  ul: (props: any) => <ul className="list-disc list-inside mb-4 font-mono" {...props} />,
-  ol: (props: any) => <ol className="list-decimal list-inside mb-4 font-mono" {...props} />,
-  li: (props: any) => <li className="mb-2 font-mono" {...props} />,
-  blockquote: (props: any) => (
+  ul: (props: React.HTMLAttributes<HTMLUListElement>) => <ul className="list-disc list-inside mb-4 font-mono" {...props} />,
+  ol: (props: React.OlHTMLAttributes<HTMLOListElement>) => <ol className="list-decimal list-inside mb-4 font-mono" {...props} />,
+  li: (props: React.LiHTMLAttributes<HTMLLIElement>) => <li className="mb-2 font-mono" {...props} />,
+  blockquote: (props: React.BlockquoteHTMLAttributes<HTMLQuoteElement>) => (
     <blockquote className="border-l-4 border-purple-400 pl-4 italic mb-4 font-mono" {...props} />
   ),
   Table: Table,
@@ -141,7 +141,7 @@ const BlogSection: React.FC<BlogSectionProps> = ({ onClose }) => {
           <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-green-400"></div>
           {params.slug && (
             <TerminalBackButton
-              onClick={() => navigate('/blog')}
+              onClick={() => router.push('/blog')}
               variant="purple"
             />
           )}

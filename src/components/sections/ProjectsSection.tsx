@@ -8,28 +8,28 @@ import { MDXRemote } from 'next-mdx-remote';
 import TerminalBackButton from '@/components/ui/terminal-back-button';
 
 const components = {
-  h1: (props: any) => <h1 className="text-sm sm:text-lg md:text-xl font-bold text-purple-400 mb-2 sm:mb-4 font-mono" {...props} />,
-  h2: (props: any) => <h2 className="text-xs sm:text-base md:text-lg font-bold text-purple-300 mb-2 sm:mb-3 font-mono" {...props} />,
-  h3: (props: any) => <h3 className="text-[10px] sm:text-sm md:text-base font-bold text-purple-200 mb-1 sm:mb-2 font-mono" {...props} />,
-  p: (props: any) => <p className="text-zinc-300 mb-2 sm:mb-4 font-mono text-[9px] sm:text-xs leading-relaxed" {...props} />,
-  code: (props: any) => (
+  h1: (props: React.HTMLAttributes<HTMLHeadingElement>) => <h1 className="text-sm sm:text-lg md:text-xl font-bold text-purple-400 mb-2 sm:mb-4 font-mono" {...props} />,
+  h2: (props: React.HTMLAttributes<HTMLHeadingElement>) => <h2 className="text-xs sm:text-base md:text-lg font-bold text-purple-300 mb-2 sm:mb-3 font-mono" {...props} />,
+  h3: (props: React.HTMLAttributes<HTMLHeadingElement>) => <h3 className="text-[10px] sm:text-sm md:text-base font-bold text-purple-200 mb-1 sm:mb-2 font-mono" {...props} />,
+  p: (props: React.HTMLAttributes<HTMLParagraphElement>) => <p className="text-zinc-300 mb-2 sm:mb-4 font-mono text-[9px] sm:text-xs leading-relaxed" {...props} />,
+  code: (props: React.HTMLAttributes<HTMLElement>) => (
     <code className="bg-purple-900/30 text-purple-200 px-1 py-0.5 rounded font-mono text-[8px] sm:text-[9px]" {...props} />
   ),
-  pre: (props: any) => (
+  pre: (props: React.HTMLAttributes<HTMLPreElement>) => (
     <pre className="bg-zinc-900 p-2 sm:p-4 rounded-lg mb-2 sm:mb-4 overflow-x-auto font-mono text-[8px] sm:text-[9px] border border-zinc-800" {...props} />
   ),
-  a: (props: any) => (
+  a: (props: React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
     <a className="text-purple-400 hover:text-purple-300 underline font-mono" {...props} />
   ),
-  ul: (props: any) => <ul className="list-disc list-inside mb-2 sm:mb-4 font-mono text-[9px] sm:text-xs space-y-1" {...props} />,
-  ol: (props: any) => <ol className="list-decimal list-inside mb-2 sm:mb-4 font-mono text-[9px] sm:text-xs space-y-1" {...props} />,
-  li: (props: any) => <li className="leading-relaxed font-mono" {...props} />,
-  blockquote: (props: any) => (
+  ul: (props: React.HTMLAttributes<HTMLUListElement>) => <ul className="list-disc list-inside mb-2 sm:mb-4 font-mono text-[9px] sm:text-xs space-y-1" {...props} />,
+  ol: (props: React.OlHTMLAttributes<HTMLOListElement>) => <ol className="list-decimal list-inside mb-2 sm:mb-4 font-mono text-[9px] sm:text-xs space-y-1" {...props} />,
+  li: (props: React.LiHTMLAttributes<HTMLLIElement>) => <li className="leading-relaxed font-mono" {...props} />,
+  blockquote: (props: React.BlockquoteHTMLAttributes<HTMLQuoteElement>) => (
     <blockquote className="border-l-2 border-purple-400 pl-2 sm:pl-4 italic mb-2 sm:mb-4 font-mono text-zinc-400 text-[9px] sm:text-xs" {...props} />
   ),
-  table: (props: any) => <table className="border-collapse w-full text-[8px] sm:text-[9px] mb-4" {...props} />,
-  th: (props: any) => <th className="border border-zinc-600 px-2 py-1 bg-zinc-800/50 text-purple-300" {...props} />,
-  td: (props: any) => <td className="border border-zinc-600 px-2 py-1 text-zinc-300" {...props} />,
+  table: (props: React.TableHTMLAttributes<HTMLTableElement>) => <table className="border-collapse w-full text-[8px] sm:text-[9px] mb-4" {...props} />,
+  th: (props: React.ThHTMLAttributes<HTMLTableCellElement>) => <th className="border border-zinc-600 px-2 py-1 bg-zinc-800/50 text-purple-300" {...props} />,
+  td: (props: React.TdHTMLAttributes<HTMLTableCellElement>) => <td className="border border-zinc-600 px-2 py-1 text-zinc-300" {...props} />,
 };
 
 interface ProjectsSectionProps {
@@ -148,7 +148,7 @@ const ProjectsSection: React.FC<ProjectsSectionProps> = ({ onClose }) => {
           <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-green-400"></div>
           {params.slug && (
             <TerminalBackButton
-              onClick={() => navigate('/projects')}
+              onClick={() => router.push('/projects')}
               variant="purple"
             />
           )}
