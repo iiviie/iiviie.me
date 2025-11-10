@@ -1,9 +1,21 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getPostBySlug, type PostData } from '../../lib/mdx';
 import { MDXRemote } from 'next-mdx-remote';
 import MdxLayout from '../../components/blog/MdxLayout';
 import { Table } from '../../components/mdx/Table';
+
+export interface PostMetadata {
+  title: string;
+  date: string;
+  description: string;
+  tags?: string[];
+  slug: string;
+}
+
+export interface PostData {
+  frontmatter: PostMetadata;
+  content: any;
+}
 
 const components = {
   h1: (props: any) => <h1 className="text-4xl font-bold text-purple-400 mb-4 font-mono" {...props} />,
@@ -40,13 +52,17 @@ const BlogPost = () => {
       try {
         setLoading(true);
         setError(null);
-        
+
         if (!slug) {
           throw new Error('No slug provided');
         }
-        
+
         console.log('Loading post with slug:', slug);
-        const data = await getPostBySlug(slug);
+        const response = await fetch(`/api/posts/${slug}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch post');
+        }
+        const data = await response.json();
         console.log('Post data loaded:', data);
         setPostData(data);
       } catch (error) {

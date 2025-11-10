@@ -1,7 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { format } from 'date-fns';
-import { getAllPosts, type PostMetadata } from '../../lib/mdx';
+
+export interface PostMetadata {
+  title: string;
+  date: string;
+  description: string;
+  tags?: string[];
+  slug: string;
+}
 
 const BlogIndex = () => {
   const [posts, setPosts] = React.useState<PostMetadata[]>([]);
@@ -14,7 +21,11 @@ const BlogIndex = () => {
         setLoading(true);
         setError(null);
         console.log('Loading all posts...');
-        const allPosts = await getAllPosts();
+        const response = await fetch('/api/posts');
+        if (!response.ok) {
+          throw new Error('Failed to fetch posts');
+        }
+        const allPosts = await response.json();
         console.log('Posts loaded:', allPosts);
         setPosts(allPosts);
       } catch (error) {
