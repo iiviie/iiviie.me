@@ -1,11 +1,12 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { format } from 'date-fns';
-import { getAllProjects, getProjectBySlug, type ProjectMetadata, type ProjectData } from '../../lib/mdx';
+import { type ProjectMetadata } from '../../lib/mdx';
 import { MDXRemote } from 'next-mdx-remote';
 import TerminalBackButton from '@/components/ui/terminal-back-button';
+import { useProjectsQuery, useProjectQuery } from '@/hooks/useMdxQueries';
 
 const components = {
   h1: (props: React.HTMLAttributes<HTMLHeadingElement>) => <h1 className="text-sm sm:text-lg md:text-xl font-bold text-purple-400 mb-2 sm:mb-4 font-mono" {...props} />,
@@ -39,41 +40,13 @@ interface ProjectsSectionProps {
 const ProjectsSection: React.FC<ProjectsSectionProps> = ({ onClose }) => {
   const params = useParams();
   const router = useRouter();
-  const [projects, setProjects] = useState<ProjectMetadata[]>([]);
-  const [currentProject, setCurrentProject] = useState<ProjectData | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
 
-  // Load projects and current project if slug exists
-  useEffect(() => {
-    const loadContent = async () => {
-      try {
-        setLoading(true);
-        setError(null);
+  // Get slug from params
+  const slug = params.slug ? (Array.isArray(params.slug) ? params.slug[0] : params.slug) : null;
 
-        // Always load all projects
-        const allProjects = await getAllProjects();
-        setProjects(allProjects);
-
-        // If we have a slug, load that specific project
-        if (params.slug) {
-          const slug = Array.isArray(params.slug) ? params.slug[0] : params.slug;
-          console.log('Loading project with slug:', slug);
-          const projectData = await getProjectBySlug(slug);
-          setCurrentProject(projectData);
-        } else {
-          setCurrentProject(null);
-        }
-      } catch (error) {
-        console.error('Error loading content:', error);
-        setError(error instanceof Error ? error.message : 'Failed to load content');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadContent();
-  }, [params.slug]); // Re-run when slug changes
+  // Use React Query hooks
+  const { data: projects = [], isLoading: projectsLoading, error: projectsError } = useProjectsQuery();
+  const { data: currentProject, isLoading: projectLoading, error: projectError } = useProjectQuery(slug);
 
   const handleProjectClick = (projectSlug: string) => {
     router.push(`/projects/${projectSlug}`);
@@ -88,56 +61,6 @@ const ProjectsSection: React.FC<ProjectsSectionProps> = ({ onClose }) => {
       default: return 'text-zinc-400';
     }
   };
-
-  if (loading) {
-    return (
-      <div className="fixed inset-4 sm:inset-8 md:inset-12 z-50 bg-zinc-900 border border-zinc-700/50 rounded-lg shadow-lg overflow-hidden flex flex-col">
-        <div className="bg-zinc-900/50 px-2 sm:px-3 py-1.5 sm:py-2 flex items-center gap-1.5 flex-shrink-0 border-b border-zinc-800 rounded-t-lg backdrop-blur-sm">
-          <div className="flex items-center gap-1.5">
-            <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-red-400 cursor-pointer" onClick={() => onClose('home')}></div>
-            <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-yellow-400"></div>
-            <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-green-400"></div>
-            {params.slug && (
-              <TerminalBackButton
-                onClick={() => router.push('/projects')}
-                variant="purple"
-              />
-            )}
-            <span className="ml-2 sm:ml-3 text-[10px] sm:text-xs text-zinc-500 truncate">~/projects{params.slug ? `/${params.slug}` : ''}</span>
-          </div>
-        </div>
-        <div className="flex-1 overflow-y-auto overflow-x-hidden p-2 sm:p-4 md:p-6 font-mono text-[10px] sm:text-xs bg-zinc-900/95 scrollbar-thin scrollbar-track-zinc-800 scrollbar-thumb-zinc-600">
-          <div className="text-center">
-            <div className="text-purple-400 animate-pulse">Loading...</div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="fixed inset-4 sm:inset-8 md:inset-12 z-50 bg-zinc-900 border border-zinc-700/50 rounded-lg shadow-lg overflow-hidden flex flex-col">
-        <div className="bg-zinc-900/50 px-2 sm:px-3 py-1.5 sm:py-2 flex items-center gap-1.5 flex-shrink-0 border-b border-zinc-800 rounded-t-lg backdrop-blur-sm">
-          <div className="flex items-center gap-1.5">
-            <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-red-400 cursor-pointer" onClick={() => onClose('home')}></div>
-            <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-yellow-400"></div>
-            <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-green-400"></div>
-            {params.slug && (
-              <TerminalBackButton
-                onClick={() => router.push('/projects')}
-                variant="purple"
-              />
-            )}
-            <span className="ml-2 sm:ml-3 text-[10px] sm:text-xs text-zinc-500 truncate">~/projects{params.slug ? `/${params.slug}` : ''}</span>
-          </div>
-        </div>
-        <div className="flex-1 overflow-y-auto overflow-x-hidden p-2 sm:p-4 md:p-6 font-mono text-[10px] sm:text-xs bg-zinc-900/95 scrollbar-thin scrollbar-track-zinc-800 scrollbar-thumb-zinc-600">
-          <div className="text-red-400">{error}</div>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="fixed inset-4 sm:inset-8 md:inset-12 z-50 bg-zinc-900 border border-zinc-700/50 rounded-lg shadow-lg overflow-hidden flex flex-col">
@@ -159,6 +82,12 @@ const ProjectsSection: React.FC<ProjectsSectionProps> = ({ onClose }) => {
 
       {/* Window Content */}
       <div className="flex-1 overflow-y-auto overflow-x-hidden p-2 sm:p-4 md:p-6 font-mono text-[10px] sm:text-xs bg-zinc-900/95 scrollbar-thin scrollbar-track-zinc-800 scrollbar-thumb-zinc-600">
+        {projectError && (
+          <div className="text-red-400 mb-4">Error: {projectError instanceof Error ? projectError.message : 'Failed to load project'}</div>
+        )}
+        {projectsError && (
+          <div className="text-red-400 mb-4">Error: {projectsError instanceof Error ? projectsError.message : 'Failed to load projects'}</div>
+        )}
         {currentProject ? (
           // Single Project View
           <article className="max-w-4xl mx-auto">

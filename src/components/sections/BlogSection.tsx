@@ -3,10 +3,10 @@
 import React from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { format } from 'date-fns';
-import { getAllPosts, getPostBySlug, type PostMetadata, type PostData } from '../../lib/mdx';
 import { MDXRemote } from 'next-mdx-remote';
 import { Table } from '../../components/mdx/Table';
 import TerminalBackButton from '@/components/ui/terminal-back-button';
+import { usePostsQuery, usePostQuery } from '@/hooks/useMdxQueries';
 
 const components = {
   h1: (props: React.HTMLAttributes<HTMLHeadingElement>) => <h1 className="text-4xl font-bold text-purple-400 mb-4 font-mono" {...props} />,
@@ -38,99 +38,17 @@ interface BlogSectionProps {
 const BlogSection: React.FC<BlogSectionProps> = ({ onClose }) => {
   const params = useParams();
   const router = useRouter();
-  const [posts, setPosts] = React.useState<PostMetadata[]>([]);
-  const [currentPost, setCurrentPost] = React.useState<PostData | null>(null);
-  const [error, setError] = React.useState<string | null>(null);
-  const [loading, setLoading] = React.useState(true);
 
-  // Load posts and current post if slug exists
-  React.useEffect(() => {
-    const loadContent = async () => {
-      try {
-        setLoading(true);
-        setError(null);
+  // Get slug from params
+  const slug = params.slug ? (Array.isArray(params.slug) ? params.slug[0] : params.slug) : null;
 
-        // Always load all posts
-        const allPosts = await getAllPosts();
-        setPosts(allPosts);
-
-        // If we have a slug, load that specific post
-        if (params.slug) {
-          const slug = Array.isArray(params.slug) ? params.slug[0] : params.slug;
-          console.log('Loading post with slug:', slug);
-          const postData = await getPostBySlug(slug);
-          setCurrentPost(postData);
-        } else {
-          setCurrentPost(null);
-        }
-      } catch (error) {
-        console.error('Error loading content:', error);
-        setError(error instanceof Error ? error.message : 'Failed to load content');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadContent();
-  }, [params.slug]); // Re-run when slug changes
+  // Use React Query hooks
+  const { data: posts = [], isLoading: postsLoading, error: postsError } = usePostsQuery();
+  const { data: currentPost, isLoading: postLoading, error: postError } = usePostQuery(slug);
 
   const handlePostClick = (postSlug: string) => {
     router.push(`/blog/${postSlug}`);
   };
-
-  const handleBack = () => {
-    onClose();
-  };
-
-  if (loading) {
-    return (
-      <div className="fixed inset-4 sm:inset-8 md:inset-12 z-50 bg-zinc-900 border border-zinc-700/50 rounded-lg shadow-lg overflow-hidden flex flex-col">
-        <div className="bg-zinc-900/50 px-2 sm:px-3 py-1.5 sm:py-2 flex items-center gap-1.5 flex-shrink-0 border-b border-zinc-800 rounded-t-lg backdrop-blur-sm">
-          <div className="flex items-center gap-1.5">
-            <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-red-400 cursor-pointer" onClick={() => onClose('home')}></div>
-            <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-yellow-400"></div>
-            <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-green-400"></div>
-            {params.slug && (
-              <TerminalBackButton
-                onClick={() => router.push('/blog')}
-                variant="purple"
-              />
-            )}
-            <span className="ml-2 sm:ml-3 text-[10px] sm:text-xs text-zinc-500 truncate">~/blog{params.slug ? `/${params.slug}` : ''}</span>
-          </div>
-        </div>
-        <div className="flex-1 overflow-y-auto overflow-x-hidden p-2 sm:p-4 md:p-6 font-mono text-[10px] sm:text-xs bg-zinc-900/95 scrollbar-thin scrollbar-track-zinc-800 scrollbar-thumb-zinc-600">
-          <div className="text-center">
-            <div className="text-purple-400 animate-pulse">Loading...</div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="fixed inset-4 sm:inset-8 md:inset-12 z-50 bg-zinc-900 border border-zinc-700/50 rounded-lg shadow-lg overflow-hidden flex flex-col">
-        <div className="bg-zinc-900/50 px-2 sm:px-3 py-1.5 sm:py-2 flex items-center gap-1.5 flex-shrink-0 border-b border-zinc-800 rounded-t-lg backdrop-blur-sm">
-          <div className="flex items-center gap-1.5">
-            <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-red-400 cursor-pointer" onClick={() => onClose('home')}></div>
-            <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-yellow-400"></div>
-            <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-green-400"></div>
-            {params.slug && (
-              <TerminalBackButton
-                onClick={() => router.push('/blog')}
-                variant="purple"
-              />
-            )}
-            <span className="ml-2 sm:ml-3 text-[10px] sm:text-xs text-zinc-500 truncate">~/blog{params.slug ? `/${params.slug}` : ''}</span>
-          </div>
-        </div>
-        <div className="flex-1 overflow-y-auto overflow-x-hidden p-2 sm:p-4 md:p-6 font-mono text-[10px] sm:text-xs bg-zinc-900/95 scrollbar-thin scrollbar-track-zinc-800 scrollbar-thumb-zinc-600">
-          <div className="text-red-400">{error}</div>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="fixed inset-4 sm:inset-8 md:inset-12 z-50 bg-zinc-900 border border-zinc-700/50 rounded-lg shadow-lg overflow-hidden flex flex-col">
@@ -152,6 +70,12 @@ const BlogSection: React.FC<BlogSectionProps> = ({ onClose }) => {
 
       {/* Window Content */}
       <div className="flex-1 overflow-y-auto overflow-x-hidden p-2 sm:p-4 md:p-6 font-mono text-[10px] sm:text-xs bg-zinc-900/95 scrollbar-thin scrollbar-track-zinc-800 scrollbar-thumb-zinc-600">
+        {postError && (
+          <div className="text-red-400 mb-4">Error: {postError instanceof Error ? postError.message : 'Failed to load post'}</div>
+        )}
+        {postsError && (
+          <div className="text-red-400 mb-4">Error: {postsError instanceof Error ? postsError.message : 'Failed to load posts'}</div>
+        )}
         {currentPost ? (
           // Single Post View
           <article className="max-w-4xl mx-auto prose prose-invert prose-purple">
