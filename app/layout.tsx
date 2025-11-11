@@ -1,15 +1,16 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { JetBrains_Mono } from 'next/font/google';
 import '@/styles/globals.css';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { Toaster } from '@/components/ui/toaster';
 import { Toaster as Sonner } from '@/components/ui/sonner';
 import Providers from './providers';
 import TerminalInterface from '@/components/TerminalInterface';
+import Sidebar from '@/components/Sidebar';
 import { DataProvider } from '@/components/DataProvider';
 import { getAllPostsServer, getAllProjectsServer } from '@/lib/mdx-server';
 
-const inter = Inter({ subsets: ['latin'] });
+const jetbrainsMono = JetBrains_Mono({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'Divyansh Verma - Backend Developer',
@@ -29,14 +30,15 @@ export default async function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={inter.className} suppressHydrationWarning>
+      <body className={jetbrainsMono.className} suppressHydrationWarning>
         <Providers>
           <DataProvider posts={posts} projects={projects}>
             <TooltipProvider>
               <Toaster />
               <Sonner />
-              <div className="h-screen w-screen bg-zinc-900 fixed inset-0 overflow-hidden">
-                <div className="h-full pt-4">
+              <div className="h-screen w-screen bg-zinc-900 fixed inset-0 overflow-hidden flex">
+                <Sidebar />
+                <div className="flex-1 h-full pt-4">
                   <TerminalInterface />
                 </div>
               </div>

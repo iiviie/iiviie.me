@@ -8,7 +8,6 @@ import ProjectsSection from './sections/ProjectsSection';
 import SkillsSection from './sections/SkillsSection';
 import ContactSection from './sections/ContactSection';
 import BlogSection from './sections/BlogSection';
-import TerminalNav from './TerminalNav';
 import { usePrefetchPosts, usePrefetchProjects } from '@/hooks/useMdxQueries';
 
 interface CommandOutput {
@@ -304,12 +303,6 @@ const TerminalInterface = () => {
           <span className="ml-2 sm:ml-3 text-[10px] sm:text-xs text-zinc-500 truncate">divyansh@backend-dev: ~</span>
         </div>
 
-        {/* Navigation Bar */}
-        <TerminalNav
-          currentSection={currentSection}
-          onSectionChange={handleSectionChange}
-        />
-        
         {/* Terminal Content */}
         <div ref={terminalContentRef} className="flex-1 overflow-y-auto overflow-x-hidden p-2 sm:p-3 font-mono text-[10px] sm:text-xs bg-zinc-900/95 text-zinc-300 scrollbar-thin scrollbar-track-zinc-800 scrollbar-thumb-zinc-600">
           {commandHistory.map((item, index) => (
