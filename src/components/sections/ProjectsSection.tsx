@@ -62,6 +62,9 @@ const ProjectsSection: React.FC<ProjectsSectionProps> = ({ onClose }) => {
     }
   };
 
+  // Show content immediately if we have cached data, even if "loading"
+  const showContent = projects.length > 0 || currentProject || !projectsLoading;
+
   return (
     <div className="fixed inset-4 sm:inset-8 md:inset-12 z-50 bg-zinc-900 border border-zinc-700/50 rounded-lg shadow-lg overflow-hidden flex flex-col">
       {/* Window Header */}
@@ -88,7 +91,7 @@ const ProjectsSection: React.FC<ProjectsSectionProps> = ({ onClose }) => {
         {projectsError && (
           <div className="text-red-400 mb-4">Error: {projectsError instanceof Error ? projectsError.message : 'Failed to load projects'}</div>
         )}
-        {currentProject ? (
+        {showContent && currentProject ? (
           // Single Project View
           <article className="max-w-4xl mx-auto">
             <header className="mb-6 sm:mb-8">
@@ -127,7 +130,7 @@ const ProjectsSection: React.FC<ProjectsSectionProps> = ({ onClose }) => {
               <MDXRemote {...currentProject.content} components={components} />
             </div>
           </article>
-        ) : (
+        ) : showContent ? (
           // Projects Index View
           <>
             <div className="space-y-2 mb-6">
@@ -167,7 +170,7 @@ const ProjectsSection: React.FC<ProjectsSectionProps> = ({ onClose }) => {
               </div>
             </div>
           </>
-        )}
+        ) : null}
       </div>
     </div>
   );

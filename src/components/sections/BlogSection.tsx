@@ -50,6 +50,9 @@ const BlogSection: React.FC<BlogSectionProps> = ({ onClose }) => {
     router.push(`/blog/${postSlug}`);
   };
 
+  // Show content immediately if we have cached data, even if "loading"
+  const showContent = posts.length > 0 || currentPost || !postsLoading;
+
   return (
     <div className="fixed inset-4 sm:inset-8 md:inset-12 z-50 bg-zinc-900 border border-zinc-700/50 rounded-lg shadow-lg overflow-hidden flex flex-col">
       {/* Window Header */}
@@ -76,7 +79,7 @@ const BlogSection: React.FC<BlogSectionProps> = ({ onClose }) => {
         {postsError && (
           <div className="text-red-400 mb-4">Error: {postsError instanceof Error ? postsError.message : 'Failed to load posts'}</div>
         )}
-        {currentPost ? (
+        {showContent && currentPost ? (
           // Single Post View
           <article className="max-w-4xl mx-auto prose prose-invert prose-purple">
             <header className="mb-12">
@@ -106,11 +109,11 @@ const BlogSection: React.FC<BlogSectionProps> = ({ onClose }) => {
               </div>
             </div>
           </article>
-        ) : (
+        ) : showContent ? (
           // Blog Index View
           <>
             <div className="text-center mb-8">
-              <pre className="text-purple-400 animate-pulse [text-shadow:0_0_10px_#a855f7] transition-all font-mono whitespace-pre inline-block">
+              <pre className="text-purple-400 [text-shadow:0_0_10px_#a855f7] transition-all font-mono whitespace-pre inline-block">
 {`
 ██████╗ ██╗      ██████╗  ██████╗ ███████╗
 ██╔══██╗██║     ██╔═══██╗██╔════╝ ██╔════╝
@@ -150,7 +153,7 @@ const BlogSection: React.FC<BlogSectionProps> = ({ onClose }) => {
               </div>
             </div>
           </>
-        )}
+        ) : null}
       </div>
     </div>
   );
