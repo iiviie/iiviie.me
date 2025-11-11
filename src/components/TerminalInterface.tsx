@@ -9,6 +9,7 @@ import SkillsSection from './sections/SkillsSection';
 import ContactSection from './sections/ContactSection';
 import BlogSection from './sections/BlogSection';
 import TerminalNav from './TerminalNav';
+import { usePrefetchPosts, usePrefetchProjects } from '@/hooks/useMdxQueries';
 
 interface CommandOutput {
   type: 'command' | 'output' | 'ascii-art';
@@ -48,7 +49,6 @@ const TerminalInterface = () => {
   const pathname = usePathname();
   const [commandHistory, setCommandHistory] = useState<CommandOutput[]>([]);
   const [commandInput, setCommandInput] = useState('');
-  const [isProcessing, setIsProcessing] = useState(false);
   const [showProjects, setShowProjects] = useState(false);
   const [showSkills, setShowSkills] = useState(false);
   const [showBlog, setShowBlog] = useState(false);
@@ -61,21 +61,36 @@ const TerminalInterface = () => {
   const historyEndRef = useRef<HTMLDivElement>(null);
   const terminalContentRef = useRef<HTMLDivElement>(null);
 
-  // Initialize state based on current route
+  // Prefetch hooks for performance
+  const prefetchPosts = usePrefetchPosts();
+  const prefetchProjects = usePrefetchProjects();
+
+  // Derive backdrop visibility directly from pathname to avoid flicker
+  const shouldShowBackdrop = pathname !== '/' && pathname.startsWith('/') &&
+    (pathname.startsWith('/projects') || pathname.startsWith('/blog') ||
+     pathname === '/skills' || pathname === '/contact');
+
+  // Initialize state based on current route - batched for atomic updates
   useEffect(() => {
-    setShowProjects(pathname.startsWith('/projects'));
-    setShowSkills(pathname === '/skills');
-    setShowBlog(pathname.startsWith('/blog'));
-    setShowContact(pathname === '/contact');
+    // React 18 automatically batches these, but let's ensure they update together
+    const isProjects = pathname.startsWith('/projects');
+    const isSkills = pathname === '/skills';
+    const isBlog = pathname.startsWith('/blog');
+    const isContact = pathname === '/contact';
+
+    setShowProjects(isProjects);
+    setShowSkills(isSkills);
+    setShowBlog(isBlog);
+    setShowContact(isContact);
 
     // Update currentSection based on pathname
-    if (pathname.startsWith('/projects')) {
+    if (isProjects) {
       setCurrentSection('projects');
-    } else if (pathname === '/skills') {
+    } else if (isSkills) {
       setCurrentSection('skills');
-    } else if (pathname.startsWith('/blog')) {
+    } else if (isBlog) {
       setCurrentSection('blog');
-    } else if (pathname === '/contact') {
+    } else if (isContact) {
       setCurrentSection('contact');
     } else {
       setCurrentSection('home');
@@ -98,8 +113,34 @@ const TerminalInterface = () => {
     const timer = setInterval(() => {
       setCurrentTime(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
     }, 60000);
+
+    // Prefetch data on mount for instant navigation
+    prefetchPosts();
+    prefetchProjects();
+
+    // Warm up routes in dev mode by triggering Next.js compilation
+    if (process.env.NODE_ENV === 'development') {
+      // Use requestIdleCallback or setTimeout to not block initial render
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(() => {
+          // Warm routes by prefetching them
+          router.prefetch('/projects');
+          router.prefetch('/blog');
+          router.prefetch('/skills');
+          router.prefetch('/contact');
+        });
+      } else {
+        setTimeout(() => {
+          router.prefetch('/projects');
+          router.prefetch('/blog');
+          router.prefetch('/skills');
+          router.prefetch('/contact');
+        }, 1000);
+      }
+    }
+
     return () => clearInterval(timer);
-  }, []);
+  }, [prefetchPosts, prefetchProjects, router]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -236,23 +277,18 @@ const TerminalInterface = () => {
     }
   };
 
-  const handleCommand = async (e: React.KeyboardEvent) => {
+  const handleCommand = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && commandInput.trim()) {
       const command = commandInput.trim().toLowerCase();
       setCommandHistory(prev => [...prev, { type: 'command', content: `$ ${commandInput}` }]);
-      setIsProcessing(true);
       setCommandInput('');
-      
-      await new Promise(resolve => setTimeout(resolve, 300));
-      
+
       const commandFn = commands[command];
       if (commandFn) {
         commandFn();
       } else {
         setCommandHistory(prev => [...prev, { type: 'output', content: `bash: ${command}: command not found` }]);
       }
-      
-      setIsProcessing(false);
     }
   };
 
@@ -299,7 +335,7 @@ const TerminalInterface = () => {
           <div 
             className="flex items-center gap-1.5 overflow-hidden cursor-text"
             onClick={() => {
-              if (!isProcessing && !showProjects && !showSkills && !showBlog && !showContact) {
+              if (!showProjects && !showSkills && !showBlog && !showContact) {
                 inputRef.current?.focus();
                 setIsInputFocused(true);
               }
@@ -317,8 +353,8 @@ const TerminalInterface = () => {
               onFocus={() => setIsInputFocused(true)}
               onBlur={() => setIsInputFocused(false)}
               className="flex-1 min-w-0 font-mono text-[10px] sm:text-xs bg-transparent border-none outline-none text-zinc-300"
-              placeholder={isProcessing ? "Processing..." : ""}
-              disabled={isProcessing || showProjects || showSkills || showBlog || showContact}
+              placeholder=""
+              disabled={showProjects || showSkills || showBlog || showContact}
               style={{ caretColor: 'hsl(var(--terminal-purple))' }}
             />
           </div>
@@ -348,24 +384,29 @@ const TerminalInterface = () => {
         </div>
       </div>
 
-      {/* Blur Backdrop */}
-      {(showProjects || showSkills || showBlog || showContact) && (
-        <div className="fixed inset-0 backdrop-blur-sm bg-zinc-900/10 z-40" />
-      )}
+      {/* Blur Backdrop - Keep mounted, derive visibility from pathname directly */}
+      <div
+        className="fixed inset-0 backdrop-blur-sm bg-zinc-900/10 z-40"
+        style={{
+          opacity: shouldShowBackdrop ? 1 : 0,
+          pointerEvents: shouldShowBackdrop ? 'auto' : 'none',
+          transition: 'none'
+        }}
+      />
 
-      {/* Floating Windows */}
-      {showProjects && (
+      {/* Floating Windows - Keep mounted for instant navigation */}
+      <div style={{ display: showProjects ? 'block' : 'none' }}>
         <ProjectsSection onClose={handleSectionChange} />
-      )}
-      {showSkills && (
+      </div>
+      <div style={{ display: showSkills ? 'block' : 'none' }}>
         <SkillsSection onClose={handleSectionChange} />
-      )}
-      {showBlog && (
+      </div>
+      <div style={{ display: showBlog ? 'block' : 'none' }}>
         <BlogSection onClose={handleSectionChange} />
-      )}
-      {showContact && (
+      </div>
+      <div style={{ display: showContact ? 'block' : 'none' }}>
         <ContactSection onClose={handleSectionChange} />
-      )}
+      </div>
     </div>
   );
 };

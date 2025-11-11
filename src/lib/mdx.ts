@@ -30,9 +30,17 @@ export interface ProjectData {
 
 const API_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:3000/api' : '/api';
 
+// Optimized fetch options for better performance
+const fetchOptions: RequestInit = {
+  // Keep connections alive for reuse
+  keepalive: true,
+  // Cache for 5 minutes
+  next: { revalidate: 300 },
+};
+
 export async function getAllPosts(): Promise<PostMetadata[]> {
   try {
-    const response = await fetch(`${API_URL}/posts`);
+    const response = await fetch(`${API_URL}/posts`, fetchOptions);
     if (!response.ok) {
       throw new Error('Failed to fetch posts');
     }
@@ -44,7 +52,7 @@ export async function getAllPosts(): Promise<PostMetadata[]> {
 }
 
 export async function getPostBySlug(slug: string): Promise<PostData> {
-  const response = await fetch(`${API_URL}/posts/${slug}`);
+  const response = await fetch(`${API_URL}/posts/${slug}`, fetchOptions);
   if (!response.ok) {
     throw new Error(`Post not found: ${slug}`);
   }
@@ -53,7 +61,7 @@ export async function getPostBySlug(slug: string): Promise<PostData> {
 
 export async function getAllProjects(): Promise<ProjectMetadata[]> {
   try {
-    const response = await fetch(`${API_URL}/projects`);
+    const response = await fetch(`${API_URL}/projects`, fetchOptions);
     if (!response.ok) {
       throw new Error('Failed to fetch projects');
     }
@@ -65,7 +73,7 @@ export async function getAllProjects(): Promise<ProjectMetadata[]> {
 }
 
 export async function getProjectBySlug(slug: string): Promise<ProjectData> {
-  const response = await fetch(`${API_URL}/projects/${slug}`);
+  const response = await fetch(`${API_URL}/projects/${slug}`, fetchOptions);
   if (!response.ok) {
     throw new Error(`Project not found: ${slug}`);
   }

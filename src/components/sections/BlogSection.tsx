@@ -156,4 +156,4 @@ const BlogSection: React.FC<BlogSectionProps> = ({ onClose }) => {
   );
 };
 
-export default BlogSection; 
+export default React.memo(BlogSection); 

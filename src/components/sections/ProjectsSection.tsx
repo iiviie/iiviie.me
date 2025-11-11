@@ -173,4 +173,4 @@ const ProjectsSection: React.FC<ProjectsSectionProps> = ({ onClose }) => {
   );
 };
 
-export default ProjectsSection;
+export default React.memo(ProjectsSection);

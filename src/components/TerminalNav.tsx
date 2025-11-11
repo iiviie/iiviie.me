@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { usePrefetchPosts, usePrefetchProjects } from '@/hooks/useMdxQueries';
 
 interface TerminalNavProps {
   currentSection: string;
@@ -6,11 +6,14 @@ interface TerminalNavProps {
 }
 
 const TerminalNav = ({ currentSection, onSectionChange }: TerminalNavProps) => {
+  const prefetchPosts = usePrefetchPosts();
+  const prefetchProjects = usePrefetchProjects();
+
   const sections = [
-    { id: 'projects', label: 'Projects', shortcut: 'P' },
-    { id: 'skills', label: 'Skills', shortcut: 'S' },
-    { id: 'blog', label: 'Blog', shortcut: 'B' },
-    { id: 'contact', label: 'Contact', shortcut: 'C' },
+    { id: 'projects', label: 'Projects', shortcut: 'P', onHover: prefetchProjects },
+    { id: 'skills', label: 'Skills', shortcut: 'S', onHover: () => {} },
+    { id: 'blog', label: 'Blog', shortcut: 'B', onHover: prefetchPosts },
+    { id: 'contact', label: 'Contact', shortcut: 'C', onHover: () => {} },
   ];
 
   return (
@@ -19,6 +22,8 @@ const TerminalNav = ({ currentSection, onSectionChange }: TerminalNavProps) => {
         <button
           key={section.id}
           onClick={() => onSectionChange(section.id)}
+          onMouseEnter={section.onHover}
+          onFocus={section.onHover}
           className={`px-1.5 sm:px-2 py-0.5 text-[10px] sm:text-xs rounded transition-all whitespace-nowrap ${
             currentSection === section.id
               ? 'bg-purple-400/20 text-purple-400'
