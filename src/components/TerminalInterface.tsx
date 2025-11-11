@@ -67,6 +67,19 @@ const TerminalInterface = () => {
     setShowSkills(pathname === '/skills');
     setShowBlog(pathname.startsWith('/blog'));
     setShowContact(pathname === '/contact');
+
+    // Update currentSection based on pathname
+    if (pathname.startsWith('/projects')) {
+      setCurrentSection('projects');
+    } else if (pathname === '/skills') {
+      setCurrentSection('skills');
+    } else if (pathname.startsWith('/blog')) {
+      setCurrentSection('blog');
+    } else if (pathname === '/contact') {
+      setCurrentSection('contact');
+    } else {
+      setCurrentSection('home');
+    }
   }, [pathname]);
 
   useEffect(() => {
@@ -176,42 +189,22 @@ const TerminalInterface = () => {
   }, [commandHistory, hasInitialized]);
 
   const handleSectionChange = (section: string) => {
-    setCurrentSection(section);
+    // Only update the route - let the useEffect handle state updates
     switch (section) {
       case 'projects':
-        setShowProjects(true);
-        setShowSkills(false);
-        setShowBlog(false);
-        setShowContact(false);
         router.push('/projects');
         break;
       case 'skills':
-        setShowProjects(false);
-        setShowSkills(true);
-        setShowBlog(false);
-        setShowContact(false);
         router.push('/skills');
         break;
       case 'blog':
-        setShowProjects(false);
-        setShowSkills(false);
-        setShowBlog(true);
-        setShowContact(false);
         router.push('/blog');
         break;
       case 'contact':
-        setShowProjects(false);
-        setShowSkills(false);
-        setShowBlog(false);
-        setShowContact(true);
         router.push('/contact');
         break;
       case 'home':
       default:
-        setShowProjects(false);
-        setShowSkills(false);
-        setShowBlog(false);
-        setShowContact(false);
         router.push('/');
         break;
     }
@@ -219,19 +212,15 @@ const TerminalInterface = () => {
 
   const commands: Record<string, () => void> = {
     'projects': () => {
-      setShowProjects(true);
       router.push('/projects');
     },
     'skills': () => {
-      setShowSkills(true);
       router.push('/skills');
     },
     'blog': () => {
-      setShowBlog(true);
       router.push('/blog');
     },
     'contact': () => {
-      setShowContact(true);
       router.push('/contact');
     },
     'clear': () => setCommandHistory([]),
