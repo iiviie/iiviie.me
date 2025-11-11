@@ -16,11 +16,15 @@ const nextConfig = {
     };
     return config;
   },
+  // Include MDX files in server-side builds
   outputFileTracingIncludes: {
-    '/api/posts': ['./src/posts/**/*'],
-    '/api/posts/[slug]': ['./src/posts/**/*'],
-    '/api/projects': ['./src/projects/**/*'],
-    '/api/projects/[slug]': ['./src/projects/**/*'],
+    '/': ['./src/posts/**/*', './src/projects/**/*'],
+    '/projects': ['./src/posts/**/*', './src/projects/**/*'],
+    '/projects/[slug]': ['./src/posts/**/*', './src/projects/**/*'],
+    '/blog': ['./src/posts/**/*', './src/projects/**/*'],
+    '/blog/[slug]': ['./src/posts/**/*', './src/projects/**/*'],
+    '/skills': ['./src/posts/**/*', './src/projects/**/*'],
+    '/contact': ['./src/posts/**/*', './src/projects/**/*'],
   },
 };
 
