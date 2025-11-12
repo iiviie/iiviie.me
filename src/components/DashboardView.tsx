@@ -55,7 +55,7 @@ const DashboardView = () => {
           <div className="w-full max-w-2xl">
             <div className="mb-2 relative overflow-hidden">
               <div className="transform scale-[0.35] origin-left">
-                <pre className="text-xs leading-none text-white whitespace-pre" style={{ fontFamily: 'monospace', textShadow: '0 0 2px rgba(255,255,255,0.3)' }}>
+                <pre className="text-xs leading-none text-zinc-300 whitespace-pre crt-glow" style={{ fontFamily: 'monospace', transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}>
 {`                                    █████
                                    ░░███
  █████ ███ █████  ██████  ████████  ░███ █████
@@ -94,7 +94,7 @@ const DashboardView = () => {
             <div className="mb-2 flex items-center justify-between">
               <div className="relative overflow-hidden">
                 <div className="transform scale-[0.35] origin-left">
-                  <pre className="text-xs leading-none text-white whitespace-pre" style={{ fontFamily: 'monospace', textShadow: '0 0 2px rgba(255,255,255,0.3)' }}>
+                  <pre className="text-xs leading-none text-zinc-300 whitespace-pre crt-glow" style={{ fontFamily: 'monospace', transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}>
 {`                                   ███                     █████
                                   ░░░                     ░░███
  ████████  ████████   ██████      █████  ██████   ██████  ███████    █████
@@ -143,7 +143,7 @@ const DashboardView = () => {
             <div className="mb-2 flex items-center justify-between">
               <div className="relative overflow-hidden">
                 <div className="transform scale-[0.35] origin-left">
-                  <pre className="text-xs leading-none text-white whitespace-pre" style={{ fontFamily: 'monospace', textShadow: '0 0 2px rgba(255,255,255,0.3)' }}>
+                  <pre className="text-xs leading-none text-zinc-300 whitespace-pre crt-glow" style={{ fontFamily: 'monospace', transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}>
 {` █████     ████
 ░░███     ░░███
  ░███████  ░███   ██████   ███████

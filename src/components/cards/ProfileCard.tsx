@@ -51,7 +51,7 @@ const ProfileCard = ({ name, description }: ProfileCardProps) => {
         {/* Divyansh ASCII Art with dripping animation */}
         <div className="relative overflow-hidden">
           <div className="transform scale-[0.35] origin-left">
-            <pre className="text-xs leading-none text-white whitespace-pre crt-glow" style={{ fontFamily: 'monospace' }}>
+            <pre className="text-xs leading-none text-white whitespace-pre crt-glow" style={{ fontFamily: 'monospace', transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}>
 {`
  ██████████   █████ █████   █████ █████ █████   █████████   ██████   █████  █████████  █████   █████
 ░░███░░░░███ ░░███ ░░███   ░░███ ░░███ ░░███   ███░░░░░███ ░░██████ ░░███  ███░░░░░███░░███   ░░███
