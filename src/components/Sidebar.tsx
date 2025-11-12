@@ -23,7 +23,7 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="h-screen w-32 bg-zinc-800 border-r border-zinc-700 flex flex-col py-4">
+    <div className="h-full w-32 flex flex-col py-4 mr-4">
       {/* Logo */}
       <div className="px-4 mb-8">
         <div className="flex items-center gap-2">

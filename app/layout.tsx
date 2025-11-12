@@ -36,9 +36,9 @@ export default async function RootLayout({
             <TooltipProvider>
               <Toaster />
               <Sonner />
-              <div className="h-screen w-screen bg-zinc-900 fixed inset-0 overflow-hidden flex">
+              <div className="h-screen w-screen bg-zinc-800 fixed inset-0 overflow-hidden flex p-4">
                 <Sidebar />
-                <div className="flex-1 h-full pt-4">
+                <div className="flex-1 h-full">
                   <TerminalInterface />
                 </div>
               </div>

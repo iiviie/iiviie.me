@@ -8,6 +8,7 @@ import ProjectsSection from './sections/ProjectsSection';
 import SkillsSection from './sections/SkillsSection';
 import ContactSection from './sections/ContactSection';
 import BlogSection from './sections/BlogSection';
+import DashboardView from './DashboardView';
 import { usePrefetchPosts, usePrefetchProjects } from '@/hooks/useMdxQueries';
 
 interface CommandOutput {
@@ -294,7 +295,7 @@ const TerminalInterface = () => {
   return (
     <div className="flex flex-col h-full">
       {/* Main Terminal Window */}
-      <div className="flex flex-col terminal-main crt-scanlines relative mx-1 sm:mx-2 md:mx-3 mt-1 sm:mt-2 mb-1 sm:mb-2 bg-zinc-900 border border-zinc-700/50 rounded-lg shadow-lg" style={{ height: 'calc(100vh - 1rem)' }}>
+      <div className="flex flex-col terminal-main crt-scanlines relative h-full bg-zinc-900 border border-zinc-700/50 rounded-lg shadow-lg">
         {/* Terminal Header */}
         <div className="bg-zinc-900/50 px-2 sm:px-3 py-1.5 sm:py-2 flex items-center gap-1.5 flex-shrink-0 border-b border-zinc-800 rounded-t-lg backdrop-blur-sm">
           <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-red-400"></div>
@@ -303,54 +304,9 @@ const TerminalInterface = () => {
           <span className="ml-2 sm:ml-3 text-[10px] sm:text-xs text-zinc-500 truncate">divyansh@backend-dev: ~</span>
         </div>
 
-        {/* Terminal Content */}
-        <div ref={terminalContentRef} className="flex-1 overflow-y-auto overflow-x-hidden p-2 sm:p-3 font-mono text-[10px] sm:text-xs bg-zinc-900/95 text-zinc-300 scrollbar-thin scrollbar-track-zinc-800 scrollbar-thumb-zinc-600">
-          {commandHistory.map((item, index) => (
-            <div key={index} className="mb-2 sm:mb-3">
-              {item.type === 'command' ? (
-                <div className="text-purple-600 break-all">{item.content}</div>
-              ) : item.type === 'ascii-art' ? (
-                <div className="text-center mb-3 sm:mb-4">{item.content}</div>
-              ) : (
-                <div className="ml-1.5 sm:ml-2 text-zinc-300 whitespace-pre-line break-words">{item.content}</div>
-              )}
-            </div>
-          ))}
-          <div ref={historyEndRef} />
-        </div>
-        
-        {/* Command Input */}
-        <div className={`px-2 sm:px-3 py-1.5 sm:py-2 border-t border-zinc-800 flex-shrink-0 backdrop-blur-sm transition-all duration-200 ${
-          isInputFocused 
-            ? 'bg-zinc-800/90 border-purple-500/30 shadow-lg shadow-purple-500/10' 
-            : 'bg-zinc-900/90'
-        }`}>
-          <div 
-            className="flex items-center gap-1.5 overflow-hidden cursor-text"
-            onClick={() => {
-              if (!showProjects && !showSkills && !showBlog && !showContact) {
-                inputRef.current?.focus();
-                setIsInputFocused(true);
-              }
-            }}
-          >
-            <span className="text-zinc-300 font-mono text-[10px] sm:text-xs whitespace-nowrap">
-              $
-            </span>
-            <input
-              ref={inputRef}
-              type="text"
-              value={commandInput}
-              onChange={(e) => setCommandInput(e.target.value)}
-              onKeyDown={handleCommand}
-              onFocus={() => setIsInputFocused(true)}
-              onBlur={() => setIsInputFocused(false)}
-              className="flex-1 min-w-0 font-mono text-[10px] sm:text-xs bg-transparent border-none outline-none text-zinc-300"
-              placeholder=""
-              disabled={showProjects || showSkills || showBlog || showContact}
-              style={{ caretColor: 'hsl(var(--terminal-purple))' }}
-            />
-          </div>
+        {/* Terminal Content - Dashboard View */}
+        <div ref={terminalContentRef} className="flex-1 overflow-y-auto overflow-x-hidden bg-zinc-900/95">
+          <DashboardView />
         </div>
         
         {/* Status Bar */}
