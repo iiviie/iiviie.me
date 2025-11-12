@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import ProfileCard from './cards/ProfileCard';
 import WorkExperienceCard from './cards/WorkExperienceCard';
 import ProjectCard from './cards/ProjectCard';
@@ -11,6 +12,30 @@ const DashboardView = () => {
   const router = useRouter();
   const { data: projects = [] } = useProjectsQuery();
   const { data: posts = [] } = usePostsQuery();
+
+  const [drips, setDrips] = useState<Array<{ id: number; x: number; y: number; section: string }>>([]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const sections = ['work', 'projects', 'blog'];
+      const randomSection = sections[Math.floor(Math.random() * sections.length)];
+
+      const newDrip = {
+        id: Date.now() + Math.random(),
+        x: Math.random() * 100,
+        y: 0,
+        section: randomSection,
+      };
+
+      setDrips(prev => [...prev, newDrip]);
+
+      setTimeout(() => {
+        setDrips(prev => prev.filter(d => d.id !== newDrip.id));
+      }, 2000);
+    }, 600);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className="h-full overflow-y-auto scrollbar-thin scrollbar-track-zinc-800 scrollbar-thumb-zinc-600">
@@ -28,10 +53,32 @@ const DashboardView = () => {
         {/* Work Experience - Below Profile */}
         <div className="flex justify-center">
           <div className="w-full max-w-2xl">
-            <div className="mb-4">
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
-                Work Experience
-              </h2>
+            <div className="mb-2 relative overflow-hidden">
+              <div className="transform scale-[0.35] origin-left">
+                <pre className="text-xs leading-none text-white whitespace-pre" style={{ fontFamily: 'monospace', textShadow: '0 0 2px rgba(255,255,255,0.3)' }}>
+{`                                    █████
+                                   ░░███
+ █████ ███ █████  ██████  ████████  ░███ █████
+░░███ ░███░░███  ███░░███░░███░░███ ░███░░███
+ ░███ ░███ ░███ ░███ ░███ ░███ ░░░  ░██████░
+ ░░███████████  ░███ ░███ ░███      ░███░░███
+  ░░████░████   ░░██████  █████     ████ █████
+   ░░░░ ░░░░     ░░░░░░  ░░░░░     ░░░░ ░░░░░`}
+                </pre>
+              </div>
+              {/* Dripping animation for Work Experience */}
+              {drips.filter(d => d.section === 'work').map(drip => (
+                <div
+                  key={drip.id}
+                  className="absolute pointer-events-none"
+                  style={{
+                    left: `${drip.x}%`,
+                    top: '24px',
+                  }}
+                >
+                  <div className="drip-drop text-white">▪</div>
+                </div>
+              ))}
             </div>
             <div className="space-y-3">
               {workExperiences.map((experience) => (
@@ -44,10 +91,37 @@ const DashboardView = () => {
         {/* Projects Section - Vertical Stack */}
         <div className="flex justify-center">
           <div className="w-full max-w-2xl">
-            <div className="mb-4 flex items-center justify-between">
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
-                Projects
-              </h2>
+            <div className="mb-2 flex items-center justify-between">
+              <div className="relative overflow-hidden">
+                <div className="transform scale-[0.35] origin-left">
+                  <pre className="text-xs leading-none text-white whitespace-pre" style={{ fontFamily: 'monospace', textShadow: '0 0 2px rgba(255,255,255,0.3)' }}>
+{`                                   ███                     █████
+                                  ░░░                     ░░███
+ ████████  ████████   ██████      █████  ██████   ██████  ███████    █████
+░░███░░███░░███░░███ ███░░███    ░░███  ███░░███ ███░░███░░░███░    ███░░
+ ░███ ░███ ░███ ░░░ ░███ ░███     ░███ ░███████ ░███ ░░░   ░███    ░░█████
+ ░███ ░███ ░███     ░███ ░███     ░███ ░███░░░  ░███  ███  ░███ ███ ░░░░███
+ ░███████  █████    ░░██████      ░███ ░░██████ ░░██████   ░░█████  ██████
+ ░███░░░  ░░░░░      ░░░░░░       ░███  ░░░░░░   ░░░░░░     ░░░░░  ░░░░░░
+ ░███                         ███ ░███
+ █████                       ░░██████
+░░░░░                         ░░░░░░`}
+                  </pre>
+                </div>
+                {/* Dripping animation for Projects */}
+                {drips.filter(d => d.section === 'projects').map(drip => (
+                  <div
+                    key={drip.id}
+                    className="absolute pointer-events-none"
+                    style={{
+                      left: `${drip.x}%`,
+                      top: '18px',
+                    }}
+                  >
+                    <div className="drip-drop text-white">▪</div>
+                  </div>
+                ))}
+              </div>
               <button
                 onClick={() => router.push('/projects')}
                 className="text-xs text-white hover:text-zinc-200 border border-zinc-700/50 px-3 py-1 rounded hover:border-zinc-600 transition-colors"
@@ -66,10 +140,37 @@ const DashboardView = () => {
         {/* Blog Section - Vertical Stack */}
         <div className="flex justify-center">
           <div className="w-full max-w-2xl">
-            <div className="mb-4 flex items-center justify-between">
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
-                Latest Blog Posts
-              </h2>
+            <div className="mb-2 flex items-center justify-between">
+              <div className="relative overflow-hidden">
+                <div className="transform scale-[0.35] origin-left">
+                  <pre className="text-xs leading-none text-white whitespace-pre" style={{ fontFamily: 'monospace', textShadow: '0 0 2px rgba(255,255,255,0.3)' }}>
+{` █████     ████
+░░███     ░░███
+ ░███████  ░███   ██████   ███████
+ ░███░░███ ░███  ███░░███ ███░░███
+ ░███ ░███ ░███ ░███ ░███░███ ░███
+ ░███ ░███ ░███ ░███ ░███░███ ░███
+ ████████  █████░░██████ ░░███████
+░░░░░░░░  ░░░░░  ░░░░░░   ░░░░░███
+                          ███ ░███
+                         ░░██████
+                          ░░░░░░`}
+                  </pre>
+                </div>
+                {/* Dripping animation for Blog */}
+                {drips.filter(d => d.section === 'blog').map(drip => (
+                  <div
+                    key={drip.id}
+                    className="absolute pointer-events-none"
+                    style={{
+                      left: `${drip.x}%`,
+                      top: '18px',
+                    }}
+                  >
+                    <div className="drip-drop text-white">▪</div>
+                  </div>
+                ))}
+              </div>
               <button
                 onClick={() => router.push('/blog')}
                 className="text-xs text-white hover:text-zinc-200 border border-zinc-700/50 px-3 py-1 rounded hover:border-zinc-600 transition-colors"
@@ -115,6 +216,24 @@ const DashboardView = () => {
           </div>
         </div>
       </div>
+
+      <style jsx>{`
+        .drip-drop {
+          font-size: 8px;
+          animation: drip 2s ease-in forwards;
+        }
+
+        @keyframes drip {
+          0% {
+            transform: translateY(0);
+            opacity: 1;
+          }
+          100% {
+            transform: translateY(40px);
+            opacity: 0;
+          }
+        }
+      `}</style>
     </div>
   );
 };

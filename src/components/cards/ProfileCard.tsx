@@ -47,9 +47,9 @@ const ProfileCard = ({ name, description }: ProfileCardProps) => {
       </div>
 
       {/* Profile Info - Left aligned */}
-      <div className="space-y-4">
+      <div className="space-y-1">
         {/* Divyansh ASCII Art with dripping animation */}
-        <div className="relative overflow-hidden pb-4">
+        <div className="relative overflow-hidden">
           <div className="transform scale-[0.35] origin-left">
             <pre className="text-xs leading-none text-white whitespace-pre crt-glow" style={{ fontFamily: 'monospace' }}>
 {`
