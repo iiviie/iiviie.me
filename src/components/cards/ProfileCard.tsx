@@ -1,24 +1,36 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 interface ProfileCardProps {
   name: string;
-  title: string;
   description: string;
-  stats: {
-    experience: string;
-    projects: number;
-    technologies: number;
-  };
 }
 
-const ProfileCard = ({ name, title, description, stats }: ProfileCardProps) => {
-  const router = useRouter();
+const ProfileCard = ({ name, description }: ProfileCardProps) => {
+  const [drips, setDrips] = useState<Array<{ id: number; x: number; y: number }>>([]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const newDrip = {
+        id: Date.now(),
+        x: Math.random() * 100,
+        y: 0,
+      };
+
+      setDrips(prev => [...prev, newDrip]);
+
+      setTimeout(() => {
+        setDrips(prev => prev.filter(d => d.id !== newDrip.id));
+      }, 2000);
+    }, 800);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
-    <div className="bg-zinc-900/60 border border-zinc-700/50 rounded-lg p-6 backdrop-blur-sm shadow-lg">
-      {/* ASCII Art - Exact from original */}
+    <div>
+      {/* IIVIIE ASCII Art - Centered (purple) */}
       <div className="mb-6 overflow-x-auto">
         <div className="text-center">
           <pre className="text-[0.3rem] xs:text-[0.35rem] sm:text-[0.45rem] crt-glow whitespace-pre scale-40 xs:scale-50 sm:scale-75 origin-center" style={{ color: '#9068F7', transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}>
@@ -34,51 +46,65 @@ const ProfileCard = ({ name, title, description, stats }: ProfileCardProps) => {
         </div>
       </div>
 
-      {/* Profile Info */}
+      {/* Profile Info - Left aligned */}
       <div className="space-y-4">
-        <div>
-          <h2 className="text-xl sm:text-2xl font-bold text-purple-400 font-mono mb-1">
-            {name}
-          </h2>
+        {/* Divyansh ASCII Art with dripping animation */}
+        <div className="relative overflow-hidden pb-4">
+          <div className="transform scale-[0.35] origin-left">
+            <pre className="text-xs leading-none text-white whitespace-pre crt-glow" style={{ fontFamily: 'monospace' }}>
+{`
+ ██████████   █████ █████   █████ █████ █████   █████████   ██████   █████  █████████  █████   █████
+░░███░░░░███ ░░███ ░░███   ░░███ ░░███ ░░███   ███░░░░░███ ░░██████ ░░███  ███░░░░░███░░███   ░░███
+ ░███   ░░███ ░███  ░███    ░███  ░░███ ███   ░███    ░███  ░███░███ ░███ ░███    ░░░  ░███    ░███
+ ░███    ░███ ░███  ░███    ░███   ░░█████    ░███████████  ░███░░███░███ ░░█████████  ░███████████
+ ░███    ░███ ░███  ░░███   ███     ░░███     ░███░░░░░███  ░███ ░░██████  ░░░░░░░░███ ░███░░░░░███
+ ░███    ███  ░███   ░░░█████░       ░███     ░███    ░███  ░███  ░░█████  ███    ░███ ░███    ░███
+ ██████████   █████    ░░███         █████    █████   █████ █████  ░░█████░░█████████  █████   █████
+░░░░░░░░░░   ░░░░░      ░░░         ░░░░░    ░░░░░   ░░░░░ ░░░░░    ░░░░░  ░░░░░░░░░  ░░░░░   ░░░░░
+`}
+            </pre>
+          </div>
+
+          {/* Dripping animation */}
+          {drips.map(drip => (
+            <div
+              key={drip.id}
+              className="absolute pointer-events-none"
+              style={{
+                left: `${drip.x}%`,
+                top: '24px',
+              }}
+            >
+              <div className="drip-drop text-white">
+                ▪
+              </div>
+            </div>
+          ))}
         </div>
 
-        {/* Stats */}
-        <div className="grid grid-cols-3 gap-4 py-4 border-y border-zinc-700/50">
-          <div className="text-center">
-            <div className="text-2xl font-bold text-purple-400 font-mono">{stats.experience}</div>
-            <div className="text-xs text-zinc-400 font-mono">experience</div>
-          </div>
-          <div className="text-center border-x border-zinc-700/50">
-            <div className="text-2xl font-bold text-purple-400 font-mono">{stats.projects}+</div>
-            <div className="text-xs text-zinc-400 font-mono">projects</div>
-          </div>
-          <div className="text-center">
-            <div className="text-2xl font-bold text-purple-400 font-mono">{stats.technologies}+</div>
-            <div className="text-xs text-zinc-400 font-mono">technologies</div>
-          </div>
-        </div>
-
-        {/* Description */}
-        <p className="text-sm text-zinc-300 font-mono leading-relaxed">
+        {/* Description - Left aligned */}
+        <p className="text-sm text-white leading-relaxed">
           {description}
         </p>
-
-        {/* Action Buttons */}
-        <div className="flex gap-3 pt-2">
-          <button
-            onClick={() => router.push('/contact')}
-            className="flex-1 bg-purple-600 hover:bg-purple-700 text-white text-sm font-mono px-4 py-2 rounded transition-colors"
-          >
-            Contact
-          </button>
-          <button
-            onClick={() => router.push('/projects')}
-            className="px-4 py-2 border border-purple-500/50 hover:border-purple-400 text-purple-400 hover:text-purple-300 text-sm font-mono rounded transition-colors"
-          >
-            Portfolio
-          </button>
-        </div>
       </div>
+
+      <style jsx>{`
+        .drip-drop {
+          font-size: 8px;
+          animation: drip 2s ease-in forwards;
+        }
+
+        @keyframes drip {
+          0% {
+            transform: translateY(0);
+            opacity: 1;
+          }
+          100% {
+            transform: translateY(40px);
+            opacity: 0;
+          }
+        }
+      `}</style>
     </div>
   );
 };
