@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { JetBrains_Mono } from 'next/font/google';
+import { Geist_Mono } from 'next/font/google';
 import '@/styles/globals.css';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { Toaster } from '@/components/ui/toaster';
@@ -10,7 +10,7 @@ import Sidebar from '@/components/Sidebar';
 import { DataProvider } from '@/components/DataProvider';
 import { getAllPostsServer, getAllProjectsServer } from '@/lib/mdx-server';
 
-const jetbrainsMono = JetBrains_Mono({ subsets: ['latin'] });
+const geistMono = Geist_Mono({ subsets: ['latin'], display: 'swap' });
 
 export const metadata: Metadata = {
   title: 'Divyansh Verma - Backend Developer',
@@ -30,7 +30,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={jetbrainsMono.className} suppressHydrationWarning>
+      <body className={geistMono.className} suppressHydrationWarning>
         <Providers>
           <DataProvider posts={posts} projects={projects}>
             <TooltipProvider>
