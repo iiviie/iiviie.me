@@ -67,17 +67,14 @@
   
   /* Enhanced CRT Monitor Effects */
   .crt-glow {
-    text-shadow: 
+    text-shadow:
       /* Inner bright glow */
-      0 0 2px currentColor,
-      0 0 4px currentColor,
-      /* Mid glow - more intense */
-      0 0 8px currentColor,
-      0 0 12px currentColor,
-      /* Outer glow - creates the hazy effect */
-      0 0 16px rgba(144, 104, 247, 0.7),
-      0 0 22px rgba(144, 104, 247, 0.5),
-      0 0 30px rgba(144, 104, 247, 0.3);
+      0 0 3px currentColor,
+      0 0 6px currentColor,
+      /* Mid glow */
+      0 0 10px rgba(144, 104, 247, 0.8),
+      /* Outer glow */
+      0 0 18px rgba(144, 104, 247, 0.5);
     filter: brightness(1.2) contrast(0.95);
   }
   
@@ -121,8 +118,6 @@
   
   /* Specific styling for the ASCII art */
   pre.crt-glow {
-    transform: scale(0.99);
-    letter-spacing: 1px;
     opacity: 0.95;
   }
   

@@ -27,7 +27,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
   return (
     <div
       onClick={handleClick}
-      className="bg-zinc-900/60 border border-zinc-700/50 rounded-lg p-4 hover:border-zinc-600 transition-all cursor-pointer backdrop-blur-sm group"
+      className="bg-zinc-900/90 border border-zinc-700/50 rounded-lg p-4 hover:border-zinc-600 transition-all cursor-pointer group"
     >
       {/* Header */}
       <div className="mb-3">

@@ -44,7 +44,7 @@ const DashboardView = () => {
       setTimeout(() => {
         setSnowflakes(prev => prev.filter(d => d.id !== newSnowflake.id));
       }, 3000);
-    }, 200);
+    }, 600);
 
     return () => clearInterval(interval);
   }, []);
@@ -157,7 +157,7 @@ const DashboardView = () => {
                   <div
                     key={post.slug}
                     onClick={() => router.push(`/blog/${post.slug}`)}
-                    className="bg-zinc-900/60 border border-zinc-700/50 rounded-lg p-4 hover:border-zinc-600 transition-all cursor-pointer backdrop-blur-sm group"
+                    className="bg-zinc-900/90 border border-zinc-700/50 rounded-lg p-4 hover:border-zinc-600 transition-all cursor-pointer group"
                   >
                     <div className="mb-2">
                       <h3 className="text-lg font-bold text-white group-hover:text-zinc-200 transition-colors">
@@ -175,7 +175,7 @@ const DashboardView = () => {
                   </div>
                 ))
               ) : (
-                <div className="bg-zinc-900/60 border border-zinc-700/50 rounded-lg p-4 backdrop-blur-sm">
+                <div className="bg-zinc-900/90 border border-zinc-700/50 rounded-lg p-4">
                   <h3 className="text-lg font-bold text-white mb-2">Coming Soon</h3>
                   <p className="text-base text-white">
                     Blog posts will be added here. Stay tuned for insights on backend development, cloud architecture, and more.
