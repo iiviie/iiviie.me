@@ -23,14 +23,20 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="h-full w-32 flex flex-col py-4 mr-4">
-      {/* Logo */}
-      <div className="px-4 mb-8">
-        <div className="flex items-center gap-2">
-          <div className="w-6 h-6 bg-zinc-700 rounded border border-zinc-600 flex items-center justify-center">
-            <span className="text-xs font-mono text-purple-400">&gt;_</span>
-          </div>
-          <span className="font-mono text-sm font-bold text-zinc-300">DEV</span>
+    <div className="h-full w-48 flex flex-col py-4 mr-4">
+      {/* Logo - IIVIIE ASCII Art */}
+      <div className="px-2 mb-8 py-4">
+        <div className="text-center">
+          <pre className="text-[0.3rem] xs:text-[0.35rem] sm:text-[0.45rem] crt-glow whitespace-pre scale-40 xs:scale-50 sm:scale-75 origin-center" style={{ color: '#9068F7' }}>
+{`
+██╗ ██╗ ██╗   ██╗ ██╗ ██╗ ███████╗
+██║ ██║ ██║   ██║ ██║ ██║ ██╔════╝
+██║ ██║ ██║   ██║ ██║ ██║ █████╗
+██║ ██║ ╚██╗ ██╔╝ ██║ ██║ ██╔══╝
+██║ ██║  ╚████╔╝  ██║ ██║ ███████╗
+╚═╝ ╚═╝   ╚═══╝   ╚═╝ ╚═╝ ╚══════╝
+`}
+          </pre>
         </div>
       </div>
 
