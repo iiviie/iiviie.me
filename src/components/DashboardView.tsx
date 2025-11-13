@@ -13,33 +13,61 @@ const DashboardView = () => {
   const { data: projects = [] } = useProjectsQuery();
   const { data: posts = [] } = usePostsQuery();
 
-  const [drips, setDrips] = useState<Array<{ id: number; x: number; y: number; section: string }>>([]);
+  const [snowflakes, setSnowflakes] = useState<Array<{ id: number; x: number; y: number }>>([]);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const sections = ['work', 'projects', 'blog'];
-      const randomSection = sections[Math.floor(Math.random() * sections.length)];
+      // Probabilistic spawning: favor left and right edges over center
+      let x;
+      const spawnInCenter = Math.random() < 0.3; // 30% chance to spawn in center
 
-      const newDrip = {
+      if (spawnInCenter) {
+        // Center region (30-70%)
+        x = 30 + Math.random() * 40;
+      } else {
+        // Edge regions (0-30% or 70-100%)
+        if (Math.random() < 0.5) {
+          x = Math.random() * 30; // Left edge
+        } else {
+          x = 70 + Math.random() * 30; // Right edge
+        }
+      }
+
+      const newSnowflake = {
         id: Date.now() + Math.random(),
-        x: Math.random() * 100,
-        y: 0,
-        section: randomSection,
+        x: x,
+        y: Math.random() * 100,
       };
 
-      setDrips(prev => [...prev, newDrip]);
+      setSnowflakes(prev => [...prev, newSnowflake]);
 
       setTimeout(() => {
-        setDrips(prev => prev.filter(d => d.id !== newDrip.id));
-      }, 2000);
-    }, 600);
+        setSnowflakes(prev => prev.filter(d => d.id !== newSnowflake.id));
+      }, 3000);
+    }, 200);
 
     return () => clearInterval(interval);
   }, []);
 
   return (
     <div className="h-full overflow-y-auto scrollbar-thin scrollbar-track-zinc-800 scrollbar-thumb-zinc-600">
-      <div className="max-w-3xl mx-auto p-4 sm:p-6 space-y-2">
+      <div className="relative">
+        {/* Global Snowfall Effect - covers entire page */}
+        <div className="absolute inset-0 pointer-events-none z-50">
+          {snowflakes.map(flake => (
+            <div
+              key={flake.id}
+              className="absolute snowflake"
+              style={{
+                left: `${flake.x}%`,
+                top: `${flake.y}%`,
+              }}
+            >
+              ▪
+            </div>
+          ))}
+        </div>
+        <div className="max-w-3xl mx-auto p-4 sm:p-6 space-y-2">
         {/* Profile Card - Centered */}
         <div className="flex justify-center">
           <div className="w-full max-w-2xl">
@@ -53,8 +81,8 @@ const DashboardView = () => {
         {/* Work Experience - Below Profile */}
         <div className="flex justify-center">
           <div className="w-full max-w-2xl">
-            <div className="relative overflow-hidden -mb-3">
-              <div className="transform scale-[0.35] origin-left">
+            <div className="overflow-hidden -mb-3">
+              <div className="transform scale-[0.35] origin-left" style={{ transform: 'scale(0.35) translateZ(0)', backfaceVisibility: 'hidden', willChange: 'transform' }}>
                 <pre className="text-xs leading-none text-zinc-300 whitespace-pre crt-glow" style={{ fontFamily: 'monospace', transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}>
 {`                                    █████
                                    ░░███
@@ -66,19 +94,6 @@ const DashboardView = () => {
    ░░░░ ░░░░     ░░░░░░  ░░░░░     ░░░░ ░░░░░`}
                 </pre>
               </div>
-              {/* Dripping animation for Work Experience */}
-              {drips.filter(d => d.section === 'work').map(drip => (
-                <div
-                  key={drip.id}
-                  className="absolute pointer-events-none"
-                  style={{
-                    left: `${drip.x}%`,
-                    top: '24px',
-                  }}
-                >
-                  <div className="drip-drop text-white">▪</div>
-                </div>
-              ))}
             </div>
             <div className="space-y-1.5">
               {workExperiences.map((experience) => (
@@ -91,8 +106,8 @@ const DashboardView = () => {
         {/* Projects Section - Vertical Stack */}
         <div className="flex justify-center">
           <div className="w-full max-w-2xl">
-            <div className="relative overflow-hidden -mb-3">
-              <div className="transform scale-[0.35] origin-left">
+            <div className="overflow-hidden -mb-3">
+              <div className="transform scale-[0.35] origin-left" style={{ transform: 'scale(0.35) translateZ(0)', backfaceVisibility: 'hidden', willChange: 'transform' }}>
                 <pre className="text-xs leading-none text-zinc-300 whitespace-pre crt-glow" style={{ fontFamily: 'monospace', transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}>
 {`                                   ███                     █████
                                   ░░░                     ░░███
@@ -107,19 +122,6 @@ const DashboardView = () => {
 ░░░░░                         ░░░░░░`}
                 </pre>
               </div>
-              {/* Dripping animation for Projects */}
-              {drips.filter(d => d.section === 'projects').map(drip => (
-                <div
-                  key={drip.id}
-                  className="absolute pointer-events-none"
-                  style={{
-                    left: `${drip.x}%`,
-                    top: '18px',
-                  }}
-                >
-                  <div className="drip-drop text-white">▪</div>
-                </div>
-              ))}
             </div>
             <div className="space-y-1.5">
               {projects.slice(0, 3).map((project) => (
@@ -132,8 +134,8 @@ const DashboardView = () => {
         {/* Blog Section - Vertical Stack */}
         <div className="flex justify-center">
           <div className="w-full max-w-2xl">
-            <div className="relative overflow-hidden -mb-3">
-              <div className="transform scale-[0.35] origin-left">
+            <div className="overflow-hidden -mb-3">
+              <div className="transform scale-[0.35] origin-left" style={{ transform: 'scale(0.35) translateZ(0)', backfaceVisibility: 'hidden', willChange: 'transform' }}>
                 <pre className="text-xs leading-none text-zinc-300 whitespace-pre crt-glow" style={{ fontFamily: 'monospace', transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}>
 {` █████     ████
 ░░███     ░░███
@@ -148,19 +150,6 @@ const DashboardView = () => {
                           ░░░░░░`}
                 </pre>
               </div>
-              {/* Dripping animation for Blog */}
-              {drips.filter(d => d.section === 'blog').map(drip => (
-                <div
-                  key={drip.id}
-                  className="absolute pointer-events-none"
-                  style={{
-                    left: `${drip.x}%`,
-                    top: '18px',
-                  }}
-                >
-                  <div className="drip-drop text-white">▪</div>
-                </div>
-              ))}
             </div>
             <div className="space-y-1.5">
               {posts.length > 0 ? (
@@ -196,21 +185,29 @@ const DashboardView = () => {
             </div>
           </div>
         </div>
+        </div>
       </div>
 
       <style jsx>{`
-        .drip-drop {
+        .snowflake {
+          color: rgba(255, 255, 255, 0.7);
           font-size: 8px;
-          animation: drip 2s ease-in forwards;
+          animation: fall-stages 3s ease-in forwards;
         }
 
-        @keyframes drip {
+        @keyframes fall-stages {
           0% {
             transform: translateY(0);
             opacity: 1;
           }
+          33% {
+            opacity: 0.7;
+          }
+          66% {
+            opacity: 0.4;
+          }
           100% {
-            transform: translateY(40px);
+            transform: translateY(60px);
             opacity: 0;
           }
         }
