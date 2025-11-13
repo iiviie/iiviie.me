@@ -39,7 +39,7 @@ const DashboardView = () => {
 
   return (
     <div className="h-full overflow-y-auto scrollbar-thin scrollbar-track-zinc-800 scrollbar-thumb-zinc-600">
-      <div className="max-w-3xl mx-auto p-4 sm:p-6 space-y-6">
+      <div className="max-w-3xl mx-auto p-4 sm:p-6 space-y-2">
         {/* Profile Card - Centered */}
         <div className="flex justify-center">
           <div className="w-full max-w-2xl">
@@ -53,7 +53,7 @@ const DashboardView = () => {
         {/* Work Experience - Below Profile */}
         <div className="flex justify-center">
           <div className="w-full max-w-2xl">
-            <div className="mb-2 relative overflow-hidden">
+            <div className="relative overflow-hidden -mb-3">
               <div className="transform scale-[0.35] origin-left">
                 <pre className="text-xs leading-none text-zinc-300 whitespace-pre crt-glow" style={{ fontFamily: 'monospace', transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}>
 {`                                    █████
@@ -80,7 +80,7 @@ const DashboardView = () => {
                 </div>
               ))}
             </div>
-            <div className="space-y-3">
+            <div className="space-y-1.5">
               {workExperiences.map((experience) => (
                 <WorkExperienceCard key={experience.id} experience={experience} />
               ))}
@@ -91,10 +91,9 @@ const DashboardView = () => {
         {/* Projects Section - Vertical Stack */}
         <div className="flex justify-center">
           <div className="w-full max-w-2xl">
-            <div className="mb-2 flex items-center justify-between">
-              <div className="relative overflow-hidden">
-                <div className="transform scale-[0.35] origin-left">
-                  <pre className="text-xs leading-none text-zinc-300 whitespace-pre crt-glow" style={{ fontFamily: 'monospace', transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}>
+            <div className="relative overflow-hidden -mb-3">
+              <div className="transform scale-[0.35] origin-left">
+                <pre className="text-xs leading-none text-zinc-300 whitespace-pre crt-glow" style={{ fontFamily: 'monospace', transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}>
 {`                                   ███                     █████
                                   ░░░                     ░░███
  ████████  ████████   ██████      █████  ██████   ██████  ███████    █████
@@ -106,30 +105,23 @@ const DashboardView = () => {
  ░███                         ███ ░███
  █████                       ░░██████
 ░░░░░                         ░░░░░░`}
-                  </pre>
-                </div>
-                {/* Dripping animation for Projects */}
-                {drips.filter(d => d.section === 'projects').map(drip => (
-                  <div
-                    key={drip.id}
-                    className="absolute pointer-events-none"
-                    style={{
-                      left: `${drip.x}%`,
-                      top: '18px',
-                    }}
-                  >
-                    <div className="drip-drop text-white">▪</div>
-                  </div>
-                ))}
+                </pre>
               </div>
-              <button
-                onClick={() => router.push('/projects')}
-                className="text-xs text-white hover:text-zinc-200 border border-zinc-700/50 px-3 py-1 rounded hover:border-zinc-600 transition-colors"
-              >
-                View all
-              </button>
+              {/* Dripping animation for Projects */}
+              {drips.filter(d => d.section === 'projects').map(drip => (
+                <div
+                  key={drip.id}
+                  className="absolute pointer-events-none"
+                  style={{
+                    left: `${drip.x}%`,
+                    top: '18px',
+                  }}
+                >
+                  <div className="drip-drop text-white">▪</div>
+                </div>
+              ))}
             </div>
-            <div className="space-y-3">
+            <div className="space-y-1.5">
               {projects.slice(0, 3).map((project) => (
                 <ProjectCard key={project.slug} project={project} />
               ))}
@@ -140,10 +132,9 @@ const DashboardView = () => {
         {/* Blog Section - Vertical Stack */}
         <div className="flex justify-center">
           <div className="w-full max-w-2xl">
-            <div className="mb-2 flex items-center justify-between">
-              <div className="relative overflow-hidden">
-                <div className="transform scale-[0.35] origin-left">
-                  <pre className="text-xs leading-none text-zinc-300 whitespace-pre crt-glow" style={{ fontFamily: 'monospace', transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}>
+            <div className="relative overflow-hidden -mb-3">
+              <div className="transform scale-[0.35] origin-left">
+                <pre className="text-xs leading-none text-zinc-300 whitespace-pre crt-glow" style={{ fontFamily: 'monospace', transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}>
 {` █████     ████
 ░░███     ░░███
  ░███████  ░███   ██████   ███████
@@ -155,30 +146,23 @@ const DashboardView = () => {
                           ███ ░███
                          ░░██████
                           ░░░░░░`}
-                  </pre>
-                </div>
-                {/* Dripping animation for Blog */}
-                {drips.filter(d => d.section === 'blog').map(drip => (
-                  <div
-                    key={drip.id}
-                    className="absolute pointer-events-none"
-                    style={{
-                      left: `${drip.x}%`,
-                      top: '18px',
-                    }}
-                  >
-                    <div className="drip-drop text-white">▪</div>
-                  </div>
-                ))}
+                </pre>
               </div>
-              <button
-                onClick={() => router.push('/blog')}
-                className="text-xs text-white hover:text-zinc-200 border border-zinc-700/50 px-3 py-1 rounded hover:border-zinc-600 transition-colors"
-              >
-                View all
-              </button>
+              {/* Dripping animation for Blog */}
+              {drips.filter(d => d.section === 'blog').map(drip => (
+                <div
+                  key={drip.id}
+                  className="absolute pointer-events-none"
+                  style={{
+                    left: `${drip.x}%`,
+                    top: '18px',
+                  }}
+                >
+                  <div className="drip-drop text-white">▪</div>
+                </div>
+              ))}
             </div>
-            <div className="space-y-3">
+            <div className="space-y-1.5">
               {posts.length > 0 ? (
                 posts.slice(0, 3).map((post) => (
                   <div
@@ -187,27 +171,24 @@ const DashboardView = () => {
                     className="bg-zinc-900/60 border border-zinc-700/50 rounded-lg p-4 hover:border-zinc-600 transition-all cursor-pointer backdrop-blur-sm group"
                   >
                     <div className="mb-2">
-                      <h3 className="text-sm font-bold text-white group-hover:text-zinc-200 transition-colors">
+                      <h3 className="text-lg font-bold text-white group-hover:text-zinc-200 transition-colors">
                         {post.title}
                       </h3>
                     </div>
-                    <p className="text-xs text-white mb-3">
+                    <p className="text-base text-white mb-3">
                       {post.description}
                     </p>
-                    <div className="flex items-center justify-between pt-2 border-t border-zinc-700/50">
-                      <span className="text-[10px] text-white">
+                    <div className="pt-2 border-t border-zinc-700/50">
+                      <span className="text-sm text-white">
                         {new Date(post.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-                      </span>
-                      <span className="text-[10px] text-white group-hover:text-zinc-200 transition-colors">
-                        Read more
                       </span>
                     </div>
                   </div>
                 ))
               ) : (
                 <div className="bg-zinc-900/60 border border-zinc-700/50 rounded-lg p-4 backdrop-blur-sm">
-                  <h3 className="text-sm font-bold text-white mb-2">Coming Soon</h3>
-                  <p className="text-xs text-white">
+                  <h3 className="text-lg font-bold text-white mb-2">Coming Soon</h3>
+                  <p className="text-base text-white">
                     Blog posts will be added here. Stay tuned for insights on backend development, cloud architecture, and more.
                   </p>
                 </div>
