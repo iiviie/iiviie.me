@@ -50,7 +50,7 @@ const DashboardView = () => {
   }, []);
 
   return (
-    <div className="h-full overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-track-zinc-800 scrollbar-thumb-zinc-600">
+    <div className="h-full overflow-y-auto overflow-x-hidden">
       <div className="relative overflow-hidden">
         {/* Global Snowfall Effect - covers entire page */}
         <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
