@@ -53,7 +53,7 @@ const DashboardView = () => {
     <div className="h-full overflow-y-auto scrollbar-thin scrollbar-track-zinc-800 scrollbar-thumb-zinc-600">
       <div className="relative">
         {/* Global Snowfall Effect - covers entire page */}
-        <div className="absolute inset-0 pointer-events-none z-50">
+        <div className="absolute inset-0 pointer-events-none z-0">
           {snowflakes.map(flake => (
             <div
               key={flake.id}
@@ -67,7 +67,7 @@ const DashboardView = () => {
             </div>
           ))}
         </div>
-        <div className="max-w-3xl mx-auto p-4 sm:p-6 space-y-2">
+        <div className="max-w-3xl mx-auto p-4 sm:p-6 space-y-2 relative z-10">
         {/* Profile Card - Centered */}
         <div className="flex justify-center">
           <div className="w-full max-w-2xl">
@@ -82,8 +82,8 @@ const DashboardView = () => {
         <div className="flex justify-center">
           <div className="w-full max-w-2xl">
             <div className="overflow-hidden -mb-3">
-              <div className="transform scale-[0.35] origin-left" style={{ transform: 'scale(0.35) translateZ(0)', backfaceVisibility: 'hidden', willChange: 'transform' }}>
-                <pre className="text-xs leading-none text-zinc-300 whitespace-pre crt-glow" style={{ fontFamily: 'monospace', transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}>
+              <div style={{ transform: 'scale(0.35)', transformOrigin: 'left' }}>
+                <pre className="text-xs leading-none text-zinc-300 whitespace-pre crt-glow" style={{ fontFamily: 'monospace' }}>
 {`                                    █████
                                    ░░███
  █████ ███ █████  ██████  ████████  ░███ █████
@@ -107,8 +107,8 @@ const DashboardView = () => {
         <div className="flex justify-center">
           <div className="w-full max-w-2xl">
             <div className="overflow-hidden -mb-3">
-              <div className="transform scale-[0.35] origin-left" style={{ transform: 'scale(0.35) translateZ(0)', backfaceVisibility: 'hidden', willChange: 'transform' }}>
-                <pre className="text-xs leading-none text-zinc-300 whitespace-pre crt-glow" style={{ fontFamily: 'monospace', transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}>
+              <div style={{ transform: 'scale(0.35)', transformOrigin: 'left' }}>
+                <pre className="text-xs leading-none text-zinc-300 whitespace-pre crt-glow" style={{ fontFamily: 'monospace' }}>
 {`                                   ███                     █████
                                   ░░░                     ░░███
  ████████  ████████   ██████      █████  ██████   ██████  ███████    █████
@@ -135,8 +135,8 @@ const DashboardView = () => {
         <div className="flex justify-center">
           <div className="w-full max-w-2xl">
             <div className="overflow-hidden -mb-3">
-              <div className="transform scale-[0.35] origin-left" style={{ transform: 'scale(0.35) translateZ(0)', backfaceVisibility: 'hidden', willChange: 'transform' }}>
-                <pre className="text-xs leading-none text-zinc-300 whitespace-pre crt-glow" style={{ fontFamily: 'monospace', transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}>
+              <div style={{ transform: 'scale(0.35)', transformOrigin: 'left' }}>
+                <pre className="text-xs leading-none text-zinc-300 whitespace-pre crt-glow" style={{ fontFamily: 'monospace' }}>
 {` █████     ████
 ░░███     ░░███
  ░███████  ░███   ██████   ███████
