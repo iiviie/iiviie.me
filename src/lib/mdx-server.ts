@@ -155,6 +155,7 @@ export async function getProjectBySlugServer(slug: string): Promise<ProjectData>
     frontmatter: {
       title: data.title,
       description: data.description,
+      role: data.role,
       tech: data.tech,
       status: data.status,
       date: data.date,

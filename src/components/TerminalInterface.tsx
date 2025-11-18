@@ -4,11 +4,11 @@ import { useState, useEffect, useRef } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import HomeSection from './sections/HomeSection';
 import AboutSection from './sections/AboutSection';
-import ProjectsSection from './sections/ProjectsSection';
 import SkillsSection from './sections/SkillsSection';
 import ContactSection from './sections/ContactSection';
 import BlogSection from './sections/BlogSection';
 import DashboardView from './DashboardView';
+import ProjectsView from './ProjectsView';
 import { usePrefetchPosts, usePrefetchProjects } from '@/hooks/useMdxQueries';
 
 interface CommandOutput {
@@ -49,7 +49,6 @@ const TerminalInterface = () => {
   const pathname = usePathname();
   const [commandHistory, setCommandHistory] = useState<CommandOutput[]>([]);
   const [commandInput, setCommandInput] = useState('');
-  const [showProjects, setShowProjects] = useState(false);
   const [showSkills, setShowSkills] = useState(false);
   const [showBlog, setShowBlog] = useState(false);
   const [showContact, setShowContact] = useState(false);
@@ -67,7 +66,7 @@ const TerminalInterface = () => {
 
   // Derive backdrop visibility directly from pathname to avoid flicker
   const shouldShowBackdrop = pathname !== '/' && pathname.startsWith('/') &&
-    (pathname.startsWith('/projects') || pathname.startsWith('/blog') ||
+    (pathname.startsWith('/blog') ||
      pathname === '/skills' || pathname === '/contact');
 
   // Initialize state based on current route - batched for atomic updates
@@ -78,7 +77,6 @@ const TerminalInterface = () => {
     const isBlog = pathname.startsWith('/blog');
     const isContact = pathname === '/contact';
 
-    setShowProjects(isProjects);
     setShowSkills(isSkills);
     setShowBlog(isBlog);
     setShowContact(isContact);
@@ -158,7 +156,7 @@ const TerminalInterface = () => {
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       // Handle ESC key when input is focused (exit INSERT mode)
-      if (event.key === 'Escape' && isInputFocused && !showProjects && !showSkills && !showBlog && !showContact) {
+      if (event.key === 'Escape' && isInputFocused && !showSkills && !showBlog && !showContact) {
         event.preventDefault();
         inputRef.current?.blur();
         setIsInputFocused(false);
@@ -173,7 +171,7 @@ const TerminalInterface = () => {
       }
 
       // Only allow I key and ESC when on home page (no sections open)
-      const isOnHomePage = !showProjects && !showSkills && !showBlog && !showContact;
+      const isOnHomePage = !showSkills && !showBlog && !showContact;
 
       switch (event.key.toLowerCase()) {
         case 'i':
@@ -208,7 +206,7 @@ const TerminalInterface = () => {
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isInputFocused, showProjects, showSkills, showBlog, showContact]);
+  }, [isInputFocused, showSkills, showBlog, showContact]);
 
   useEffect(() => {
     // Skip auto-scroll until initial commands are loaded
@@ -303,9 +301,9 @@ const TerminalInterface = () => {
           <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-green-400"></div>
         </div>
 
-        {/* Terminal Content - Dashboard View */}
+        {/* Terminal Content - Conditional Views */}
         <div ref={terminalContentRef} className="flex-1 overflow-y-auto overflow-x-hidden" style={{ background: '#111111' }}>
-          <DashboardView />
+          {pathname.startsWith('/projects') ? <ProjectsView /> : <DashboardView />}
         </div>
 
         {/* Status Bar */}
@@ -342,9 +340,6 @@ const TerminalInterface = () => {
       />
 
       {/* Floating Windows - Keep mounted for instant navigation */}
-      <div style={{ display: showProjects ? 'block' : 'none' }}>
-        <ProjectsSection onClose={handleSectionChange} />
-      </div>
       <div style={{ display: showSkills ? 'block' : 'none' }}>
         <SkillsSection onClose={handleSectionChange} />
       </div>
