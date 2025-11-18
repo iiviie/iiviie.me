@@ -160,6 +160,7 @@ export async function getProjectBySlugServer(slug: string): Promise<ProjectData>
       status: data.status,
       date: data.date,
       size: data.size,
+      github: data.github,
       slug,
     },
     content: mdxSource,

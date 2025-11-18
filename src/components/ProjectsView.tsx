@@ -110,9 +110,13 @@ const ProjectsView = () => {
   return (
     <div className="h-full overflow-y-auto overflow-x-hidden">
       <div className="max-w-3xl mx-auto p-4 sm:p-6 space-y-6">
-        {/* Header */}
-        <div className="mb-8">
-          <pre className="text-[0.3rem] xs:text-[0.35rem] sm:text-[0.45rem] crt-glow whitespace-pre mb-4" style={{ color: '#9068F7' }}>
+        <div className="flex justify-center">
+          <div className="w-full max-w-2xl">
+            {/* Header */}
+            <div className="mb-8">
+              <div className="overflow-hidden -mb-3">
+                <div style={{ transform: 'scale(0.35)', transformOrigin: 'left' }}>
+                  <pre className="text-xs leading-none whitespace-pre crt-glow" style={{ fontFamily: 'monospace', color: '#9068F7' }}>
 {`                                   ███                     █████
                                  ░░░                     ░░███
 ████████  ████████   ██████      █████  ██████   ██████  ███████    █████
@@ -124,56 +128,60 @@ const ProjectsView = () => {
 ░███                         ███ ░███
 █████                       ░░██████
 ░░░░░                         ░░░░░░`}
-          </pre>
-          <p className="text-base" style={{ color: '#727780' }}>
-            things i've built
-          </p>
-        </div>
-
-        {/* Projects List */}
-        {projectsLoading ? (
-          <div style={{ color: '#727780' }}>Loading...</div>
-        ) : (
-          <div className="space-y-8">
-            {projects.map((project) => (
-              <Link
-                key={project.slug}
-                href={`/projects/${project.slug}`}
-                className="block group"
-              >
-                <div>
-                  {/* Project Name */}
-                  <h2 className="text-base font-bold mb-1.5 group-hover:text-gray-200 transition-colors" style={{ color: '#FFFFFF' }}>
-                    {project.title}
-                  </h2>
-
-                  {/* Role */}
-                  <p className="text-sm mb-2" style={{ color: '#727780' }}>
-                    {project.role}
-                  </p>
-
-                  {/* Description */}
-                  <p className="text-base leading-relaxed mb-3" style={{ color: '#D1D5DB' }}>
-                    {project.description}
-                  </p>
-
-                  {/* Tech Stack */}
-                  <div className="flex flex-wrap gap-2">
-                    {project.tech.map((tech) => (
-                      <span
-                        key={tech}
-                        className="px-2 py-1 text-sm bg-zinc-800/50 border border-zinc-700/50 rounded"
-                        style={{ color: '#727780' }}
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
+                  </pre>
                 </div>
-              </Link>
-            ))}
+              </div>
+              <p className="text-base" style={{ color: '#727780' }}>
+                things i've built
+              </p>
+            </div>
+
+            {/* Projects List */}
+            {projectsLoading ? (
+              <div style={{ color: '#727780' }}>Loading...</div>
+            ) : (
+              <div className="space-y-8">
+                {projects.map((project) => (
+                  <Link
+                    key={project.slug}
+                    href={`/projects/${project.slug}`}
+                    className="block group"
+                  >
+                    <div>
+                      {/* Project Name */}
+                      <h2 className="text-base font-bold mb-1.5 group-hover:text-gray-200 transition-colors" style={{ color: '#FFFFFF' }}>
+                        {project.title}
+                      </h2>
+
+                      {/* Role */}
+                      <p className="text-sm mb-2" style={{ color: '#727780' }}>
+                        {project.role}
+                      </p>
+
+                      {/* Description */}
+                      <p className="text-base leading-relaxed mb-3" style={{ color: '#D1D5DB' }}>
+                        {project.description}
+                      </p>
+
+                      {/* Tech Stack */}
+                      <div className="flex flex-wrap gap-2">
+                        {project.tech.map((tech) => (
+                          <span
+                            key={tech}
+                            className="px-2 py-1 text-sm bg-zinc-800/50 border border-zinc-700/50 rounded"
+                            style={{ color: '#727780' }}
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            )}
           </div>
-        )}
+        </div>
       </div>
     </div>
   );

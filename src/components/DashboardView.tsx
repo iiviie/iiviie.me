@@ -125,7 +125,7 @@ const DashboardView = () => {
             </div>
             <div className="space-y-6">
               {projects.slice(0, 3).map((project) => (
-                <ProjectCard key={project.slug} project={project} />
+                <ProjectCard key={project.slug} project={project} linkToGithub={true} />
               ))}
             </div>
           </div>

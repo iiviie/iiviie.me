@@ -5,9 +5,10 @@ import { ProjectMetadata } from '@/lib/mdx';
 
 interface ProjectCardProps {
   project: ProjectMetadata;
+  linkToGithub?: boolean;
 }
 
-const ProjectCard = ({ project }: ProjectCardProps) => {
+const ProjectCard = ({ project, linkToGithub = false }: ProjectCardProps) => {
   const router = useRouter();
 
   const getStatusColor = (status: ProjectMetadata['status']) => {
@@ -21,7 +22,11 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
   };
 
   const handleClick = () => {
-    router.push(`/projects/${project.slug}`);
+    if (linkToGithub && project.github) {
+      window.open(project.github, '_blank');
+    } else {
+      router.push(`/projects/${project.slug}`);
+    }
   };
 
   return (

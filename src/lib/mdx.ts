@@ -21,6 +21,7 @@ export interface ProjectMetadata {
   status: 'production' | 'active' | 'stable' | 'maintenance';
   date: string;
   size?: string;
+  github?: string;
   slug: string;
 }
 
