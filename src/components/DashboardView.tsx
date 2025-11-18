@@ -67,7 +67,7 @@ const DashboardView = () => {
             </div>
           ))}
         </div>
-        <div className="max-w-3xl mx-auto p-4 sm:p-6 space-y-2 relative z-10">
+        <div className="max-w-3xl mx-auto p-4 sm:p-6 space-y-6 relative z-10">
         {/* Profile Card - Centered */}
         <div className="flex justify-center">
           <div className="w-full max-w-2xl">
@@ -95,7 +95,7 @@ const DashboardView = () => {
                 </pre>
               </div>
             </div>
-            <div className="space-y-1.5">
+            <div className="space-y-6">
               {workExperiences.map((experience) => (
                 <WorkExperienceCard key={experience.id} experience={experience} />
               ))}
@@ -123,7 +123,7 @@ const DashboardView = () => {
                 </pre>
               </div>
             </div>
-            <div className="space-y-1.5">
+            <div className="space-y-6">
               {projects.slice(0, 3).map((project) => (
                 <ProjectCard key={project.slug} project={project} />
               ))}
@@ -151,33 +151,26 @@ const DashboardView = () => {
                 </pre>
               </div>
             </div>
-            <div className="space-y-1.5">
+            <div className="space-y-4">
               {posts.length > 0 ? (
                 posts.slice(0, 3).map((post) => (
                   <div
                     key={post.slug}
                     onClick={() => router.push(`/blog/${post.slug}`)}
-                    className="bg-zinc-900/90 border border-zinc-700/50 rounded-lg p-4 hover:border-zinc-600 transition-all cursor-pointer group"
+                    className="flex justify-between items-start cursor-pointer group mb-4"
                   >
-                    <div className="mb-2">
-                      <h3 className="text-lg font-bold text-white group-hover:text-zinc-200 transition-colors">
-                        {post.title}
-                      </h3>
-                    </div>
-                    <p className="text-base text-white mb-3">
-                      {post.description}
-                    </p>
-                    <div className="pt-2 border-t border-zinc-700/50">
-                      <span className="text-sm text-white">
-                        {new Date(post.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-                      </span>
-                    </div>
+                    <h3 className="text-base transition-colors" style={{ color: '#D1D5DB' }}>
+                      {post.title}
+                    </h3>
+                    <span className="text-sm ml-4 whitespace-nowrap" style={{ color: '#727780' }}>
+                      {new Date(post.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                    </span>
                   </div>
                 ))
               ) : (
-                <div className="bg-zinc-900/90 border border-zinc-700/50 rounded-lg p-4">
-                  <h3 className="text-lg font-bold text-white mb-2">Coming Soon</h3>
-                  <p className="text-base text-white">
+                <div className="mb-3">
+                  <h3 className="text-base mb-2" style={{ color: '#D1D5DB' }}>Coming Soon</h3>
+                  <p className="text-sm" style={{ color: '#727780' }}>
                     Blog posts will be added here. Stay tuned for insights on backend development, cloud architecture, and more.
                   </p>
                 </div>

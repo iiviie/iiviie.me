@@ -295,26 +295,24 @@ const TerminalInterface = () => {
   return (
     <div className="flex flex-col h-full">
       {/* Main Terminal Window */}
-      <div className="flex flex-col terminal-main crt-scanlines relative h-full bg-zinc-900 border border-zinc-700/50 rounded-lg shadow-lg">
+      <div className="flex flex-col terminal-main crt-scanlines relative h-full rounded-lg shadow-lg" style={{ background: '#111111' }}>
         {/* Terminal Header */}
-        <div className="bg-zinc-900/50 px-2 sm:px-3 py-1.5 sm:py-2 flex items-center gap-1.5 flex-shrink-0 border-b border-zinc-800 rounded-t-lg backdrop-blur-sm">
+        <div className="px-2 sm:px-3 py-1.5 sm:py-2 flex items-center gap-1.5 flex-shrink-0 border-b border-zinc-800 rounded-t-lg backdrop-blur-sm" style={{ background: 'rgba(17, 17, 17, 0.5)' }}>
           <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-red-400"></div>
           <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-yellow-400"></div>
           <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-green-400"></div>
-          <span className="ml-2 sm:ml-3 text-[10px] sm:text-xs text-zinc-500 truncate">divyansh@backend-dev: ~</span>
         </div>
 
         {/* Terminal Content - Dashboard View */}
-        <div ref={terminalContentRef} className="flex-1 overflow-y-auto overflow-x-hidden bg-zinc-900/95">
+        <div ref={terminalContentRef} className="flex-1 overflow-y-auto overflow-x-hidden" style={{ background: '#111111' }}>
           <DashboardView />
         </div>
-        
+
         {/* Status Bar */}
-        <div className="px-2 sm:px-3 py-1 border-t border-zinc-800 bg-zinc-900/80 flex items-center justify-between text-[8px] sm:text-[10px] font-mono flex-shrink-0 rounded-b-lg backdrop-blur-sm">
+        <div className="px-2 sm:px-3 py-1 border-t border-zinc-800 flex items-center justify-between text-[8px] sm:text-[10px] font-mono flex-shrink-0 rounded-b-lg backdrop-blur-sm" style={{ background: 'rgba(17, 17, 17, 0.8)' }}>
           <div className="flex items-center gap-1.5 sm:gap-2">
             <span className="text-green-400">●</span>
-            <span className="text-zinc-300 hidden sm:inline">divyansh@backend-dev</span>
-            <span className="text-zinc-300 sm:hidden">dev</span>
+            <span className="text-zinc-300">bash</span>
           </div>
           <div className="flex items-center gap-1 sm:gap-2 text-zinc-500">
             <span className="hidden sm:inline">ARCH</span>

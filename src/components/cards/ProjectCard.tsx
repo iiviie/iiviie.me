@@ -27,17 +27,17 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
   return (
     <div
       onClick={handleClick}
-      className="bg-zinc-900/90 border border-zinc-700/50 rounded-lg p-4 hover:border-zinc-600 transition-all cursor-pointer group"
+      className="mb-6 cursor-pointer group"
     >
       {/* Header */}
-      <div className="mb-3">
-        <h3 className="text-lg font-bold text-white group-hover:text-zinc-200 transition-colors">
+      <div className="mb-1.5">
+        <h3 className="text-base font-bold transition-colors" style={{ color: '#FFFFFF' }}>
           {project.title}
         </h3>
       </div>
 
       {/* Description */}
-      <p className="text-base text-white leading-relaxed mb-3">
+      <p className="text-base leading-relaxed mb-3" style={{ color: '#D1D5DB' }}>
         {project.description}
       </p>
 
@@ -46,21 +46,22 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
         {project.tech.slice(0, 5).map((tech) => (
           <span
             key={tech}
-            className="px-2 py-1 text-sm bg-zinc-800/50 text-white border border-zinc-700/50 rounded"
+            className="px-2 py-1 text-sm bg-zinc-800/50 border border-zinc-700/50 rounded"
+            style={{ color: '#727780' }}
           >
             {tech}
           </span>
         ))}
         {project.tech.length > 5 && (
-          <span className="px-2 py-1 text-sm bg-zinc-800/50 text-white border border-zinc-700/50 rounded">
+          <span className="px-2 py-1 text-sm bg-zinc-800/50 border border-zinc-700/50 rounded" style={{ color: '#727780' }}>
             +{project.tech.length - 5}
           </span>
         )}
       </div>
 
       {/* Footer */}
-      <div className="pt-3 border-t border-zinc-700/50">
-        <span className="text-sm text-white">
+      <div className="pt-1">
+        <span className="text-sm" style={{ color: '#727780' }}>
           {new Date(project.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
         </span>
       </div>

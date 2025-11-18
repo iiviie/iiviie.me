@@ -8,19 +8,17 @@ interface WorkExperienceCardProps {
 
 const WorkExperienceCard = ({ experience }: WorkExperienceCardProps) => {
   return (
-    <div className="bg-zinc-900/90 border border-zinc-700/50 rounded-lg p-4 hover:border-zinc-600 transition-all">
-      <div className="mb-2">
-        <h3 className="text-lg font-bold text-white">
-          {experience.company}
-        </h3>
-      </div>
+    <div className="mb-6">
+      <h3 className="text-base font-bold mb-1.5" style={{ color: '#FFFFFF' }}>
+        {experience.company}
+      </h3>
 
-      <p className="text-base text-white mb-1">
-        {experience.position}
+      <p className="text-sm mb-3" style={{ color: '#727780' }}>
+        {experience.position} ({experience.duration})
       </p>
 
-      <p className="text-base text-white">
-        {experience.duration}
+      <p className="text-base leading-relaxed" style={{ color: '#D1D5DB' }}>
+        {experience.description}
       </p>
     </div>
   );

@@ -131,7 +131,7 @@ const BlogSection: React.FC<BlogSectionProps> = ({ onClose }) => {
                 {posts.map((post) => (
                   <div
                     key={post.slug}
-                    className="terminal-section border border-zinc-800 rounded p-4 hover:border-purple-800/30 transition-colors cursor-pointer"
+                    className="terminal-section rounded p-4 transition-colors cursor-pointer"
                     onClick={() => handlePostClick(post.slug)}
                   >
                     <div className="block space-y-2">
