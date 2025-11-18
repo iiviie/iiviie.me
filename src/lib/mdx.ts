@@ -15,6 +15,7 @@ export interface PostData {
 
 export interface ProjectMetadata {
   title: string;
+  role: string;
   description: string;
   tech: string[];
   status: 'production' | 'active' | 'stable' | 'maintenance';

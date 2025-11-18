@@ -36,13 +36,18 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
         </h3>
       </div>
 
+      {/* Role */}
+      <p className="text-sm mb-2" style={{ color: '#727780' }}>
+        {project.role}
+      </p>
+
       {/* Description */}
       <p className="text-base leading-relaxed mb-3" style={{ color: '#D1D5DB' }}>
         {project.description}
       </p>
 
       {/* Technologies */}
-      <div className="flex flex-wrap gap-2 mb-3">
+      <div className="flex flex-wrap gap-2">
         {project.tech.slice(0, 5).map((tech) => (
           <span
             key={tech}
@@ -57,13 +62,6 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
             +{project.tech.length - 5}
           </span>
         )}
-      </div>
-
-      {/* Footer */}
-      <div className="pt-1">
-        <span className="text-sm" style={{ color: '#727780' }}>
-          {new Date(project.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
-        </span>
       </div>
     </div>
   );
