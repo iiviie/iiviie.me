@@ -14,10 +14,7 @@ export async function GET(
     const postsDirectory = path.join(process.cwd(), 'src', 'posts');
     const filePath = path.join(postsDirectory, `${slug}.mdx`);
 
-    console.log('Trying to read file:', filePath);
-
     if (!fs.existsSync(filePath)) {
-      console.error('File does not exist:', filePath);
       return NextResponse.json({ error: `Post not found: ${slug}` }, { status: 404 });
     }
 

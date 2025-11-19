@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { ProjectMetadata } from '@/lib/mdx';
+import type { ProjectMetadata } from '@/types/mdx';
 
 interface ProjectCardProps {
   project: ProjectMetadata;

@@ -2,8 +2,6 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
-import HomeSection from './sections/HomeSection';
-import AboutSection from './sections/AboutSection';
 import SkillsSection from './sections/SkillsSection';
 import ContactSection from './sections/ContactSection';
 import BlogSection from './sections/BlogSection';

@@ -3,7 +3,7 @@
 import React from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { format } from 'date-fns';
-import { type ProjectMetadata } from '../../lib/mdx';
+import type { ProjectMetadata } from '@/types/mdx';
 import { MDXRemote } from 'next-mdx-remote';
 import TerminalBackButton from '@/components/ui/terminal-back-button';
 import { useProjectsQuery, useProjectQuery } from '@/hooks/useMdxQueries';

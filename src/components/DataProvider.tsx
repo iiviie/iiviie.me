@@ -3,7 +3,7 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { queryKeys } from '@/hooks/useMdxQueries';
-import type { PostMetadata, ProjectMetadata } from '@/lib/mdx';
+import type { PostMetadata, ProjectMetadata } from '@/types/mdx';
 
 interface DataProviderProps {
   posts?: PostMetadata[];

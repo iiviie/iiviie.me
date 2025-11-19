@@ -14,10 +14,7 @@ export async function GET(
     const projectsDirectory = path.join(process.cwd(), 'src', 'projects');
     const filePath = path.join(projectsDirectory, `${slug}.mdx`);
 
-    console.log('Trying to read project file:', filePath);
-
     if (!fs.existsSync(filePath)) {
-      console.error('Project file does not exist:', filePath);
       return NextResponse.json({ error: `Project not found: ${slug}` }, { status: 404 });
     }
 

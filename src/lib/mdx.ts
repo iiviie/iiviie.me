@@ -1,34 +1,4 @@
-import { type MDXRemoteSerializeResult } from 'next-mdx-remote';
-
-export interface PostMetadata {
-  title: string;
-  date: string;
-  description: string;
-  tags?: string[];
-  slug: string;
-}
-
-export interface PostData {
-  frontmatter: PostMetadata;
-  content: MDXRemoteSerializeResult;
-}
-
-export interface ProjectMetadata {
-  title: string;
-  role: string;
-  description: string;
-  tech: string[];
-  status: 'production' | 'active' | 'stable' | 'maintenance';
-  date: string;
-  size?: string;
-  github?: string;
-  slug: string;
-}
-
-export interface ProjectData {
-  frontmatter: ProjectMetadata;
-  content: MDXRemoteSerializeResult;
-}
+import type { PostMetadata, PostData, ProjectMetadata, ProjectData } from '@/types/mdx';
 
 const API_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:3000/api' : '/api';
 

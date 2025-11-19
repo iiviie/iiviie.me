@@ -7,37 +7,7 @@ import remarkMdxFrontmatter from 'remark-mdx-frontmatter';
 import rehypeSlug from 'rehype-slug';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeHighlight from 'rehype-highlight';
-import { type MDXRemoteSerializeResult } from 'next-mdx-remote';
-
-export interface PostMetadata {
-  title: string;
-  date: string;
-  description: string;
-  tags?: string[];
-  slug: string;
-}
-
-export interface PostData {
-  frontmatter: PostMetadata;
-  content: MDXRemoteSerializeResult;
-}
-
-export interface ProjectMetadata {
-  title: string;
-  role: string;
-  description: string;
-  tech: string[];
-  status: 'production' | 'active' | 'stable' | 'maintenance';
-  date: string;
-  size?: string;
-  github?: string;
-  slug: string;
-}
-
-export interface ProjectData {
-  frontmatter: ProjectMetadata;
-  content: MDXRemoteSerializeResult;
-}
+import type { PostMetadata, PostData, ProjectMetadata, ProjectData } from '@/types/mdx';
 
 const postsDirectory = path.join(process.cwd(), 'src', 'posts');
 const projectsDirectory = path.join(process.cwd(), 'src', 'projects');
