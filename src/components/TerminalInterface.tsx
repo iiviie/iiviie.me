@@ -13,24 +13,32 @@ interface CommandOutput {
   content: string | JSX.Element;
 }
 
-const initialCommands: CommandOutput[] = [
-  { type: 'ascii-art', content: (
-    <div className="overflow-x-auto">
-      <pre className="text-[0.3rem] xs:text-[0.35rem] sm:text-[0.45rem] crt-glow whitespace-pre scale-40 xs:scale-50 sm:scale-75 transform-gpu origin-center" style={{ color: '#9068F7' }}>
-{`
+import AsciiArtAnimator from './AsciiArtAnimator';
+
+const asciiArt = `
 ██████╗ ██╗██╗   ██╗██╗   ██╗ █████╗ ███╗   ██╗███████╗██╗  ██╗
 ██╔══██╗██║██║   ██║╚██╗ ██╔╝██╔══██╗████╗  ██║██╔════╝██║  ██║
 ██║  ██║██║██║   ██║ ╚████╔╝ ███████║██╔██╗ ██║███████╗███████║
 ██║  ██║██║╚██╗ ██╔╝  ╚██╔╝  ██╔══██║██║╚██╗██║╚════██║██╔══██║
 ██████╔╝██║ ╚████╔╝    ██║   ██║  ██║██║ ╚████║███████║██║  ██║
-╚═════╝ ╚═╝  ╚═══╝     ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝
-`}
-      </pre>
-      <div className="mt-1 text-[0.45rem] xs:text-[0.5rem] sm:text-xs crt-glow" style={{ color: '#9068F7' }}>
-        Backend Developer & API Architect
+╚═════╝ ╚═╝  ╚═══╝     ╚═╝   ╚═╝  ╚══╝╚╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝
+`;
+
+const initialCommands: CommandOutput[] = [
+  {
+    type: 'ascii-art', content: (
+      <div className="overflow-x-auto">
+        <AsciiArtAnimator
+          art={asciiArt}
+          className="text-[0.3rem] xs:text-[0.35rem] sm:text-[0.45rem] crt-glow whitespace-pre scale-40 xs:scale-50 sm:scale-75 transform-gpu origin-center"
+          style={{ color: '#9068F7' }}
+        />
+        <div className="mt-1 text-[0.45rem] xs:text-[0.5rem] sm:text-xs crt-glow typewriter" style={{ color: '#9068F7' }}>
+          Backend Developer & API Architect
+        </div>
       </div>
-    </div>
-  )},
+    )
+  },
   { type: 'command', content: '$ whoami' },
   { type: 'output', content: 'Divyansh Verma - Backend Developer specializing in Python ecosystem' },
   { type: 'command', content: '$ echo $ABOUT' },
@@ -136,7 +144,7 @@ const TerminalInterface = () => {
         setIsInputFocused(false);
       }
     };
-    
+
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
@@ -154,8 +162,8 @@ const TerminalInterface = () => {
 
       // Don't trigger other shortcuts if input is focused or if user is typing in any input/textarea
       if (isInputFocused ||
-          event.target instanceof HTMLInputElement ||
-          event.target instanceof HTMLTextAreaElement) {
+        event.target instanceof HTMLInputElement ||
+        event.target instanceof HTMLTextAreaElement) {
         return;
       }
 
@@ -244,7 +252,8 @@ const TerminalInterface = () => {
     'clear': () => setCommandHistory([]),
     'help': () => {
       setCommandHistory(prev => [...prev,
-        { type: 'output', content: `Available commands:
+      {
+        type: 'output', content: `Available commands:
   projects          - View detailed projects
   blog              - Read my blog posts
   contact           - Get in touch
@@ -297,9 +306,8 @@ const TerminalInterface = () => {
             <span>|</span>
             <span className="text-blue-400">Ready</span>
             <span>|</span>
-            <span className={`font-semibold ${
-              isInputFocused ? 'text-yellow-400' : 'text-zinc-400'
-            }`}>
+            <span className={`font-semibold ${isInputFocused ? 'text-yellow-400' : 'text-zinc-400'
+              }`}>
               {isInputFocused ? 'INSERT' : 'NORMAL'}
             </span>
             <span>|</span>
