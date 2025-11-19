@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
-import SkillsSection from './sections/SkillsSection';
 import ContactSection from './sections/ContactSection';
 import BlogSection from './sections/BlogSection';
 import DashboardView from './DashboardView';
@@ -47,7 +46,6 @@ const TerminalInterface = () => {
   const pathname = usePathname();
   const [commandHistory, setCommandHistory] = useState<CommandOutput[]>([]);
   const [commandInput, setCommandInput] = useState('');
-  const [showSkills, setShowSkills] = useState(false);
   const [showBlog, setShowBlog] = useState(false);
   const [showContact, setShowContact] = useState(false);
   const [currentSection, setCurrentSection] = useState('home');
@@ -64,26 +62,21 @@ const TerminalInterface = () => {
 
   // Derive backdrop visibility directly from pathname to avoid flicker
   const shouldShowBackdrop = pathname !== '/' && pathname.startsWith('/') &&
-    (pathname.startsWith('/blog') ||
-     pathname === '/skills' || pathname === '/contact');
+    (pathname.startsWith('/blog') || pathname === '/contact');
 
   // Initialize state based on current route - batched for atomic updates
   useEffect(() => {
     // React 18 automatically batches these, but let's ensure they update together
     const isProjects = pathname.startsWith('/projects');
-    const isSkills = pathname === '/skills';
     const isBlog = pathname.startsWith('/blog');
     const isContact = pathname === '/contact';
 
-    setShowSkills(isSkills);
     setShowBlog(isBlog);
     setShowContact(isContact);
 
     // Update currentSection based on pathname
     if (isProjects) {
       setCurrentSection('projects');
-    } else if (isSkills) {
-      setCurrentSection('skills');
     } else if (isBlog) {
       setCurrentSection('blog');
     } else if (isContact) {
@@ -122,14 +115,12 @@ const TerminalInterface = () => {
           // Warm routes by prefetching them
           router.prefetch('/projects');
           router.prefetch('/blog');
-          router.prefetch('/skills');
           router.prefetch('/contact');
         });
       } else {
         setTimeout(() => {
           router.prefetch('/projects');
           router.prefetch('/blog');
-          router.prefetch('/skills');
           router.prefetch('/contact');
         }, 1000);
       }
@@ -154,7 +145,7 @@ const TerminalInterface = () => {
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       // Handle ESC key when input is focused (exit INSERT mode)
-      if (event.key === 'Escape' && isInputFocused && !showSkills && !showBlog && !showContact) {
+      if (event.key === 'Escape' && isInputFocused && !showBlog && !showContact) {
         event.preventDefault();
         inputRef.current?.blur();
         setIsInputFocused(false);
@@ -162,14 +153,14 @@ const TerminalInterface = () => {
       }
 
       // Don't trigger other shortcuts if input is focused or if user is typing in any input/textarea
-      if (isInputFocused || 
-          event.target instanceof HTMLInputElement || 
+      if (isInputFocused ||
+          event.target instanceof HTMLInputElement ||
           event.target instanceof HTMLTextAreaElement) {
         return;
       }
 
       // Only allow I key and ESC when on home page (no sections open)
-      const isOnHomePage = !showSkills && !showBlog && !showContact;
+      const isOnHomePage = !showBlog && !showContact;
 
       switch (event.key.toLowerCase()) {
         case 'i':
@@ -182,10 +173,6 @@ const TerminalInterface = () => {
         case 'p':
           event.preventDefault();
           handleSectionChange('projects');
-          break;
-        case 's':
-          event.preventDefault();
-          handleSectionChange('skills');
           break;
         case 'b':
           event.preventDefault();
@@ -204,7 +191,7 @@ const TerminalInterface = () => {
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isInputFocused, showSkills, showBlog, showContact]);
+  }, [isInputFocused, showBlog, showContact]);
 
   useEffect(() => {
     // Skip auto-scroll until initial commands are loaded
@@ -231,9 +218,6 @@ const TerminalInterface = () => {
       case 'projects':
         router.push('/projects');
         break;
-      case 'skills':
-        router.push('/skills');
-        break;
       case 'blog':
         router.push('/blog');
         break;
@@ -251,9 +235,6 @@ const TerminalInterface = () => {
     'projects': () => {
       router.push('/projects');
     },
-    'skills': () => {
-      router.push('/skills');
-    },
     'blog': () => {
       router.push('/blog');
     },
@@ -265,8 +246,8 @@ const TerminalInterface = () => {
       setCommandHistory(prev => [...prev,
         { type: 'output', content: `Available commands:
   projects          - View detailed projects
-  skills            - Show technical skills
   blog              - Read my blog posts
+  contact           - Get in touch
   clear             - Clear terminal
   help              - Show this help` }
       ]);
@@ -338,9 +319,6 @@ const TerminalInterface = () => {
       />
 
       {/* Floating Windows - Keep mounted for instant navigation */}
-      <div style={{ display: showSkills ? 'block' : 'none' }}>
-        <SkillsSection onClose={handleSectionChange} />
-      </div>
       <div style={{ display: showBlog ? 'block' : 'none' }}>
         <BlogSection onClose={handleSectionChange} />
       </div>

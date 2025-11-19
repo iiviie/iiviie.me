@@ -12,7 +12,6 @@ const Sidebar = () => {
   const sections = [
     { id: 'home', label: 'Home', icon: '⌂', path: '/', onHover: () => {} },
     { id: 'projects', label: 'Projects', icon: '▶', path: '/projects', onHover: prefetchProjects },
-    { id: 'skills', label: 'Skills', icon: '◆', path: '/skills', onHover: () => {} },
     { id: 'blog', label: 'Blog', icon: '■', path: '/blog', onHover: prefetchPosts },
     { id: 'contact', label: 'Contact', icon: '◐', path: '/contact', onHover: () => {} },
   ];

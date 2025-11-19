@@ -11,7 +11,6 @@ const TerminalNav = ({ currentSection, onSectionChange }: TerminalNavProps) => {
 
   const sections = [
     { id: 'projects', label: 'Projects', shortcut: 'P', onHover: prefetchProjects },
-    { id: 'skills', label: 'Skills', shortcut: 'S', onHover: () => {} },
     { id: 'blog', label: 'Blog', shortcut: 'B', onHover: prefetchPosts },
     { id: 'contact', label: 'Contact', shortcut: 'C', onHover: () => {} },
   ];
