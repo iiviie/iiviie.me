@@ -2,8 +2,9 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
-import ContactSection from './sections/ContactSection';
-import BlogSection from './sections/BlogSection';
+import BlogView from './BlogView';
+import ContactView from './ContactView';
+
 import DashboardView from './DashboardView';
 import ProjectsView from './ProjectsView';
 import { usePrefetchPosts, usePrefetchProjects } from '@/hooks/useMdxQueries';
@@ -54,8 +55,6 @@ const TerminalInterface = () => {
   const pathname = usePathname();
   const [commandHistory, setCommandHistory] = useState<CommandOutput[]>([]);
   const [commandInput, setCommandInput] = useState('');
-  const [showBlog, setShowBlog] = useState(false);
-  const [showContact, setShowContact] = useState(false);
   const [currentSection, setCurrentSection] = useState('home');
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [currentTime, setCurrentTime] = useState('--:--');
@@ -68,19 +67,12 @@ const TerminalInterface = () => {
   const prefetchPosts = usePrefetchPosts();
   const prefetchProjects = usePrefetchProjects();
 
-  // Derive backdrop visibility directly from pathname to avoid flicker
-  const shouldShowBackdrop = pathname !== '/' && pathname.startsWith('/') &&
-    (pathname.startsWith('/blog') || pathname === '/contact');
-
   // Initialize state based on current route - batched for atomic updates
   useEffect(() => {
     // React 18 automatically batches these, but let's ensure they update together
     const isProjects = pathname.startsWith('/projects');
     const isBlog = pathname.startsWith('/blog');
     const isContact = pathname === '/contact';
-
-    setShowBlog(isBlog);
-    setShowContact(isContact);
 
     // Update currentSection based on pathname
     if (isProjects) {
@@ -153,7 +145,7 @@ const TerminalInterface = () => {
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       // Handle ESC key when input is focused (exit INSERT mode)
-      if (event.key === 'Escape' && isInputFocused && !showBlog && !showContact) {
+      if (event.key === 'Escape' && isInputFocused) {
         event.preventDefault();
         inputRef.current?.blur();
         setIsInputFocused(false);
@@ -168,7 +160,7 @@ const TerminalInterface = () => {
       }
 
       // Only allow I key and ESC when on home page (no sections open)
-      const isOnHomePage = !showBlog && !showContact;
+      const isOnHomePage = pathname === '/';
 
       switch (event.key.toLowerCase()) {
         case 'i':
@@ -199,7 +191,7 @@ const TerminalInterface = () => {
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isInputFocused, showBlog, showContact]);
+  }, [isInputFocused, pathname]);
 
   useEffect(() => {
     // Skip auto-scroll until initial commands are loaded
@@ -291,7 +283,15 @@ const TerminalInterface = () => {
 
         {/* Terminal Content - Conditional Views */}
         <div ref={terminalContentRef} className="flex-1 overflow-y-auto overflow-x-hidden" style={{ background: '#111111' }}>
-          {pathname.startsWith('/projects') ? <ProjectsView /> : <DashboardView />}
+          {pathname.startsWith('/projects') ? (
+            <ProjectsView />
+          ) : pathname.startsWith('/blog') ? (
+            <BlogView />
+          ) : pathname === '/contact' ? (
+            <ContactView />
+          ) : (
+            <DashboardView />
+          )}
         </div>
 
         {/* Status Bar */}
@@ -314,24 +314,6 @@ const TerminalInterface = () => {
             <span className="text-zinc-300">{currentTime}</span>
           </div>
         </div>
-      </div>
-
-      {/* Blur Backdrop - Keep mounted, derive visibility from pathname directly */}
-      <div
-        className="fixed inset-0 backdrop-blur-sm bg-zinc-900/10 z-40"
-        style={{
-          opacity: shouldShowBackdrop ? 1 : 0,
-          pointerEvents: shouldShowBackdrop ? 'auto' : 'none',
-          transition: 'none'
-        }}
-      />
-
-      {/* Floating Windows - Keep mounted for instant navigation */}
-      <div style={{ display: showBlog ? 'block' : 'none' }}>
-        <BlogSection onClose={handleSectionChange} />
-      </div>
-      <div style={{ display: showContact ? 'block' : 'none' }}>
-        <ContactSection onClose={handleSectionChange} />
       </div>
     </div>
   );
