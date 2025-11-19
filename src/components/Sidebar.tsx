@@ -13,7 +13,11 @@ const sidebarLogo = `
 ╚═╝ ╚═╝   ╚═══╝   ╚═╝ ╚═╝ ╚══════╝
 `;
 
-const Sidebar = () => {
+interface SidebarProps {
+  className?: string;
+}
+
+const Sidebar = ({ className = '' }: SidebarProps) => {
   const router = useRouter();
   const pathname = usePathname();
   const prefetchPosts = usePrefetchPosts();
@@ -32,13 +36,13 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="h-full w-48 flex flex-col py-4 mr-4">
+    <div className={`h-full w-48 flex flex-col py-1 mr-4 ${className}`}>
       {/* Logo - IIVIIE ASCII Art */}
-      <div className="px-2 mb-8 py-4">
+      <div className="px-2 mb-4 py-1 mt-3">
         <div className="text-center">
           <AsciiArtAnimator
             art={sidebarLogo}
-            className="text-[0.3rem] xs:text-[0.35rem] sm:text-[0.45rem] crt-glow whitespace-pre scale-40 xs:scale-50 sm:scale-75 origin-center"
+            className="text-[0.26rem] sm:text-[0.32rem] lg:text-[0.36rem] crt-glow-strong whitespace-pre scale-32 sm:scale-39 lg:scale-49 origin-center"
             style={{ color: '#9068F7' }}
           />
         </div>
@@ -52,12 +56,12 @@ const Sidebar = () => {
             onClick={() => router.push(section.path)}
             onMouseEnter={section.onHover}
             onFocus={section.onHover}
-            className={`w-full px-4 py-3 flex items-center gap-3 transition-all font-mono text-xs ${isActive(section.path)
+            className={`w-full px-4 py-1.5 sm:py-2 md:py-2.5 flex items-center gap-2.5 transition-all font-mono text-xs sm:text-sm ${isActive(section.path)
               ? 'bg-zinc-900 text-purple-400 border-l-2 border-purple-400'
               : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900/50'
               }`}
           >
-            <span className="text-sm">{section.icon}</span>
+            <span className="text-xs">{section.icon}</span>
             <span>{section.label}</span>
           </button>
         ))}
@@ -65,7 +69,7 @@ const Sidebar = () => {
 
       {/* Footer section */}
       <div className="px-4 mt-auto space-y-2">
-        <div className="h-px bg-zinc-700 mb-4" />
+        <div className="h-px bg-zinc-700 mb-2" />
         <button className="w-full px-2 py-2 flex items-center gap-3 text-zinc-500 hover:text-zinc-300 transition-all font-mono text-xs hover:bg-zinc-900/50 rounded">
           <span>◐</span>
           <span>Log out</span>

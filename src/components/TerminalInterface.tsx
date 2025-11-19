@@ -28,13 +28,13 @@ const asciiArt = `
 const initialCommands: CommandOutput[] = [
   {
     type: 'ascii-art', content: (
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto mb-6">
         <AsciiArtAnimator
           art={asciiArt}
-          className="text-[0.3rem] xs:text-[0.35rem] sm:text-[0.45rem] crt-glow whitespace-pre scale-40 xs:scale-50 sm:scale-75 transform-gpu origin-center"
+          className="text-[0.2rem] xs:text-[0.225rem] sm:text-[0.3rem] md:text-[0.45rem] lg:text-[0.54rem] crt-glow whitespace-pre"
           style={{ color: '#9068F7' }}
         />
-        <div className="mt-1 text-[0.45rem] xs:text-[0.5rem] sm:text-xs crt-glow typewriter" style={{ color: '#9068F7' }}>
+        <div className="mt-1 text-[0.5rem] xs:text-[0.55rem] sm:text-xs md:text-sm crt-glow typewriter" style={{ color: '#9068F7' }}>
           Backend Developer & API Architect
         </div>
       </div>
@@ -275,10 +275,10 @@ const TerminalInterface = () => {
       {/* Main Terminal Window */}
       <div className="flex flex-col terminal-main crt-scanlines relative h-full rounded-lg shadow-lg" style={{ background: '#111111' }}>
         {/* Terminal Header */}
-        <div className="px-2 sm:px-3 py-1.5 sm:py-2 flex items-center gap-1.5 flex-shrink-0 border-b border-zinc-800 rounded-t-lg backdrop-blur-sm" style={{ background: 'rgba(17, 17, 17, 0.5)' }}>
-          <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-red-400"></div>
-          <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-yellow-400"></div>
-          <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-green-400"></div>
+        <div className="px-3 sm:px-4 py-1 sm:py-1.5 flex items-center gap-1 sm:gap-1.5 flex-shrink-0 border-b border-zinc-800 rounded-t-lg backdrop-blur-sm" style={{ background: 'rgba(17, 17, 17, 0.5)' }}>
+          <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 md:w-2.5 md:h-2.5 rounded-full bg-red-400"></div>
+          <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 md:w-2.5 md:h-2.5 rounded-full bg-yellow-400"></div>
+          <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 md:w-2.5 md:h-2.5 rounded-full bg-green-400"></div>
         </div>
 
         {/* Terminal Content - Conditional Views */}
@@ -295,7 +295,7 @@ const TerminalInterface = () => {
         </div>
 
         {/* Status Bar */}
-        <div className="px-2 sm:px-3 py-1 border-t border-zinc-800 flex items-center justify-between text-[8px] sm:text-[10px] font-mono flex-shrink-0 rounded-b-lg backdrop-blur-sm" style={{ background: 'rgba(17, 17, 17, 0.8)' }}>
+        <div className="px-3 sm:px-4 py-1.5 sm:py-2 border-t border-zinc-800 flex items-center justify-between text-[9px] xs:text-[10px] sm:text-xs font-mono flex-shrink-0 rounded-b-lg backdrop-blur-sm" style={{ background: 'rgba(17, 17, 17, 0.8)' }}>
           <div className="flex items-center gap-1.5 sm:gap-2">
             <span className="text-green-400">●</span>
             <span className="text-zinc-300">bash</span>

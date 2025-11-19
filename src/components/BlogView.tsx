@@ -66,7 +66,7 @@ const BlogView = () => {
     if (slug && currentPost) {
         return (
             <div className="h-full overflow-y-auto overflow-x-hidden">
-                <div className="max-w-3xl mx-auto p-4 sm:p-6 space-y-6">
+                <div className="max-w-3xl mx-auto p-3 sm:p-4 md:p-5 lg:p-6 space-y-6">
                     {/* Back Button */}
                     <Link href="/blog" className="inline-block mb-4 text-sm hover:underline" style={{ color: '#727780' }}>
                         ← back to blog
@@ -114,13 +114,13 @@ const BlogView = () => {
     // Show blog list
     return (
         <div className="h-full overflow-y-auto overflow-x-hidden">
-            <div className="max-w-3xl mx-auto p-4 sm:p-6 space-y-6">
+            <div className="max-w-3xl mx-auto p-3 sm:p-4 md:p-5 lg:p-6 space-y-6">
                 <div className="flex justify-center">
                     <div className="w-full max-w-2xl">
                         {/* Header */}
                         <div className="mb-8">
                             <div className="overflow-hidden -mb-3">
-                                <div style={{ transform: 'scale(0.35)', transformOrigin: 'left' }}>
+                                <div className="scale-40 sm:scale-50 md:scale-60 lg:scale-75 origin-left">
                                     <pre className="text-xs leading-none whitespace-pre crt-glow" style={{ fontFamily: 'monospace', color: '#9068F7' }}>
                                         {`
  █████     ████                   
@@ -147,36 +147,36 @@ const BlogView = () => {
                         {postsLoading ? (
                             <div style={{ color: '#727780' }}>Loading...</div>
                         ) : (
-                            <div className="space-y-8">
+                            <div className="space-y-6 sm:space-y-7 md:space-y-8">
                                 {posts.map((post) => (
                                     <Link
                                         key={post.slug}
                                         href={`/blog/${post.slug}`}
-                                        className="block group"
+                                        className="block group p-2 -m-2 rounded-lg hover:bg-zinc-900/30 transition-all"
                                     >
                                         <div>
                                             {/* Post Title */}
-                                            <h2 className="text-base font-bold mb-1.5 group-hover:text-gray-200 transition-colors" style={{ color: '#FFFFFF' }}>
+                                            <h2 className="text-sm sm:text-base font-bold mb-1.5 group-hover:text-gray-200 transition-colors" style={{ color: '#FFFFFF' }}>
                                                 {post.title}
                                             </h2>
 
                                             {/* Date */}
-                                            <div className="text-sm mb-2" style={{ color: '#727780' }}>
+                                            <div className="text-xs sm:text-sm mb-2" style={{ color: '#727780' }}>
                                                 {format(new Date(post.date), 'MMMM dd, yyyy')}
                                             </div>
 
                                             {/* Description */}
-                                            <p className="text-base leading-relaxed mb-3" style={{ color: '#D1D5DB' }}>
+                                            <p className="text-xs xs:text-sm sm:text-base leading-relaxed mb-3 break-words" style={{ color: '#D1D5DB' }}>
                                                 {post.description}
                                             </p>
 
                                             {/* Tags */}
                                             {post.tags && (
-                                                <div className="flex flex-wrap gap-2">
+                                                <div className="flex flex-wrap gap-1.5 sm:gap-2">
                                                     {post.tags.map((tag) => (
                                                         <span
                                                             key={tag}
-                                                            className="px-2 py-1 text-sm bg-zinc-800/50 border border-zinc-700/50 rounded"
+                                                            className="px-1.5 sm:px-2 py-0.5 sm:py-1 text-xs sm:text-sm bg-zinc-800/50 border border-zinc-700/50 rounded"
                                                             style={{ color: '#727780' }}
                                                         >
                                                             {tag}

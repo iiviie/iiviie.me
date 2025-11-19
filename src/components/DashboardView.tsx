@@ -67,24 +67,23 @@ const DashboardView = () => {
             </div>
           ))}
         </div>
-        <div className="max-w-3xl mx-auto p-4 sm:p-6 space-y-6 relative z-10">
-        {/* Profile Card - Centered */}
-        <div className="flex justify-center">
-          <div className="w-full max-w-2xl">
-            <ProfileCard
-              name="Divyansh"
-              description="Building robust, scalable backend systems with Django and FastAPI. Passionate about clean code, efficient APIs, and server-side architecture."
-            />
+        <div className="max-w-3xl mx-auto p-1 xs:p-1.5 sm:p-2.5 md:p-3.5 lg:p-4.5 space-y-4 sm:space-y-6 relative z-10">
+          {/* Profile Card - Centered */}
+          <div className="flex justify-center">
+            <div className="w-full max-w-full sm:max-w-2xl min-w-0">
+              <ProfileCard
+                name="Divyansh"
+                description="Building robust, scalable backend systems with Django and FastAPI. Passionate about clean code, efficient APIs, and server-side architecture."
+              />
+            </div>
           </div>
-        </div>
 
-        {/* Work Experience - Below Profile */}
-        <div className="flex justify-center">
-          <div className="w-full max-w-2xl">
-            <div className="overflow-hidden -mb-3">
-              <div style={{ transform: 'scale(0.35)', transformOrigin: 'left' }}>
-                <pre className="text-xs leading-none text-zinc-300 whitespace-pre crt-glow" style={{ fontFamily: 'monospace' }}>
-{`                                    █████
+          {/* Work Experience - Below Profile */}
+          <div className="flex justify-center mt-8">
+            <div className="w-full max-w-full sm:max-w-2xl min-w-0">
+              <div className="overflow-hidden mb-4 w-full max-w-full">
+                <pre className="text-[2.25px] xs:text-[2.7px] sm:text-[3.6px] md:text-[4.5px] leading-none text-zinc-300 whitespace-pre crt-glow" style={{ fontFamily: 'monospace' }}>
+                  {`                                    █████
                                    ░░███
  █████ ███ █████  ██████  ████████  ░███ █████
 ░░███ ░███░░███  ███░░███░░███░░███ ░███░░███
@@ -94,23 +93,21 @@ const DashboardView = () => {
    ░░░░ ░░░░     ░░░░░░  ░░░░░     ░░░░ ░░░░░`}
                 </pre>
               </div>
-            </div>
-            <div className="space-y-6">
-              {workExperiences.map((experience) => (
-                <WorkExperienceCard key={experience.id} experience={experience} />
-              ))}
+              <div className="space-y-6 mb-8">
+                {workExperiences.map((experience) => (
+                  <WorkExperienceCard key={experience.id} experience={experience} />
+                ))}
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Projects Section - Vertical Stack */}
-        <div className="flex justify-center">
-          <div className="w-full max-w-2xl">
-            <div className="overflow-hidden -mb-3">
-              <div style={{ transform: 'scale(0.35)', transformOrigin: 'left' }}>
-                <pre className="text-xs leading-none text-zinc-300 whitespace-pre crt-glow" style={{ fontFamily: 'monospace' }}>
-{`                                   ███                     █████
-                                  ░░░                     ░░███
+          {/* Projects Section - Vertical Stack */}
+          <div className="flex justify-center mt-8">
+            <div className="w-full max-w-full sm:max-w-2xl min-w-0">
+              <div className="overflow-hidden mb-4 w-full max-w-full">
+                <pre className="text-[2.25px] xs:text-[2.7px] sm:text-[3.6px] md:text-[4.5px] leading-none text-zinc-300 whitespace-pre crt-glow" style={{ fontFamily: 'monospace' }}>
+                  {`                                   ███                     █████
+                                   ░░░                     ░░███
  ████████  ████████   ██████      █████  ██████   ██████  ███████    █████
 ░░███░░███░░███░░███ ███░░███    ░░███  ███░░███ ███░░███░░░███░    ███░░
  ░███ ░███ ░███ ░░░ ░███ ░███     ░███ ░███████ ░███ ░░░   ░███    ░░█████
@@ -122,22 +119,20 @@ const DashboardView = () => {
 ░░░░░                         ░░░░░░`}
                 </pre>
               </div>
-            </div>
-            <div className="space-y-6">
-              {projects.slice(0, 3).map((project) => (
-                <ProjectCard key={project.slug} project={project} linkToGithub={true} />
-              ))}
+              <div className="space-y-6 mb-8">
+                {projects.slice(0, 3).map((project) => (
+                  <ProjectCard key={project.slug} project={project} linkToGithub={true} />
+                ))}
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Blog Section - Vertical Stack */}
-        <div className="flex justify-center">
-          <div className="w-full max-w-2xl">
-            <div className="overflow-hidden -mb-3">
-              <div style={{ transform: 'scale(0.35)', transformOrigin: 'left' }}>
-                <pre className="text-xs leading-none text-zinc-300 whitespace-pre crt-glow" style={{ fontFamily: 'monospace' }}>
-{` █████     ████
+          {/* Blog Section - Vertical Stack */}
+          <div className="flex justify-center mt-8">
+            <div className="w-full max-w-full sm:max-w-2xl min-w-0">
+              <div className="overflow-hidden mb-4 w-full max-w-full">
+                <pre className="text-[2.25px] xs:text-[2.7px] sm:text-[3.6px] md:text-[4.5px] leading-none text-zinc-300 whitespace-pre crt-glow" style={{ fontFamily: 'monospace' }}>
+                  {` █████     ████
 ░░███     ░░███
  ░███████  ░███   ██████   ███████
  ░███░░███ ░███  ███░░███ ███░░███
@@ -150,34 +145,33 @@ const DashboardView = () => {
                           ░░░░░░`}
                 </pre>
               </div>
-            </div>
-            <div className="space-y-4">
-              {posts.length > 0 ? (
-                posts.slice(0, 3).map((post) => (
-                  <div
-                    key={post.slug}
-                    onClick={() => router.push(`/blog/${post.slug}`)}
-                    className="flex justify-between items-start cursor-pointer group mb-4"
-                  >
-                    <h3 className="text-base transition-colors" style={{ color: '#D1D5DB' }}>
-                      {post.title}
-                    </h3>
-                    <span className="text-sm ml-4 whitespace-nowrap" style={{ color: '#727780' }}>
-                      {new Date(post.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-                    </span>
+              <div className="space-y-4">
+                {posts.length > 0 ? (
+                  posts.slice(0, 3).map((post) => (
+                    <div
+                      key={post.slug}
+                      onClick={() => router.push(`/blog/${post.slug}`)}
+                      className="flex justify-between items-start cursor-pointer group mb-4"
+                    >
+                      <h3 className="text-xs xs:text-sm sm:text-base transition-colors break-words" style={{ color: '#D1D5DB' }}>
+                        {post.title}
+                      </h3>
+                      <span className="text-[10px] xs:text-xs sm:text-sm ml-2 sm:ml-4 whitespace-nowrap flex-shrink-0" style={{ color: '#727780' }}>
+                        {new Date(post.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                      </span>
+                    </div>
+                  ))
+                ) : (
+                  <div className="mb-3">
+                    <h3 className="text-sm sm:text-base mb-2" style={{ color: '#D1D5DB' }}>Coming Soon</h3>
+                    <p className="text-xs sm:text-sm" style={{ color: '#727780' }}>
+                      Blog posts will be added here. Stay tuned for insights on backend development, cloud architecture, and more.
+                    </p>
                   </div>
-                ))
-              ) : (
-                <div className="mb-3">
-                  <h3 className="text-base mb-2" style={{ color: '#D1D5DB' }}>Coming Soon</h3>
-                  <p className="text-sm" style={{ color: '#727780' }}>
-                    Blog posts will be added here. Stay tuned for insights on backend development, cloud architecture, and more.
-                  </p>
-                </div>
-              )}
+                )}
+              </div>
             </div>
           </div>
-        </div>
         </div>
       </div>
 

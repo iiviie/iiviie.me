@@ -47,11 +47,11 @@ const ContactView = () => {
 
     return (
         <div className="h-full overflow-y-auto overflow-x-hidden flex flex-col items-center justify-center">
-            <div className="max-w-4xl w-full p-4 sm:p-6 space-y-12">
+            <div className="max-w-4xl w-full p-3 sm:p-4 md:p-5 lg:p-6 space-y-12">
                 {/* Header */}
                 <div className="flex justify-center">
                     <div className="overflow-hidden">
-                        <div style={{ transform: 'scale(0.5)', transformOrigin: 'center' }}>
+                        <div className="scale-50 sm:scale-60 md:scale-75 lg:scale-90 origin-center">
                             <AsciiArtAnimator
                                 art={contactAscii}
                                 className="text-xs leading-none whitespace-pre crt-glow"
@@ -62,7 +62,7 @@ const ContactView = () => {
                 </div>
 
                 {/* Icon Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-5 lg:gap-6">
                     {contactLinks.map((item, index) => {
                         const Icon = item.icon;
                         return (
@@ -72,15 +72,17 @@ const ContactView = () => {
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className={`
-                  group flex flex-col items-center justify-center p-8 
-                  bg-zinc-900/30 border border-zinc-800 
-                  rounded-xl transition-all duration-300 
+                  group flex flex-col items-center justify-center
+                  p-6 sm:p-7 md:p-8
+                  bg-zinc-900/30 border border-zinc-800
+                  rounded-xl transition-all duration-300
                   hover:bg-zinc-900/80 hover:scale-105 hover:shadow-lg
+                  min-h-[120px] sm:min-h-[140px]
                   ${item.color}
                 `}
                             >
-                                <Icon className="w-12 h-12 mb-4 text-zinc-400 transition-colors duration-300 group-hover:text-current" />
-                                <span className="text-sm font-mono text-zinc-500 group-hover:text-zinc-300 transition-colors">
+                                <Icon className="w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 mb-3 sm:mb-4 text-zinc-400 transition-colors duration-300 group-hover:text-current" />
+                                <span className="text-xs sm:text-sm font-mono text-zinc-500 group-hover:text-zinc-300 transition-colors">
                                     {item.label}
                                 </span>
                             </a>

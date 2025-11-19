@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import Sidebar from '@/components/Sidebar';
+import MobileBottomNav from '@/components/MobileBottomNav';
 import { useState, useEffect, useRef } from 'react';
 
 export default function NotFound() {
@@ -67,30 +68,31 @@ export default function NotFound() {
   };
 
   return (
-    <div className="h-screen w-screen fixed inset-0 overflow-hidden flex p-4" style={{ background: '#1a1a1a' }}>
-      <Sidebar />
-      <div className="flex-1 h-full flex flex-col font-mono text-sm">
+    <>
+      <div className="h-screen w-screen fixed inset-0 overflow-hidden flex p-2 sm:p-3 md:p-4 lg:p-6 pb-16 lg:pb-6" style={{ background: '#1a1a1a' }}>
+        <Sidebar className="hidden lg:flex" />
+        <div className="flex-1 h-full flex flex-col font-mono text-xs sm:text-sm">
         {/* Header */}
-        <div className="border-b border-zinc-800 p-4 flex items-center justify-between bg-[#111111] rounded-t-lg">
-          <div className="flex items-center gap-3">
-            <div className="w-3 h-3 rounded-full bg-red-500 animate-pulse"></div>
-            <span className="text-zinc-400">System Status:</span>
-            <span className="text-red-500 font-bold">404 NOT FOUND</span>
+        <div className="border-b border-zinc-800 px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 bg-[#111111] rounded-t-lg">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-red-500 animate-pulse"></div>
+            <span className="text-zinc-400 text-xs sm:text-sm">System Status:</span>
+            <span className="text-red-500 font-bold text-xs sm:text-sm">404 NOT FOUND</span>
           </div>
-          <div className="text-zinc-500 text-xs">
+          <div className="text-zinc-500 text-[10px] sm:text-xs">
             REQ_ID: {Math.random().toString(36).substring(7).toUpperCase()}
           </div>
         </div>
 
         {/* Logs Area */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-1 bg-[#111111] text-zinc-300 border-x border-zinc-800">
+        <div className="flex-1 overflow-y-auto px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 space-y-0.5 sm:space-y-1 bg-[#111111] text-zinc-300 border-x border-zinc-800">
           {logs.map((log) => (
-            <div key={log.id} className="flex gap-4 hover:bg-zinc-900/30 p-1 rounded">
-              <span className="text-zinc-600 select-none w-24 flex-shrink-0">{log.timestamp}</span>
-              <span className={`w-4 flex-shrink-0 text-center font-bold ${getStatusColor(log.type)}`}>
+            <div key={log.id} className="flex gap-1.5 sm:gap-2 md:gap-4 hover:bg-zinc-900/30 p-1 rounded text-[10px] xs:text-xs sm:text-sm">
+              <span className="text-zinc-600 select-none w-16 sm:w-20 md:w-24 flex-shrink-0 text-[9px] xs:text-[10px] sm:text-xs">{log.timestamp}</span>
+              <span className={`w-3 sm:w-4 flex-shrink-0 text-center font-bold ${getStatusColor(log.type)}`}>
                 {log.type === 'success' ? '✓' : log.type === 'error' ? '⨯' : log.type === 'warn' ? '⚠' : 'ℹ'}
               </span>
-              <span className={`${log.type === 'error' ? 'text-red-400' : ''}`}>
+              <span className={`flex-1 min-w-0 break-words ${log.type === 'error' ? 'text-red-400' : ''}`}>
                 {log.message}
               </span>
             </div>
@@ -99,16 +101,18 @@ export default function NotFound() {
         </div>
 
         {/* Actions Footer */}
-        <div className="border-t border-b border-x border-zinc-800 p-4 bg-[#111111] flex items-center gap-4 rounded-b-lg">
+        <div className="border-t border-b border-x border-zinc-800 px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 bg-[#111111] flex items-center gap-3 sm:gap-4 rounded-b-lg">
           <Link
             href="/"
-            className="px-4 py-2 bg-zinc-800 text-zinc-200 border border-zinc-700 rounded hover:bg-zinc-700 transition-colors font-medium text-xs uppercase tracking-wider flex items-center gap-2"
+            className="px-3 sm:px-4 py-2 sm:py-2.5 bg-zinc-800 text-zinc-200 border border-zinc-700 rounded hover:bg-zinc-700 transition-colors font-medium text-[10px] sm:text-xs uppercase tracking-wider flex items-center gap-1.5 sm:gap-2"
           >
-            <span>~/</span> Return Home
+            <span>~/</span> <span className="hidden xs:inline">Return</span> Home
           </Link>
 
         </div>
       </div>
-    </div>
+      </div>
+      <MobileBottomNav />
+    </>
   );
 }

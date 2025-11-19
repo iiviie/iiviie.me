@@ -57,21 +57,38 @@
   }
 
   html {
-    @apply h-full overflow-hidden;
+    @apply h-full overflow-hidden overflow-x-hidden;
   }
 
   body {
-    @apply text-foreground font-mono h-full overflow-hidden;
+    @apply text-foreground font-mono h-full overflow-hidden overflow-x-hidden;
     font-family: 'JetBrains Mono', 'IBM Plex Mono', monospace;
     background: #1a1a1a;
+    /* Prevent text size adjustment on orientation change on iOS */
+    -webkit-text-size-adjust: 100%;
+    /* Improve touch scrolling on iOS */
+    -webkit-overflow-scrolling: touch;
   }
 
   #root {
-    @apply h-full overflow-hidden;
+    @apply h-full overflow-hidden overflow-x-hidden;
   }
 
   /* Enhanced CRT Monitor Effects */
   .crt-glow {
+    text-shadow:
+      /* Inner bright glow */
+      0 0 1px currentColor,
+      0 0 2px currentColor,
+      /* Mid glow */
+      0 0 4px rgba(144, 104, 247, 0.4),
+      /* Outer glow */
+      0 0 6px rgba(144, 104, 247, 0.2);
+    filter: brightness(1.05) contrast(0.95);
+  }
+
+  /* Strong glow for IIVIIE logo */
+  .crt-glow-strong {
     text-shadow:
       /* Inner bright glow */
       0 0 3px currentColor,
@@ -385,7 +402,14 @@
 
 /* Enhanced Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 12px;
+  width: 8px;
+  /* Thinner on mobile */
+}
+
+@media (min-width: 768px) {
+  ::-webkit-scrollbar {
+    width: 12px;
+  }
 }
 
 ::-webkit-scrollbar-button {
