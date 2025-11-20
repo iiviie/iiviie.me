@@ -67,10 +67,10 @@ const DashboardView = () => {
             </div>
           ))}
         </div>
-        <div className="max-w-3xl mx-auto p-1 xs:p-1.5 sm:p-2.5 md:p-3.5 lg:p-4.5 space-y-4 sm:space-y-6 relative z-10">
+        <div className="max-w-3xl mx-auto p-3 sm:p-4 md:p-5 lg:p-6 space-y-6 relative z-10">
           {/* Profile Card - Centered */}
           <div className="flex justify-center">
-            <div className="w-full max-w-full sm:max-w-2xl min-w-0">
+            <div className="w-full max-w-2xl">
               <ProfileCard
                 name="Divyansh"
                 description="Building robust, scalable backend systems with Django and FastAPI. Passionate about clean code, efficient APIs, and server-side architecture."

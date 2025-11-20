@@ -119,10 +119,9 @@ const BlogView = () => {
                     <div className="w-full max-w-2xl">
                         {/* Header */}
                         <div className="mb-8">
-                            <div className="overflow-hidden -mb-3">
-                                <div className="scale-40 sm:scale-50 md:scale-60 lg:scale-75 origin-left">
-                                    <pre className="text-xs leading-none whitespace-pre crt-glow" style={{ fontFamily: 'monospace', color: '#9068F7' }}>
-                                        {`
+                            <div className="overflow-hidden mb-4 w-full max-w-full">
+                                <pre className="text-[2.25px] xs:text-[2.7px] sm:text-[3.6px] md:text-[4.5px] leading-none text-zinc-300 whitespace-pre crt-glow" style={{ fontFamily: 'monospace' }}>
+                                    {`
  █████     ████                   
 ░░███     ░░███                   
  ░███████  ░███   ██████   ███████
@@ -135,8 +134,7 @@ const BlogView = () => {
                          ░░██████ 
                           ░░░░░░  
 `}
-                                    </pre>
-                                </div>
+                                </pre>
                             </div>
                             <p className="text-base" style={{ color: '#727780' }}>
                                 thoughts & tutorials
