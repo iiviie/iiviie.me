@@ -107,23 +107,22 @@ const TerminalInterface = () => {
     prefetchPosts();
     prefetchProjects();
 
-    // Warm up routes in dev mode by triggering Next.js compilation
-    if (process.env.NODE_ENV === 'development') {
-      // Use requestIdleCallback or setTimeout to not block initial render
-      if ('requestIdleCallback' in window) {
-        requestIdleCallback(() => {
-          // Warm routes by prefetching them
-          router.prefetch('/projects');
-          router.prefetch('/blog');
-          router.prefetch('/contact');
-        });
-      } else {
-        setTimeout(() => {
-          router.prefetch('/projects');
-          router.prefetch('/blog');
-          router.prefetch('/contact');
-        }, 1000);
-      }
+    // Prefetch routes in the background after initial render
+    // Use requestIdleCallback or setTimeout to not block initial render
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(() => {
+        // Prefetch all routes for instant navigation
+        router.prefetch('/projects');
+        router.prefetch('/blog');
+        router.prefetch('/contact');
+      });
+    } else {
+      // Fallback for browsers without requestIdleCallback
+      setTimeout(() => {
+        router.prefetch('/projects');
+        router.prefetch('/blog');
+        router.prefetch('/contact');
+      }, 1000);
     }
 
     return () => clearInterval(timer);
