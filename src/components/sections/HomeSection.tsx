@@ -30,7 +30,7 @@ const HomeSection = ({ onCommand }: HomeSectionProps) => {
         </pre>
 
         {/* Location and Position */}
-        <div className="mt-4 space-y-1 text-xs sm:text-sm text-muted-foreground">
+        <div className="mt-4 space-y-1 text-xs sm:text-sm" style={{ color: '#727780' }}>
           <div className="flex items-center justify-center gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
@@ -58,7 +58,7 @@ const HomeSection = ({ onCommand }: HomeSectionProps) => {
           <div className="command-prompt">
             $ whoami
           </div>
-          <div className="ml-4 text-foreground">
+          <div className="ml-4" style={{ color: '#D1D5DB' }}>
             Divyansh Verma - Backend Developer specializing in Python ecosystem
           </div>
         </div>
@@ -67,7 +67,7 @@ const HomeSection = ({ onCommand }: HomeSectionProps) => {
           <div className="command-prompt">
             $ echo $EXPERTISE
           </div>
-          <div className="ml-4 text-foreground">
+          <div className="ml-4" style={{ color: '#D1D5DB' }}>
             "Building robust, scalable backend systems with Django and FastAPI.<br/>
             Passionate about clean code, efficient APIs, and server-side architecture."
           </div>
@@ -90,7 +90,7 @@ const HomeSection = ({ onCommand }: HomeSectionProps) => {
           <div className="command-prompt">
             $ cat ~/specializations.txt
           </div>
-          <div className="ml-4 text-foreground space-y-1">
+          <div className="ml-4 space-y-1">
             <div style={{ color: 'hsl(var(--terminal-purple))' }}>🐍 Django REST Framework - Complex web applications</div>
             <div style={{ color: 'hsl(var(--terminal-blue))' }}>⚡ FastAPI - High-performance async APIs</div>
             <div style={{ color: 'hsl(var(--terminal-green))' }}>🗄️ Database Design - Optimization & scaling</div>
@@ -104,7 +104,7 @@ const HomeSection = ({ onCommand }: HomeSectionProps) => {
           <span className="command-prompt">$ ready_to_build_amazing_backends</span>
           {showCursor && <span className="cursor ml-1 w-2 h-4 inline-block"></span>}
         </div>
-        <div className="mt-2 text-xs text-muted-foreground">
+        <div className="mt-2 text-xs" style={{ color: '#727780' }}>
           Type 'help' for available commands
         </div>
       </div>
