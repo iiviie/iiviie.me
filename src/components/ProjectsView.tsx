@@ -7,13 +7,13 @@ import { MDXRemote } from 'next-mdx-remote';
 
 const mdxComponents = {
   h1: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-    <h1 className="text-2xl font-bold mb-4 font-mono text-heading" {...props} />
+    <h1 className="text-2xl font-bold mb-4 font-mono" style={{ color: '#FFFFFF' }} {...props} />
   ),
   h2: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-    <h2 className="text-lg font-bold mb-3 font-mono text-heading" {...props} />
+    <h2 className="text-lg font-bold mb-3 font-mono" style={{ color: '#FFFFFF' }} {...props} />
   ),
   h3: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-    <h3 className="text-base font-bold mb-2 font-mono text-heading" {...props} />
+    <h3 className="text-base font-bold mb-2 font-mono" style={{ color: '#FFFFFF' }} {...props} />
   ),
   p: (props: React.HTMLAttributes<HTMLParagraphElement>) => (
     <p className="mb-4 font-mono text-sm leading-relaxed" style={{ color: '#D1D5DB' }} {...props} />
@@ -71,15 +71,15 @@ const ProjectsView = () => {
 
           {/* Project Header */}
           <div className="mb-8">
-            <h1 className="text-2xl font-bold mb-4 text-heading">
+            <h1 className="text-2xl font-bold mb-4" style={{ color: '#FFFFFF' }}>
               {currentProject.frontmatter.title}
             </h1>
 
-            <p className="text-xs sm:text-sm mb-3 text-muted-foreground">
+            <p className="text-xs sm:text-sm mb-3" style={{ color: '#727780' }}>
               {currentProject.frontmatter.role}
             </p>
 
-            <p className="text-sm mb-4 leading-relaxed text-foreground">
+            <p className="text-sm mb-4 leading-relaxed" style={{ color: '#D1D5DB' }}>
               {currentProject.frontmatter.description}
             </p>
 
@@ -111,10 +111,10 @@ const ProjectsView = () => {
     <div className="h-full overflow-y-auto overflow-x-hidden">
       <div className="max-w-content mx-auto p-3 sm:p-4 md:p-5 lg:p-6 space-y-6">
         {/* Header */}
-        <div className="mb-8">
-              <div className="overflow-hidden mb-4 w-full max-w-full">
-                <pre className="text-[2.25px] xs:text-[2.7px] sm:text-[3.6px] md:text-[4.5px] leading-none text-zinc-300 whitespace-pre crt-glow" style={{ fontFamily: 'monospace' }}>
-                  {`                                   ███                     █████
+        <div className="mt-6 sm:mt-8 mb-8">
+          <div className="overflow-hidden mb-4 w-full max-w-full">
+            <pre className="text-[2.25px] xs:text-[2.7px] sm:text-[3.6px] md:text-[4.5px] leading-none text-zinc-300 whitespace-pre crt-glow" style={{ fontFamily: 'monospace' }}>
+              {`                                   ███                     █████
                                   ░░░                     ░░███
  ████████  ████████   ██████      █████  ██████   ██████  ███████    █████
  ░░███░░███░░███░░███ ███░░███    ░░███  ███░░███ ███░░███░░░███░    ███░░
@@ -125,12 +125,12 @@ const ProjectsView = () => {
  ░███                         ███ ░███
  █████                       ░░██████
  ░░░░░                         ░░░░░░`}
-                </pre>
-              </div>
-              <p className="text-base" style={{ color: '#727780' }}>
-                things i've built
-              </p>
-            </div>
+            </pre>
+          </div>
+          <p className="text-base" style={{ color: '#727780' }}>
+            things i've built
+          </p>
+        </div>
 
             {/* Projects List */}
             {projectsLoading ? (
@@ -145,17 +145,17 @@ const ProjectsView = () => {
                   >
                     <div>
                       {/* Project Name */}
-                      <h2 className="text-lg font-bold mb-3 group-hover:text-gray-200 transition-colors text-heading">
+                      <h2 className="text-lg font-bold mb-3 group-hover:text-gray-200 transition-colors" style={{ color: '#FFFFFF' }}>
                         {project.title}
                       </h2>
 
                       {/* Role */}
-                      <p className="text-xs sm:text-sm mb-2 text-muted-foreground">
+                      <p className="text-xs sm:text-sm mb-2" style={{ color: '#727780' }}>
                         {project.role}
                       </p>
 
                       {/* Description */}
-                      <p className="text-sm leading-relaxed mb-4 break-words text-foreground">
+                      <p className="text-sm leading-relaxed mb-4 break-words" style={{ color: '#D1D5DB' }}>
                         {project.description}
                       </p>
 
