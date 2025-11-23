@@ -46,17 +46,15 @@ const ContactView = () => {
     ];
 
     return (
-        <div className="h-full overflow-y-auto overflow-x-hidden flex flex-col items-center justify-center">
-            <div className="max-w-3xl w-full p-3 sm:p-4 md:p-5 lg:p-6 space-y-6">
+        <div className="h-full overflow-y-auto overflow-x-hidden">
+            <div className="max-w-content mx-auto p-3 sm:p-4 md:p-5 lg:p-6 space-y-6">
                 {/* Header */}
-                <div className="flex justify-center">
-                    <div className="overflow-hidden mb-4 w-full max-w-full">
-                        <AsciiArtAnimator
-                            art={contactAscii}
-                            className="text-[2.25px] xs:text-[2.7px] sm:text-[3.6px] md:text-[4.5px] leading-none whitespace-pre crt-glow"
-                            style={{ fontFamily: 'monospace', color: '#9068F7' }}
-                        />
-                    </div>
+                <div className="overflow-hidden mb-4 w-full max-w-full">
+                    <AsciiArtAnimator
+                        art={contactAscii}
+                        className="text-[2.25px] xs:text-[2.7px] sm:text-[3.6px] md:text-[4.5px] leading-none whitespace-pre crt-glow"
+                        style={{ fontFamily: 'monospace', color: '#9068F7' }}
+                    />
                 </div>
 
                 {/* Icon Grid */}

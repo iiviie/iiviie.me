@@ -67,20 +67,15 @@ const DashboardView = () => {
             </div>
           ))}
         </div>
-        <div className="max-w-3xl mx-auto p-3 sm:p-4 md:p-5 lg:p-6 space-y-6 relative z-10">
-          {/* Profile Card - Centered */}
-          <div className="flex justify-center">
-            <div className="w-full max-w-2xl">
-              <ProfileCard
-                name="Divyansh"
-                description="Building robust, scalable backend systems with Django and FastAPI. Passionate about clean code, efficient APIs, and server-side architecture."
-              />
-            </div>
-          </div>
+        <div className="max-w-content mx-auto p-3 sm:p-4 md:p-5 lg:p-6 space-y-6 relative z-10">
+          {/* Profile Card */}
+          <ProfileCard
+            name="Divyansh"
+            description="Building robust, scalable backend systems with Django and FastAPI. Passionate about clean code, efficient APIs, and server-side architecture."
+          />
 
-          {/* Work Experience - Below Profile */}
-          <div className="flex justify-center mt-8">
-            <div className="w-full max-w-full sm:max-w-2xl min-w-0">
+          {/* Work Experience */}
+          <div className="mt-8">
               <div className="overflow-hidden mb-4 w-full max-w-full">
                 <pre className="text-[2.25px] xs:text-[2.7px] sm:text-[3.6px] md:text-[4.5px] leading-none text-zinc-300 whitespace-pre crt-glow" style={{ fontFamily: 'monospace' }}>
                   {`                                    █████
@@ -98,12 +93,10 @@ const DashboardView = () => {
                   <WorkExperienceCard key={experience.id} experience={experience} />
                 ))}
               </div>
-            </div>
           </div>
 
-          {/* Projects Section - Vertical Stack */}
-          <div className="flex justify-center mt-8">
-            <div className="w-full max-w-full sm:max-w-2xl min-w-0">
+          {/* Projects Section */}
+          <div className="mt-8">
               <div className="overflow-hidden mb-4 w-full max-w-full">
                 <pre className="text-[2.25px] xs:text-[2.7px] sm:text-[3.6px] md:text-[4.5px] leading-none text-zinc-300 whitespace-pre crt-glow" style={{ fontFamily: 'monospace' }}>
                   {`                                   ███                     █████
@@ -124,12 +117,10 @@ const DashboardView = () => {
                   <ProjectCard key={project.slug} project={project} linkToGithub={true} />
                 ))}
               </div>
-            </div>
           </div>
 
-          {/* Blog Section - Vertical Stack */}
-          <div className="flex justify-center mt-8">
-            <div className="w-full max-w-full sm:max-w-2xl min-w-0">
+          {/* Blog Section */}
+          <div className="mt-8">
               <div className="overflow-hidden mb-4 w-full max-w-full">
                 <pre className="text-[2.25px] xs:text-[2.7px] sm:text-[3.6px] md:text-[4.5px] leading-none text-zinc-300 whitespace-pre crt-glow" style={{ fontFamily: 'monospace' }}>
                   {` █████     ████
@@ -170,7 +161,6 @@ const DashboardView = () => {
                   </div>
                 )}
               </div>
-            </div>
           </div>
         </div>
       </div>

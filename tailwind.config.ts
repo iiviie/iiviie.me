@@ -29,6 +29,7 @@ export default {
 				ring: 'hsl(var(--ring))',
 				background: 'hsl(var(--background))',
 				foreground: 'hsl(var(--foreground))',
+				heading: 'hsl(var(--heading))',
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',
 					foreground: 'hsl(var(--primary-foreground))'
@@ -66,7 +67,21 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				terminal: {
+					purple: 'hsl(var(--terminal-purple))',
+					'bright-purple': 'hsl(var(--terminal-bright-purple))',
+					blue: '#60A5FA',
+					green: '#4ADE80',
+					yellow: '#FBBF24',
+					red: '#EF4444',
+					pink: '#F472B6',
+					amber: '#F59E0B'
 				}
+			},
+			maxWidth: {
+				'content': '48rem',  // max-w-3xl equivalent
+				'article': '56rem',  // max-w-4xl equivalent
 			},
 			borderRadius: {
 				lg: 'var(--radius)',

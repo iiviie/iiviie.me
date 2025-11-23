@@ -35,19 +35,19 @@ const ProjectCard = ({ project, linkToGithub = false }: ProjectCardProps) => {
       className="mb-4 sm:mb-5 md:mb-6 cursor-pointer group p-2 -m-2 rounded-lg hover:bg-zinc-900/30 transition-all"
     >
       {/* Header */}
-      <div className="mb-1.5">
-        <h3 className="text-sm sm:text-base font-bold transition-colors" style={{ color: '#FFFFFF' }}>
+      <div className="mb-2">
+        <h3 className="text-base font-bold transition-colors text-heading">
           {project.title}
         </h3>
       </div>
 
       {/* Role */}
-      <p className="text-xs sm:text-sm mb-2" style={{ color: '#727780' }}>
+      <p className="text-xs sm:text-sm mb-2 text-muted-foreground">
         {project.role}
       </p>
 
       {/* Description */}
-      <p className="text-[10px] xs:text-xs sm:text-sm md:text-base leading-relaxed mb-3 break-words" style={{ color: '#D1D5DB', wordBreak: 'break-word', overflowWrap: 'break-word', maxWidth: '100%' }}>
+      <p className="text-sm leading-relaxed mb-4 break-words text-foreground" style={{ wordBreak: 'break-word', overflowWrap: 'break-word', maxWidth: '100%' }}>
         {project.description}
       </p>
 

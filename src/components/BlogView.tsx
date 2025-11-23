@@ -9,13 +9,13 @@ import { Table } from './mdx/Table';
 
 const mdxComponents = {
     h1: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-        <h1 className="text-xl font-bold mb-4 font-mono" style={{ color: '#FFFFFF' }} {...props} />
+        <h1 className="text-2xl font-bold mb-4 font-mono text-heading" {...props} />
     ),
     h2: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-        <h2 className="text-lg font-bold mb-3 font-mono" style={{ color: '#FFFFFF' }} {...props} />
+        <h2 className="text-lg font-bold mb-3 font-mono text-heading" {...props} />
     ),
     h3: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-        <h3 className="text-base font-bold mb-2 font-mono" style={{ color: '#FFFFFF' }} {...props} />
+        <h3 className="text-base font-bold mb-2 font-mono text-heading" {...props} />
     ),
     p: (props: React.HTMLAttributes<HTMLParagraphElement>) => (
         <p className="mb-4 font-mono text-sm leading-relaxed" style={{ color: '#D1D5DB' }} {...props} />
@@ -66,7 +66,7 @@ const BlogView = () => {
     if (slug && currentPost) {
         return (
             <div className="h-full overflow-y-auto overflow-x-hidden">
-                <div className="max-w-3xl mx-auto p-3 sm:p-4 md:p-5 lg:p-6 space-y-6">
+                <div className="max-w-article mx-auto p-3 sm:p-4 md:p-5 lg:p-6 space-y-6">
                     {/* Back Button */}
                     <Link href="/blog" className="inline-block mb-4 text-sm hover:underline" style={{ color: '#727780' }}>
                         ← back to blog
@@ -74,15 +74,15 @@ const BlogView = () => {
 
                     {/* Post Header */}
                     <div className="mb-8">
-                        <h1 className="text-2xl font-bold mb-2" style={{ color: '#FFFFFF' }}>
+                        <h1 className="text-2xl font-bold mb-4 text-heading">
                             {currentPost.frontmatter.title}
                         </h1>
 
-                        <div className="text-sm mb-3" style={{ color: '#727780' }}>
+                        <div className="text-xs sm:text-sm mb-3 text-muted-foreground">
                             {format(new Date(currentPost.frontmatter.date), 'MMMM dd, yyyy')}
                         </div>
 
-                        <p className="text-base mb-4 leading-relaxed" style={{ color: '#D1D5DB' }}>
+                        <p className="text-sm mb-4 leading-relaxed text-foreground">
                             {currentPost.frontmatter.description}
                         </p>
 
@@ -114,11 +114,9 @@ const BlogView = () => {
     // Show blog list
     return (
         <div className="h-full overflow-y-auto overflow-x-hidden">
-            <div className="max-w-3xl mx-auto p-3 sm:p-4 md:p-5 lg:p-6 space-y-6">
-                <div className="flex justify-center">
-                    <div className="w-full max-w-2xl">
-                        {/* Header */}
-                        <div className="mb-8">
+            <div className="max-w-content mx-auto p-3 sm:p-4 md:p-5 lg:p-6 space-y-6">
+                {/* Header */}
+                <div className="mb-8">
                             <div className="overflow-hidden mb-4 w-full max-w-full">
                                 <pre className="text-[2.25px] xs:text-[2.7px] sm:text-[3.6px] md:text-[4.5px] leading-none text-zinc-300 whitespace-pre crt-glow" style={{ fontFamily: 'monospace' }}>
                                     {`
@@ -154,17 +152,17 @@ const BlogView = () => {
                                     >
                                         <div>
                                             {/* Post Title */}
-                                            <h2 className="text-sm sm:text-base font-bold mb-1.5 group-hover:text-gray-200 transition-colors" style={{ color: '#FFFFFF' }}>
+                                            <h2 className="text-lg font-bold mb-3 group-hover:text-gray-200 transition-colors text-heading">
                                                 {post.title}
                                             </h2>
 
                                             {/* Date */}
-                                            <div className="text-xs sm:text-sm mb-2" style={{ color: '#727780' }}>
+                                            <div className="text-xs sm:text-sm mb-2 text-muted-foreground">
                                                 {format(new Date(post.date), 'MMMM dd, yyyy')}
                                             </div>
 
                                             {/* Description */}
-                                            <p className="text-xs xs:text-sm sm:text-base leading-relaxed mb-3 break-words" style={{ color: '#D1D5DB' }}>
+                                            <p className="text-sm leading-relaxed mb-4 break-words text-foreground">
                                                 {post.description}
                                             </p>
 
@@ -187,8 +185,6 @@ const BlogView = () => {
                                 ))}
                             </div>
                         )}
-                    </div>
-                </div>
             </div>
         </div>
     );

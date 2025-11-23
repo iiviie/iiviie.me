@@ -5,14 +5,14 @@ interface AboutSectionProps {
 
 const AboutSection = ({ onCommand }: AboutSectionProps) => {
   return (
-    <div className="p-6 font-mono text-sm space-y-6">
+    <div className="p-3 sm:p-4 md:p-5 lg:p-6 font-mono text-sm space-y-6">
       <div className="space-y-2">
         <div className="command-prompt">$ cat ~/about_divyansh.md</div>
-        <div className="ml-4 text-muted-foreground text-xs">
+        <div className="ml-4 text-muted-foreground text-xs sm:text-sm">
           Last modified: {new Date().toLocaleDateString()} | Backend Focus | Python Specialist
         </div>
       </div>
-      
+
       <div className="ml-4 space-y-4">
         {/* Profile Header Section */}
         <div className="terminal-section">
@@ -20,13 +20,13 @@ const AboutSection = ({ onCommand }: AboutSectionProps) => {
             PROFILE OVERVIEW
           </div>
           <div className="terminal-section-content">
-            <h1 className="text-terminal-purple crt-glow text-lg mb-3"># Divyansh Verma</h1>
-            <div className="text-foreground space-y-2">
-              <p>
+            <h1 className="text-terminal-purple crt-glow text-2xl mb-4"># Divyansh Verma</h1>
+            <div className="text-foreground space-y-4">
+              <p className="mb-4">
                 Backend-focused software developer with expertise in Python ecosystem.
                 Specialized in building scalable APIs and robust server-side applications using Django and FastAPI.
               </p>
-              <p>
+              <p className="mb-4">
                 Passionate about clean architecture, performance optimization, and creating
                 developer-friendly APIs that power modern applications.
               </p>
