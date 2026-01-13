@@ -1,11 +1,10 @@
 'use client';
 
 interface ProfileCardProps {
-  name: string;
   description: string;
 }
 
-const ProfileCard = ({ name, description }: ProfileCardProps) => {
+const ProfileCard = ({ description }: ProfileCardProps) => {
   return (
     <div className="mt-6 sm:mt-8">
       {/* Divyansh ASCII Art */}

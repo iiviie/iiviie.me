@@ -4,60 +4,15 @@ import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { useProjectsQuery, useProjectQuery } from '@/hooks/useMdxQueries';
 import { MDXRemote } from 'next-mdx-remote';
-
-const mdxComponents = {
-  h1: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-    <h1 className="text-2xl font-bold mb-4 font-mono" style={{ color: '#FFFFFF' }} {...props} />
-  ),
-  h2: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-    <h2 className="text-lg font-bold mb-3 font-mono" style={{ color: '#FFFFFF' }} {...props} />
-  ),
-  h3: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-    <h3 className="text-base font-bold mb-2 font-mono" style={{ color: '#FFFFFF' }} {...props} />
-  ),
-  p: (props: React.HTMLAttributes<HTMLParagraphElement>) => (
-    <p className="mb-4 font-mono text-sm leading-relaxed" style={{ color: '#D1D5DB' }} {...props} />
-  ),
-  code: (props: React.HTMLAttributes<HTMLElement>) => (
-    <code
-      className="bg-zinc-800/50 px-1 py-0.5 rounded font-mono text-sm"
-      style={{ color: '#D1D5DB' }}
-      {...props}
-    />
-  ),
-  pre: (props: React.HTMLAttributes<HTMLPreElement>) => (
-    <pre
-      className="bg-zinc-900 p-4 rounded-lg mb-4 overflow-x-auto font-mono text-sm border border-zinc-800"
-      {...props}
-    />
-  ),
-  a: (props: React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
-    <a className="text-purple-400 hover:text-purple-300 underline font-mono" {...props} />
-  ),
-  ul: (props: React.HTMLAttributes<HTMLUListElement>) => (
-    <ul className="list-disc list-inside mb-4 font-mono text-sm space-y-1" style={{ color: '#D1D5DB' }} {...props} />
-  ),
-  ol: (props: React.OlHTMLAttributes<HTMLOListElement>) => (
-    <ol className="list-decimal list-inside mb-4 font-mono text-sm space-y-1" style={{ color: '#D1D5DB' }} {...props} />
-  ),
-  li: (props: React.LiHTMLAttributes<HTMLLIElement>) => (
-    <li className="leading-relaxed font-mono" {...props} />
-  ),
-  blockquote: (props: React.BlockquoteHTMLAttributes<HTMLQuoteElement>) => (
-    <blockquote
-      className="border-l-2 border-purple-400 pl-4 italic mb-4 font-mono text-sm"
-      style={{ color: '#727780' }}
-      {...props}
-    />
-  ),
-};
+import { mdxComponents } from '@/components/mdx/components';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
 
 const ProjectsView = () => {
   const params = useParams();
   const slug = params?.slug ? (Array.isArray(params.slug) ? params.slug[0] : params.slug) : null;
 
   const { data: projects = [], isLoading: projectsLoading } = useProjectsQuery();
-  const { data: currentProject, isLoading: projectLoading } = useProjectQuery(slug);
+  const { data: currentProject } = useProjectQuery(slug);
 
   // Show project detail if slug exists
   if (slug && currentProject) {
@@ -65,21 +20,21 @@ const ProjectsView = () => {
       <div className="h-full overflow-y-auto overflow-x-hidden">
         <div className="max-w-article mx-auto p-3 sm:p-4 md:p-5 lg:p-6 space-y-6">
           {/* Back Button */}
-          <Link href="/projects" className="inline-block mb-4 text-sm hover:underline" style={{ color: '#727780' }}>
+          <Link href="/projects" className="inline-block mb-4 text-sm text-terminal-muted hover:underline">
             ← back to projects
           </Link>
 
           {/* Project Header */}
           <div className="mb-8">
-            <h1 className="text-2xl font-bold mb-4" style={{ color: '#FFFFFF' }}>
+            <h1 className="text-2xl font-bold mb-4 text-white">
               {currentProject.frontmatter.title}
             </h1>
 
-            <p className="text-xs sm:text-sm mb-3" style={{ color: '#727780' }}>
+            <p className="text-xs sm:text-sm mb-3 text-terminal-muted">
               {currentProject.frontmatter.role}
             </p>
 
-            <p className="text-sm mb-4 leading-relaxed" style={{ color: '#D1D5DB' }}>
+            <p className="text-sm mb-4 leading-relaxed text-terminal-text">
               {currentProject.frontmatter.description}
             </p>
 
@@ -88,8 +43,7 @@ const ProjectsView = () => {
               {currentProject.frontmatter.tech.map((tech) => (
                 <span
                   key={tech}
-                  className="px-2 py-1 text-sm bg-zinc-800/50 border border-zinc-700/50 rounded"
-                  style={{ color: '#727780' }}
+                  className="px-2 py-1 text-sm bg-zinc-800/50 border border-zinc-700/50 rounded text-terminal-muted"
                 >
                   {tech}
                 </span>
@@ -99,7 +53,9 @@ const ProjectsView = () => {
 
           {/* MDX Content */}
           <div className="prose prose-invert max-w-none">
-            <MDXRemote {...currentProject.content} components={mdxComponents} />
+            <ErrorBoundary>
+              <MDXRemote {...currentProject.content} components={mdxComponents} />
+            </ErrorBoundary>
           </div>
         </div>
       </div>
@@ -127,14 +83,14 @@ const ProjectsView = () => {
 ░░░░░                         ░░░░░░                                       `}
             </pre>
           </div>
-          <p className="text-base" style={{ color: '#727780' }}>
+          <p className="text-base text-terminal-muted">
             things i've built
           </p>
         </div>
 
             {/* Projects List */}
             {projectsLoading ? (
-              <div style={{ color: '#727780' }}>Loading...</div>
+              <div className="text-terminal-muted">Loading...</div>
             ) : (
               <div className="space-y-6 sm:space-y-7 md:space-y-8">
                 {projects.map((project) => (
@@ -145,17 +101,17 @@ const ProjectsView = () => {
                   >
                     <div>
                       {/* Project Name */}
-                      <h2 className="text-lg font-bold mb-3 group-hover:text-gray-200 transition-colors" style={{ color: '#FFFFFF' }}>
+                      <h2 className="text-lg font-bold mb-3 text-white group-hover:text-gray-200 transition-colors">
                         {project.title}
                       </h2>
 
                       {/* Role */}
-                      <p className="text-xs sm:text-sm mb-2" style={{ color: '#727780' }}>
+                      <p className="text-xs sm:text-sm mb-2 text-terminal-muted">
                         {project.role}
                       </p>
 
                       {/* Description */}
-                      <p className="text-sm leading-relaxed mb-4 break-words" style={{ color: '#D1D5DB' }}>
+                      <p className="text-sm leading-relaxed mb-4 break-words text-terminal-text">
                         {project.description}
                       </p>
 
@@ -164,8 +120,7 @@ const ProjectsView = () => {
                         {project.tech.map((tech) => (
                           <span
                             key={tech}
-                            className="px-1.5 sm:px-2 py-0.5 sm:py-1 text-xs sm:text-sm bg-zinc-800/50 border border-zinc-700/50 rounded"
-                            style={{ color: '#727780' }}
+                            className="px-1.5 sm:px-2 py-0.5 sm:py-1 text-xs sm:text-sm bg-zinc-800/50 border border-zinc-700/50 rounded text-terminal-muted"
                           >
                             {tech}
                           </span>

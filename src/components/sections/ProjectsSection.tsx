@@ -46,7 +46,7 @@ const ProjectsSection: React.FC<ProjectsSectionProps> = ({ onClose }) => {
 
   // Use React Query hooks
   const { data: projects = [], isLoading: projectsLoading, error: projectsError } = useProjectsQuery();
-  const { data: currentProject, isLoading: projectLoading, error: projectError } = useProjectQuery(slug);
+  const { data: currentProject, isLoading: _projectLoading, error: projectError } = useProjectQuery(slug);
 
   const handleProjectClick = (projectSlug: string) => {
     router.push(`/projects/${projectSlug}`);

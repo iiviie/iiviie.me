@@ -11,16 +11,6 @@ interface ProjectCardProps {
 const ProjectCard = ({ project, linkToGithub = false }: ProjectCardProps) => {
   const router = useRouter();
 
-  const getStatusColor = (status: ProjectMetadata['status']) => {
-    switch (status) {
-      case 'production': return 'text-green-400';
-      case 'active': return 'text-blue-400';
-      case 'stable': return 'text-purple-400';
-      case 'maintenance': return 'text-yellow-400';
-      default: return 'text-zinc-400';
-    }
-  };
-
   const handleClick = () => {
     if (linkToGithub && project.github) {
       window.open(project.github, '_blank');

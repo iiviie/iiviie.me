@@ -1,6 +1,6 @@
 import React from 'react';
 import { format } from 'date-fns';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 
 interface MdxLayoutProps {
   children: React.ReactNode;
@@ -13,14 +13,14 @@ interface MdxLayoutProps {
 }
 
 const MdxLayout: React.FC<MdxLayoutProps> = ({ children, frontmatter }) => {
-  const navigate = useNavigate();
+  const router = useRouter();
 
   return (
     <div className="fixed inset-10 z-50 bg-zinc-900 border border-zinc-800 rounded-lg shadow-lg overflow-hidden flex flex-col">
       {/* Window Header */}
       <div className="bg-zinc-900 px-4 py-2 flex items-center justify-between flex-shrink-0 border-b border-zinc-800">
         <div className="flex items-center gap-2">
-          <div className="w-3 h-3 rounded-full bg-red-400 cursor-pointer" onClick={() => navigate('/blog')}></div>
+          <div className="w-3 h-3 rounded-full bg-red-400 cursor-pointer" onClick={() => router.push('/blog')}></div>
           <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
           <div className="w-3 h-3 rounded-full bg-green-400"></div>
           <span className="ml-4 text-sm text-zinc-500">~/blog/post</span>

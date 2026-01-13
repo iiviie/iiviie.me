@@ -4,7 +4,7 @@ interface HomeSectionProps {
   onCommand?: (command: string) => void;
 }
 
-const HomeSection = ({ onCommand }: HomeSectionProps) => {
+const HomeSection = ({ onCommand: _onCommand }: HomeSectionProps) => {
   const [showCursor, setShowCursor] = useState(true);
 
   useEffect(() => {

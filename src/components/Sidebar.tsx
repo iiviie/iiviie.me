@@ -49,19 +49,21 @@ const Sidebar = ({ className = '' }: SidebarProps) => {
       </div>
 
       {/* Navigation Items */}
-      <nav className="flex-1">
+      <nav className="flex-1" aria-label="Main navigation">
         {sections.map((section) => (
           <button
             key={section.id}
             onClick={() => router.push(section.path)}
             onMouseEnter={section.onHover}
             onFocus={section.onHover}
+            aria-label={`Navigate to ${section.label}`}
+            aria-current={isActive(section.path) ? 'page' : undefined}
             className={`w-full px-4 py-1.5 sm:py-2 md:py-2.5 flex items-center gap-2.5 transition-all font-mono text-xs sm:text-sm ${isActive(section.path)
               ? 'bg-zinc-900 text-purple-400 border-l-2 border-purple-400'
               : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900/50'
               }`}
           >
-            <span className="text-xs">{section.icon}</span>
+            <span className="text-xs" aria-hidden="true">{section.icon}</span>
             <span>{section.label}</span>
           </button>
         ))}
@@ -70,8 +72,11 @@ const Sidebar = ({ className = '' }: SidebarProps) => {
       {/* Footer section */}
       <div className="px-4 mt-auto space-y-2">
         <div className="h-px bg-zinc-700 mb-2" />
-        <button className="w-full px-2 py-2 flex items-center gap-3 text-zinc-500 hover:text-zinc-300 transition-all font-mono text-xs hover:bg-zinc-900/50 rounded">
-          <span>◐</span>
+        <button 
+          className="w-full px-2 py-2 flex items-center gap-3 text-zinc-500 hover:text-zinc-300 transition-all font-mono text-xs hover:bg-zinc-900/50 rounded"
+          aria-label="Log out"
+        >
+          <span aria-hidden="true">◐</span>
           <span>Log out</span>
         </button>
       </div>

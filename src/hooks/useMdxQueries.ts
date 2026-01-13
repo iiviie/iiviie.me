@@ -1,6 +1,5 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { getAllPosts, getPostBySlug, getAllProjects, getProjectBySlug } from '@/lib/mdx';
-import type { PostMetadata, PostData, ProjectMetadata, ProjectData } from '@/types/mdx';
 
 // Query keys
 export const queryKeys = {

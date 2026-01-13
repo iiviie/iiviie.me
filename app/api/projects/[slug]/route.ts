@@ -6,7 +6,7 @@ import { serialize } from 'next-mdx-remote/serialize';
 import * as shiki from 'shiki';
 
 export async function GET(
-  request: Request,
+  _request: Request,
   { params }: { params: Promise<{ slug: string }> }
 ) {
   try {

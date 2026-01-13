@@ -3,7 +3,7 @@ interface AboutSectionProps {
   onCommand?: (command: string) => void;
 }
 
-const AboutSection = ({ onCommand }: AboutSectionProps) => {
+const AboutSection = ({ onCommand: _onCommand }: AboutSectionProps) => {
   return (
     <div className="p-3 sm:p-4 md:p-5 lg:p-6 font-mono text-sm space-y-6">
       <div className="space-y-2">
