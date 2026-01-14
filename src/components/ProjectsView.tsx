@@ -6,9 +6,12 @@ import { useProjectsQuery, useProjectQuery } from '@/hooks/useMdxQueries';
 import { MDXRemote } from 'next-mdx-remote';
 import { mdxComponents } from '@/components/mdx/components';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
+import { HoverRow } from '@/components/ui/HoverRow';
+import { useRouter } from 'next/navigation';
 
 const ProjectsView = () => {
   const params = useParams();
+  const router = useRouter();
   const slug = params?.slug ? (Array.isArray(params.slug) ? params.slug[0] : params.slug) : null;
 
   const { data: projects = [], isLoading: projectsLoading } = useProjectsQuery();
@@ -94,14 +97,13 @@ const ProjectsView = () => {
             ) : (
               <div className="space-y-6 sm:space-y-7 md:space-y-8">
                 {projects.map((project) => (
-                  <Link
+                  <HoverRow
                     key={project.slug}
-                    href={`/projects/${project.slug}`}
-                    className="block group p-2 -m-2 rounded-lg hover:bg-zinc-900/30 transition-all"
+                    onClick={() => router.push(`/projects/${project.slug}`)}
                   >
-                    <div>
+                    <div className="py-2">
                       {/* Project Name */}
-                      <h2 className="text-lg font-bold mb-3 text-white group-hover:text-gray-200 transition-colors">
+                      <h2 className="text-lg font-bold mb-3 text-white">
                         {project.title}
                       </h2>
 
@@ -127,7 +129,7 @@ const ProjectsView = () => {
                         ))}
                       </div>
                     </div>
-                  </Link>
+                  </HoverRow>
                 ))}
               </div>
             )}

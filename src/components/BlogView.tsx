@@ -7,9 +7,17 @@ import { MDXRemote } from 'next-mdx-remote';
 import { format } from 'date-fns';
 import { mdxComponents } from '@/components/mdx/components';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
+import { HoverRow } from '@/components/ui/HoverRow';
+import { useRouter } from 'next/navigation';
+
+// Helper to format date in lowercase "jan 21, 2023" format
+const formatDateLowercase = (date: Date) => {
+  return format(date, 'MMM dd, yyyy').toLowerCase();
+};
 
 const BlogView = () => {
     const params = useParams();
+    const router = useRouter();
     const slug = params?.slug ? (Array.isArray(params.slug) ? params.slug[0] : params.slug) : null;
 
   const { data: posts = [], isLoading: postsLoading } = usePostsQuery();
@@ -97,44 +105,24 @@ const BlogView = () => {
                         {postsLoading ? (
                             <div className="text-terminal-muted">Loading...</div>
                         ) : (
-                            <div className="space-y-6 sm:space-y-7 md:space-y-8">
+                            <div className="space-y-1">
                                 {posts.map((post) => (
-                                    <Link
+                                    <HoverRow
                                         key={post.slug}
-                                        href={`/blog/${post.slug}`}
-                                        className="block group p-2 -m-2 rounded-lg hover:bg-zinc-900/30 transition-all"
+                                        onClick={() => router.push(`/blog/${post.slug}`)}
                                     >
-                                        <div>
+                                        <div className="flex justify-between items-center py-3">
                                             {/* Post Title */}
-                                            <h2 className="text-lg font-bold mb-3 text-white group-hover:text-gray-200 transition-colors">
+                                            <h2 className="text-base text-white">
                                                 {post.title}
                                             </h2>
 
                                             {/* Date */}
-                                            <div className="text-xs sm:text-sm mb-2 text-terminal-muted">
-                                                {format(new Date(post.date), 'MMMM dd, yyyy')}
+                                            <div className="text-sm text-terminal-muted ml-4 whitespace-nowrap">
+                                                {formatDateLowercase(new Date(post.date))}
                                             </div>
-
-                                            {/* Description */}
-                                            <p className="text-sm leading-relaxed mb-4 break-words text-terminal-text">
-                                                {post.description}
-                                            </p>
-
-                                            {/* Tags */}
-                                            {post.tags && (
-                                                <div className="flex flex-wrap gap-1.5 sm:gap-2">
-                                                    {post.tags.map((tag) => (
-                                                        <span
-                                                            key={tag}
-                                                            className="px-1.5 sm:px-2 py-0.5 sm:py-1 text-xs sm:text-sm bg-zinc-800/50 border border-zinc-700/50 rounded text-terminal-muted"
-                                                        >
-                                                            {tag}
-                                                        </span>
-                                                    ))}
-                                                </div>
-                                            )}
                                         </div>
-                                    </Link>
+                                    </HoverRow>
                                 ))}
                             </div>
                         )}
