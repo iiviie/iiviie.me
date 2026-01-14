@@ -34,32 +34,15 @@ const BlogView = () => {
                     </Link>
 
                     {/* Post Header */}
-                    <div className="mb-8">
-                        <h1 className="text-2xl font-bold mb-4 text-white">
-                            {currentPost.frontmatter.title}
+                    <div className="mb-10">
+                        <h1 className="text-3xl sm:text-4xl font-bold mb-3 text-white font-mono flex items-start gap-2">
+                            <span className="text-cyan-500">&gt;</span>
+                            <span>{currentPost.frontmatter.title}</span>
                         </h1>
 
-                        <div className="text-xs sm:text-sm mb-3 text-terminal-muted">
-                            {format(new Date(currentPost.frontmatter.date), 'MMMM dd, yyyy')}
+                        <div className="text-sm mb-4 text-terminal-muted font-mono">
+                            {formatDateLowercase(new Date(currentPost.frontmatter.date))}
                         </div>
-
-                        <p className="text-sm mb-4 leading-relaxed text-terminal-text">
-                            {currentPost.frontmatter.description}
-                        </p>
-
-                        {/* Tags */}
-                        {currentPost.frontmatter.tags && (
-                            <div className="flex flex-wrap gap-2 mb-6">
-                                {currentPost.frontmatter.tags.map((tag) => (
-                                    <span
-                                        key={tag}
-                                        className="px-2 py-1 text-sm bg-zinc-800/50 border border-zinc-700/50 rounded text-terminal-muted"
-                                    >
-                                        {tag}
-                                    </span>
-                                ))}
-                            </div>
-                        )}
                     </div>
 
                     {/* MDX Content */}

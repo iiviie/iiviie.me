@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import { serialize } from 'next-mdx-remote/serialize';
-import * as shiki from 'shiki';
+import remarkGfm from 'remark-gfm';
 
 export async function GET(
   _request: Request,
@@ -21,37 +21,14 @@ export async function GET(
     const fileContents = fs.readFileSync(filePath, 'utf8');
     const { data, content } = matter(fileContents);
 
-    // Initialize the syntax highlighter
-    const highlighter = await shiki.createHighlighter({
-      themes: ['one-dark-pro'],
-      langs: ['typescript', 'javascript', 'python', 'bash', 'markdown', 'json'],
-    });
-
-    // Serialize MDX content with syntax highlighting
+    // Serialize MDX content with GFM support for tables
     const mdxSource = await serialize(content, {
       parseFrontmatter: true,
       mdxOptions: {
-        remarkPlugins: [],
+        remarkPlugins: [remarkGfm],
         rehypePlugins: [],
         format: 'mdx',
       },
-      scope: {
-        // Make highlighter available in MDX content
-        highlight: async (code: string, lang: string) => {
-          try {
-            return await highlighter.codeToHtml(code, {
-              lang,
-              themes: {
-                light: 'one-dark-pro',
-                dark: 'one-dark-pro'
-              }
-            });
-          } catch (error) {
-            console.warn(`Failed to highlight code block with language ${lang}:`, error);
-            return code;
-          }
-        }
-      }
     });
 
     return NextResponse.json({
