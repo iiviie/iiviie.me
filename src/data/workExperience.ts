@@ -18,7 +18,7 @@ export const workExperiences: WorkExperience[] = [
     duration: 'Sep 2024 - Oct 2024',
     startDate: '2024-09',
     endDate: '2024-10',
-    description: 'built ai-powered rca agent with rag pipeline using langchain',
+    description: 'built ai-powered rca agent with rag pipeline using langchain, opentelemetry, graphana, Loki, Prometheus',
     achievements: [
       'Built AI-powered RCA agent integrating Slack, GitHub, and Grafana with RAG pipeline using LangChain and LangGraph',
       'Implemented LGTM stack (Loki, Grafana, Tempo, Mimir) with ClickHouse and vector database for real-time observability',
