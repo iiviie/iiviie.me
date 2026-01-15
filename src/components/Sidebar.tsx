@@ -68,18 +68,6 @@ const Sidebar = ({ className = '' }: SidebarProps) => {
           </button>
         ))}
       </nav>
-
-      {/* Footer section */}
-      <div className="px-4 mt-auto space-y-2">
-        <div className="h-px bg-zinc-700 mb-2" />
-        <button 
-          className="w-full px-2 py-2 flex items-center gap-3 text-zinc-500 hover:text-zinc-300 transition-all font-mono text-xs hover:bg-zinc-900/50 rounded"
-          aria-label="Log out"
-        >
-          <span aria-hidden="true">◐</span>
-          <span>Log out</span>
-        </button>
-      </div>
     </div>
   );
 };
