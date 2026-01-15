@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 
 export const mdxComponents = {
     h1: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
@@ -53,6 +54,24 @@ export const mdxComponents = {
             className="border-l-4 border-cyan-500/70 pl-4 py-2 bg-zinc-800/30 italic mb-6 font-mono text-base text-zinc-400"
             {...props}
         />
+    ),
+    // Image component for CDN images
+    img: (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
+        <span className="block my-6">
+            <Image
+                src={props.src || ''}
+                alt={props.alt || 'Blog image'}
+                width={800}
+                height={450}
+                className="rounded-lg border border-zinc-800 w-full h-auto"
+                unoptimized // Required for external CDN images
+            />
+            {props.alt && (
+                <span className="block text-center text-sm text-terminal-muted mt-2 font-mono">
+                    {props.alt}
+                </span>
+            )}
+        </span>
     ),
     // Table components
     table: (props: React.HTMLAttributes<HTMLTableElement>) => (

@@ -9,6 +9,14 @@ import rehypeHighlight from 'rehype-highlight';
 const nextConfig = {
   pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
   reactStrictMode: true,
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**.ufs.sh',
+      },
+    ],
+  },
   webpack: (config) => {
     config.resolve.alias = {
       ...config.resolve.alias,

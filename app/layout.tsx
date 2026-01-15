@@ -1,9 +1,6 @@
 import type { Metadata } from 'next';
 import { Geist_Mono } from 'next/font/google';
 import '@/styles/globals.css';
-import { TooltipProvider } from '@/components/ui/tooltip';
-import { Toaster } from '@/components/ui/toaster';
-import { Toaster as Sonner } from '@/components/ui/sonner';
 import Providers from './providers';
 import TerminalInterface from '@/components/TerminalInterface';
 import Sidebar from '@/components/Sidebar';
@@ -34,20 +31,16 @@ export default async function RootLayout({
       <body className={geistMono.className} suppressHydrationWarning>
         <Providers>
           <DataProvider posts={posts} projects={projects}>
-            <TooltipProvider>
-              <Toaster />
-              <Sonner />
-              {/* Common layout for all pages - Single source of truth */}
-              <div className="h-screen w-screen fixed inset-0 overflow-hidden flex p-1 sm:p-1.5 md:p-2 lg:p-3 pb-16 lg:pb-3" style={{ background: '#1a1a1a' }}>
-                <Sidebar className="hidden lg:flex" />
-                <div className="flex-1 h-full">
-                  <TerminalInterface />
-                </div>
+            {/* Common layout for all pages - Single source of truth */}
+            <div className="h-screen w-screen fixed inset-0 overflow-hidden flex p-1 sm:p-1.5 md:p-2 lg:p-3 pb-16 lg:pb-3" style={{ background: '#1a1a1a' }}>
+              <Sidebar className="hidden lg:flex" />
+              <div className="flex-1 h-full">
+                <TerminalInterface />
               </div>
-              <MobileBottomNav />
-              {/* Children are rendered but TerminalInterface handles all content switching */}
-              {children}
-            </TooltipProvider>
+            </div>
+            <MobileBottomNav />
+            {/* Children are rendered but TerminalInterface handles all content switching */}
+            {children}
           </DataProvider>
         </Providers>
       </body>
