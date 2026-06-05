@@ -98,7 +98,7 @@ const DashboardView = () => {
                     onClick={() => router.push(`/blog/${post.slug}`)}
                   >
                     <div className="flex justify-between items-center py-3">
-                      <h3 className="text-base text-white">
+                      <h3 className="text-base font-bold text-white">
                         {post.title}
                       </h3>
                       <span className="text-sm text-terminal-muted ml-4 whitespace-nowrap">

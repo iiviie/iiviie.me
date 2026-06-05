@@ -35,7 +35,7 @@ const BlogView = () => {
 
                     {/* Post Header */}
                     <div className="mb-10">
-                        <h1 className="text-3xl sm:text-4xl font-bold mb-3 text-white font-mono flex items-start gap-2">
+                        <h1 className="text-2xl sm:text-3xl font-bold mb-3 text-white font-mono flex items-start gap-2">
                             <span className="text-cyan-500">&gt;</span>
                             <span>{currentPost.frontmatter.title}</span>
                         </h1>
@@ -96,7 +96,7 @@ const BlogView = () => {
                                     >
                                         <div className="flex justify-between items-center py-3">
                                             {/* Post Title */}
-                                            <h2 className="text-base text-white">
+                                            <h2 className="text-base font-bold text-white">
                                                 {post.title}
                                             </h2>
 

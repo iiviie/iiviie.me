@@ -43,8 +43,8 @@ const ProfileCard = ({ description }: ProfileCardProps) => {
       </div>
 
       {/* Description - Left aligned */}
-      <p className="text-[10px] xs:text-xs sm:text-sm md:text-base leading-relaxed break-words" style={{ color: '#D1D5DB', wordBreak: 'break-word', overflowWrap: 'break-word', maxWidth: '100%', marginBottom: '2rem' }}
-      >  {description}
+      <p className="text-sm leading-relaxed break-words mb-8" style={{ color: '#D1D5DB', wordBreak: 'break-word', overflowWrap: 'break-word', maxWidth: '100%' }}>
+        {description}
       </p>
     </div>
   );

@@ -29,7 +29,7 @@ const ProjectsView = () => {
 
           {/* Project Header */}
           <div className="mb-8">
-            <h1 className="text-2xl font-bold mb-4 text-white">
+            <h1 className="text-2xl sm:text-3xl font-bold mb-4 text-white">
               {currentProject.frontmatter.title}
             </h1>
 
@@ -103,7 +103,7 @@ const ProjectsView = () => {
                   >
                     <div className="py-2">
                       {/* Project Name */}
-                      <h2 className="text-lg font-bold mb-3 text-white">
+                      <h2 className="text-base font-bold mb-3 text-white">
                         {project.title}
                       </h2>
 
