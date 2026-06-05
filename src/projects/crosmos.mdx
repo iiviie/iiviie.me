@@ -1,0 +1,46 @@
+---
+title: "crosmos"
+role: "co-founder"
+description: "context & memory infrastructure for AI agents and teams — persistent, state-aware memory instead of stateless prompts"
+tech: ["TypeScript", "MCP", "MTKG", "Temporal + Semantic", "Append-only", "AI Agents"]
+status: "production"
+date: "2026-04-01"
+github: "https://github.com/crosmos-labs"
+---
+
+# crosmos
+
+Crosmos is a context and memory infrastructure for AI agents and teams. We capture knowledge from conversations, documents, and workflows, and structure it into a system agents can query and reason over. This lets agents retrieve relevant context, track changes over time, and operate with persistent, state-aware memory instead of relying on stateless prompts.
+
+Over time, we're building the core infrastructure that lets agents and teams share a unified, continuously evolving understanding of their work.
+
+## How It Works
+
+At the core, Crosmos is a **Monotonic Temporal Knowledge Graph (MTKG)**. Memory is **append-only** — nothing is ever mutated or overwritten in place, which makes the entire history **mutation-free and fully auditable**. You can always trace what an agent knew, and when.
+
+Retrieval is **temporal + semantic**: agents query by meaning and by point-in-time, so they recover not just relevant facts but the relevant *state* of those facts at any moment — instead of a flat snapshot of the present.
+
+## Live in Production
+
+Crosmos is live in production and used by both individual developers and teams building multi-agent systems. We've built a memory and context layer that lets agents persist, retrieve, and evolve context over time instead of relying on stateless calls or basic vector search.
+
+## What We've Shipped
+
+- **Production APIs** for storing and retrieving structured memory
+- **An MCP server** that integrates with major agentic frameworks
+- **Plugins** for Claude Code, Codex, Opencode, Hermes agents, and OpenClaw
+- Used across personal workflows as well as complex multi-agent setups within enterprise teams
+
+## Backed by LocalHostHQ
+
+We raised capital through the **LocalHostHQ Founders Program**, a 3-month program that provided capital, legal support, content/distribution support, a strong founder network, and introductions to a VC network. It helped us accelerate early distribution and onboard some of our most engaged users — including founders and teams building in the space.
+
+## What's Next
+
+We're building **memory synthesis** — enabling agents to form persistent, evolving beliefs rather than just storing raw data, while keeping token usage efficient. We're continuously shipping improvements to performance, scalability, and memory quality based on real-world usage.
+
+## Links
+
+- Website: [crosmos.dev](https://crosmos.dev)
+- Docs: [crosmos.dev/docs](https://crosmos.dev/docs)
+- GitHub: [github.com/crosmos-labs](https://github.com/crosmos-labs)

@@ -90,14 +90,17 @@ export async function getAllProjectsServer(): Promise<ProjectMetadata[]> {
 
       return {
         title: data.title,
+        role: data.role,
         description: data.description,
         tech: data.tech,
         status: data.status,
         date: data.date,
         size: data.size,
+        github: data.github,
         slug: filename.replace(/\.mdx$/, ''),
       } as ProjectMetadata;
-    });
+    })
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
   return projects;
 }

@@ -25,7 +25,7 @@ const DashboardView = () => {
         <div className="max-w-content mx-auto p-3 sm:p-4 md:p-5 lg:p-6 space-y-6 relative z-10">
           {/* Profile Card */}
           <ProfileCard
-            description="21-year-old undergrad with an unhealthy obsession for Linux and scalable backend systems. I spend my time building things that probably didn't need to exist, cooking questionable bangin good food, and fixing broken configs at 4 AM. "
+            description="21-year-old co-founder building Crosmos — memory infrastructure that gives AI agents a brain that actually remembers, instead of waking up amnesiac every prompt. Won Smart India Hackathon (India's largest, 1M+ participants), got backed by the LocalHostHQ Founders Program, and currently moving to Bangalore to build. I live in the terminal, cook questionably bangin food, and debug broken configs at 4 AM for fun. "
           />
 
           {/* Work Experience */}

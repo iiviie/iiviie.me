@@ -12,6 +12,21 @@ export interface WorkExperience {
 
 export const workExperiences: WorkExperience[] = [
   {
+    id: '0',
+    company: 'Crosmos',
+    position: 'Co-founder',
+    duration: 'Apr 2026 - Present',
+    startDate: '2026-04',
+    endDate: 'Present',
+    description: 'building context & memory infrastructure that gives AI agents a brain that actually remembers',
+    achievements: [
+      'Building Crosmos, a context and memory infrastructure layer that lets AI agents persist, retrieve, and evolve context over time instead of relying on stateless prompts — live in production with both individual developers and enterprise teams',
+      'Shipped production APIs, an MCP server that integrates with major agentic frameworks, and plugins for Claude Code, Codex, Opencode, Hermes, and OpenClaw',
+      'Accepted into the LocalHostHQ Founders Program, raising a $35k community-fund grant plus $10k in Anthropic Claude credits and $2.5k in OpenAI credits to accelerate early distribution'
+    ],
+    technologies: ['TypeScript', 'MCP', 'MTKG', 'Temporal + Semantic', 'Append-only', 'AI Agents']
+  },
+  {
     id: '1',
     company: 'VibeMonitor.ai',
     position: 'Backend Engineer',

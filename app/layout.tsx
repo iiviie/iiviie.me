@@ -11,8 +11,8 @@ import { getAllPostsServer, getAllProjectsServer } from '@/lib/mdx-server';
 const geistMono = Geist_Mono({ subsets: ['latin'], display: 'swap' });
 
 export const metadata: Metadata = {
-  title: 'Divyansh Verma - Backend Developer',
-  description: 'Backend Developer & API Architect specializing in Python ecosystem',
+  title: 'Divyansh Verma — Co-founder @ Crosmos',
+  description: 'Co-founder building Crosmos, memory infrastructure that gives AI agents persistent context. Smart India Hackathon winner, LocalHostHQ Founders Program. Backend engineer who lives in the terminal.',
 };
 
 export default async function RootLayout({
