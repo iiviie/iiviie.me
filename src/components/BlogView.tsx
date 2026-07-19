@@ -26,7 +26,7 @@ const BlogView = () => {
     // Show post detail if slug exists
     if (slug && currentPost) {
         return (
-            <div className="h-full overflow-y-auto overflow-x-hidden">
+            <div className="overflow-x-hidden">
                 <div className="max-w-article mx-auto p-3 sm:p-4 md:p-5 lg:p-6 space-y-6">
                     {/* Back Button */}
                     <Link href="/blog" className="inline-block mb-4 text-sm text-terminal-muted hover:underline">
@@ -58,7 +58,7 @@ const BlogView = () => {
 
     // Show blog list
     return (
-        <div className="h-full overflow-y-auto overflow-x-hidden">
+        <div className="overflow-x-hidden">
             <div className="max-w-content mx-auto p-3 sm:p-4 md:p-5 lg:p-6 space-y-6">
                 {/* Header */}
                 <div className="mt-6 sm:mt-8 mb-8">

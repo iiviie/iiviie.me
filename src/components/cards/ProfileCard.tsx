@@ -1,27 +1,33 @@
 'use client';
 
+import { ASCII_ART } from '@/constants/ascii';
+
 interface ProfileCardProps {
-  description: string;
+  description: React.ReactNode;
 }
+
+// No leading-none and no explicit font: the default line height and the inherited
+// Geist Mono are what produce the segmented-display texture in the block glyphs
+const logoClasses = 'text-[5px] xs:text-[6px] sm:text-[7px] md:text-[8px] whitespace-pre';
+const logoStyle = { color: '#9068F7' } as const;
 
 const ProfileCard = ({ description }: ProfileCardProps) => {
   return (
     <div className="mt-6 sm:mt-8">
-      {/* Divyansh ASCII Art */}
-      <div className="overflow-hidden mb-4 w-full max-w-full">
-        <pre className="text-[2.25px] xs:text-[2.7px] sm:text-[3.6px] md:text-[4.5px] leading-none text-zinc-300 whitespace-pre crt-glow" style={{ fontFamily: 'monospace' }}>
-          {`     █████  ███                                                      █████
-    ░░███  ░░░                                                      ░░███
-  ███████  ████  █████ █████ █████ ████  ██████   ████████    █████  ░███████
- ███░░███ ░░███ ░░███ ░░███ ░░███ ░███  ░░░░░███ ░░███░░███  ███░░   ░███░░███
-░███ ░███  ░███  ░███  ░███  ░███ ░███   ███████  ░███ ░███ ░░█████  ░███ ░███
-░███ ░███  ░███  ░░███ ███   ░███ ░███  ███░░███  ░███ ░███  ░░░░███ ░███ ░███
-░░████████ █████  ░░█████    ░░███████ ░░████████ ████ █████ ██████  ████ █████
- ░░░░░░░░ ░░░░░    ░░░░░      ░░░░░███  ░░░░░░░░ ░░░░ ░░░░░ ░░░░░░  ░░░░ ░░░░░
-                              ███ ░███
-                             ░░██████
-                              ░░░░░░`}
-        </pre>
+      {/* IIVIIE ASCII Art — glow is a blurred copy behind, so the glyphs on top stay crisp */}
+      <div className="mb-4 py-2">
+        <div className="relative w-fit">
+          <pre
+            className={`absolute inset-0 ${logoClasses} blur-[5px] opacity-60`}
+            style={logoStyle}
+            aria-hidden="true"
+          >
+            {ASCII_ART.iiviie}
+          </pre>
+          <pre className={`relative ${logoClasses}`} style={logoStyle}>
+            {ASCII_ART.iiviie}
+          </pre>
+        </div>
       </div>
 
       {/* Location and Position */}
@@ -43,7 +49,7 @@ const ProfileCard = ({ description }: ProfileCardProps) => {
       </div>
 
       {/* Description - Left aligned */}
-      <p className="text-sm leading-relaxed break-words mb-8" style={{ color: '#D1D5DB', wordBreak: 'break-word', overflowWrap: 'break-word', maxWidth: '100%' }}>
+      <p className="text-[13px] leading-relaxed break-words mb-8" style={{ color: '#D1D5DB', wordBreak: 'break-word', overflowWrap: 'break-word', maxWidth: '100%' }}>
         {description}
       </p>
     </div>

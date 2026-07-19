@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import Sidebar from '@/components/Sidebar';
 import MobileBottomNav from '@/components/MobileBottomNav';
 import { useState, useEffect, useRef } from 'react';
 
@@ -70,8 +69,7 @@ export default function NotFound() {
   return (
     <>
       <div className="h-screen w-screen fixed inset-0 overflow-hidden flex p-2 sm:p-3 md:p-4 lg:p-6 pb-16 lg:pb-6" style={{ background: '#1a1a1a' }}>
-        <Sidebar className="hidden lg:flex" />
-        <div className="flex-1 h-full flex flex-col font-mono text-xs sm:text-sm">
+        <div className="flex-1 h-full max-w-article mx-auto w-full flex flex-col font-mono text-xs sm:text-sm">
         {/* Header */}
         <div className="border-b border-zinc-800 px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 bg-[#111111] rounded-t-lg">
           <div className="flex items-center gap-2 sm:gap-3">

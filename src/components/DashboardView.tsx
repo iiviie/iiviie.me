@@ -20,12 +20,36 @@ const DashboardView = () => {
   const { data: posts = [] } = usePostsQuery();
 
   return (
-    <div className="h-full overflow-y-auto overflow-x-hidden">
+    <div className="overflow-x-hidden">
       <div className="relative overflow-hidden">
         <div className="max-w-content mx-auto p-3 sm:p-4 md:p-5 lg:p-6 space-y-6 relative z-10">
           {/* Profile Card */}
           <ProfileCard
-            description="21-year-old co-founder building Crosmos — memory infrastructure that gives AI agents a brain that actually remembers, instead of waking up amnesiac every prompt. Won Smart India Hackathon (India's largest, 1M+ participants), got backed by the LocalHostHQ Founders Program, and currently moving to Bangalore to build. I live in the terminal, cook questionably bangin food, and debug broken configs at 4 AM for fun. "
+            description={
+              <>
+                I&apos;m Divyansh Verma, a 21-year-old co-founder building{' '}
+                <a
+                  href="https://crosmos.dev"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-semibold text-terminal-accent hover:underline"
+                >
+                  Crosmos
+                </a>
+                , memory infra for AI agents. Won Smart India Hackathon (India&apos;s largest, 1M+
+                participants), got backed by the{' '}
+                <a
+                  href="https://www.localhosthq.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-semibold text-zinc-100 hover:underline"
+                >
+                  LocalHostHQ
+                </a>{' '}
+                Founders Program, and currently moving to Bangalore to build. I use arch BTW, cook
+                questionably bangin food, and have to say weird stuff or else I&apos;ll explode.
+              </>
+            }
           />
 
           {/* Work Experience */}

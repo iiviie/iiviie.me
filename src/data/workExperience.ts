@@ -15,8 +15,8 @@ export const workExperiences: WorkExperience[] = [
     id: '0',
     company: 'Crosmos',
     position: 'Co-founder',
-    duration: 'Apr 2026 - Present',
-    startDate: '2026-04',
+    duration: 'Jan 2026 - Present',
+    startDate: '2026-01',
     endDate: 'Present',
     description: 'building context & memory infrastructure that gives AI agents a brain that actually remembers',
     achievements: [

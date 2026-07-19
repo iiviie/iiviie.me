@@ -46,7 +46,7 @@ const ContactView = () => {
     ];
 
     return (
-        <div className="h-full overflow-y-auto overflow-x-hidden">
+        <div className="overflow-x-hidden">
             <div className="max-w-content mx-auto p-3 sm:p-4 md:p-5 lg:p-6 space-y-6">
                 {/* Header */}
                 <div className="mt-6 sm:mt-8 overflow-hidden mb-4 w-full max-w-full">

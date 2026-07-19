@@ -1,6 +1,8 @@
 import type { PostMetadata, PostData, ProjectMetadata, ProjectData } from '@/types/mdx';
 
-const API_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:3000/api' : '/api';
+// Relative URL: these fetches only run in the browser (server-side reads use
+// mdx-server.ts), and a hardcoded port breaks when the dev server picks another one
+const API_URL = '/api';
 
 // Optimized fetch options for better performance
 const fetchOptions: RequestInit = {

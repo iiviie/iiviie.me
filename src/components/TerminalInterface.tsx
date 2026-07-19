@@ -1,27 +1,26 @@
 'use client';
 
 import { useRef } from 'react';
-import { TerminalHeader, TerminalStatusBar, TerminalContent } from './terminal';
-import { useClock, useKeyboardShortcuts, usePrefetch } from '@/hooks/terminal';
+import { TerminalHeader, TerminalContent } from './terminal';
+import { useKeyboardShortcuts, usePrefetch } from '@/hooks/terminal';
+import DitherLifeBackground from './DitherLifeBackground';
 import { TERMINAL_COLORS } from '@/constants/terminal';
 
 const TerminalInterface = () => {
   const terminalContentRef = useRef<HTMLDivElement>(null);
 
-  // Custom hooks
-  const currentTime = useClock();
   usePrefetch();
   useKeyboardShortcuts();
 
   return (
-    <div className="flex flex-col h-full">
-      <div
-        className="flex flex-col terminal-main crt-scanlines relative h-full rounded-lg shadow-lg"
-        style={{ background: TERMINAL_COLORS.background }}
-      >
+    <div
+      className="terminal-main relative h-full rounded-lg shadow-lg overflow-hidden"
+      style={{ background: TERMINAL_COLORS.background }}
+    >
+      <DitherLifeBackground />
+      <div className="relative z-10 flex flex-col h-full">
         <TerminalHeader />
         <TerminalContent ref={terminalContentRef} />
-        <TerminalStatusBar currentTime={currentTime} />
       </div>
     </div>
   );

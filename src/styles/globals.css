@@ -87,45 +87,6 @@
     filter: brightness(1.05) contrast(0.95);
   }
 
-  /* Strong glow for IIVIIE logo */
-  .crt-glow-strong {
-    text-shadow:
-      /* Inner bright glow */
-      0 0 3px currentColor,
-      0 0 6px currentColor,
-      /* Mid glow */
-      0 0 10px rgba(144, 104, 247, 0.8),
-      /* Outer glow */
-      0 0 18px rgba(144, 104, 247, 0.5);
-    filter: brightness(1.2) contrast(0.95);
-  }
-
-  .crt-scanlines::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: repeating-linear-gradient(0deg,
-        transparent,
-        transparent 2px,
-        rgba(144, 104, 247, 0.05) 2px,
-        rgba(144, 104, 247, 0.05) 4px);
-    background-size: 100% 4px;
-    pointer-events: none;
-  }
-
-  @keyframes scanlineMove {
-    0% {
-      background-position: 0 0;
-    }
-
-    100% {
-      background-position: 0 100%;
-    }
-  }
-
   /* Glitch Hover Effect */
   .glitch-hover {
     position: relative;
